@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:project_hmc/screens/Login_screen.dart';
+import 'package:project_hmc/screens/RegisterScreen.dart';
 
 
 class WelcomeScreen extends StatefulWidget {
@@ -51,7 +52,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               child: ElevatedButton(onPressed: (){
                 Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const LoginScreen())
+                    MaterialPageRoute(builder: (context) => const RegisterScreen())
                 );
               },
                 style: ButtonStyle(

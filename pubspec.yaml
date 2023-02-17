@@ -17,7 +17,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^2.5.0
   flutter_otp_text_field: ^1.1.0+2
-  country_phone_code_picker: ^0.0.41
+  fl_country_code_picker: ^0.1.2
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,5 @@
+import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -9,6 +9,15 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final countryPicker = const  FlCountryCodePicker();
+  final countryPickerWithParams = const FlCountryCodePicker(
+    localize: true,
+    showDialCode: true,
+    showFavoritesIcon: false,
+    showSearchBar: true,
+    title: Text('data'),
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
               fit: BoxFit.contain,
             ),
           ),
-          const Padding(padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
+          const Padding(padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
           child: Text('Welcome',
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -61,8 +70,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    Text('+1')
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        // Show the country code picker when tapped.
+                      final code = await countryPicker.showPicker(context: context);
+                      if (code != null) print(code);
+                    },
+                    child: Container(
+                    child:const Text('+1')
+                    ),
+                    ),
                   ],
                 ),
               ),
