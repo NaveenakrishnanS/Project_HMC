@@ -51,7 +51,7 @@ class _OTPScreenState extends State<OTPScreen> {
                  OtpTextField(
                         numberOfFields: 6,
                         borderColor: Colors.blue,
-                        fieldWidth: 45,
+                        fieldWidth: 40,
                         showFieldAsBox: true,
                         borderWidth: 2.0,
                         ),

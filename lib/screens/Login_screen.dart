@@ -94,7 +94,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                           }
                         },
-                    child: Text('${country?.callingCode}'),
+                    child: Text('${country?.callingCode}' ' ',
+                    style: TextStyle(
+                      fontSize: 19,
+                    ),
+                    ),
                     ),
                   ],
                 ),
