@@ -1,5 +1,7 @@
-import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:country_calling_code_picker/picker.dart';
+import 'package:project_hmc/screens/otp_screen.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -9,17 +11,24 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final countryPicker = const  FlCountryCodePicker();
-  final countryPickerWithParams = const FlCountryCodePicker(
-    localize: true,
-    showDialCode: true,
-    showFavoritesIcon: false,
-    showSearchBar: true,
-    title: Text('data'),
-  );
+  Country? _selectedCountry;
+
+  @override
+  void initState() {
+    initCountry();
+    super.initState();
+  }
+
+  void initCountry() async {
+    final country = await getDefaultCountry(context);
+    setState(() {
+      _selectedCountry = country;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final country = _selectedCountry;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body:SingleChildScrollView(
@@ -28,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(height: 50,),
           Container(
             width: 300,
             height: 290,
@@ -46,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
       ),
           const Padding(
-            padding: EdgeInsets.fromLTRB(10, 100, 200, 10),
+            padding: EdgeInsets.fromLTRB(10, 70, 200, 10),
             child: Text('Phone Number',
             style: TextStyle(
               fontSize: 18,
@@ -72,21 +82,45 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     GestureDetector(
-                      onTap: () async {
-                        // Show the country code picker when tapped.
-                      final code = await countryPicker.showPicker(context: context);
-                      if (code != null) print(code);
-                    },
-                    child: Container(
-                    child:const Text('+1')
-                    ),
+                      onTap: ()
+                        async {
+                          final country = await showCountryPickerSheet(
+                            context,
+                          );
+                          if (country != null) {
+                            setState(() {
+                              _selectedCountry = country;
+                            }
+                            );
+                          }
+                        },
+                    child: Text('${country?.callingCode}'),
                     ),
                   ],
                 ),
               ),
             ),
           ),
-          )
+          ),
+          Padding(padding: const EdgeInsets.fromLTRB(0,80 , 0, 0),
+            child:SizedBox(
+              height: 50,
+              width: 145,
+          child: ElevatedButton(onPressed: (){
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const OTPScreen())
+            );
+          },
+                child:Text(
+                'Login',
+                style: TextStyle(fontSize: 20),
+              ),
+            style: ElevatedButton.styleFrom(
+                shape: StadiumBorder()),
+          ),
+          ),
+          ),
     ]
       ),
       ),
