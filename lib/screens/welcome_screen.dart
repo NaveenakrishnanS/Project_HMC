@@ -2,11 +2,8 @@
 
 
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream
-import 'package:project_hmc/screens/Login.dart';
-=======
 import 'package:project_hmc/screens/Login_screen.dart';
->>>>>>> Stashed changes
+
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -31,20 +28,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
                 'MessageAir'
             ),
-<<<<<<< Updated upstream
-            Padding(padding: EdgeInsets.fromLTRB(0, 200, 0, 0)),
-            ElevatedButton(onPressed: (){
-
-            },
-                child: Text(
-                  'Login',
-                ),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10) ),
-                )
-                ),
-=======
             Padding(
               padding: const EdgeInsets.fromLTRB(100, 100, 100, 0),
               child: ElevatedButton(onPressed: (){
@@ -60,9 +43,26 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         )
                     )
                 ),
-                  child: Text('Login'),
+                child: Text('Login'),
               ),
->>>>>>> Stashed changes
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(100, 10, 100, 0),
+              child: ElevatedButton(onPressed: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginScreen())
+                );
+              },
+                style: ButtonStyle(
+                    shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0)
+                        )
+                    )
+                ),
+                  child: Text('Signup'),
+              ),
             ),
         ],
       ),
