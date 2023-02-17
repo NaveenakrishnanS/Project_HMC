@@ -12,10 +12,22 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      resizeToAvoidBottomInset: true,
+      body:SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Container(
+            width: 300,
+            height: 290,
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            child: Image.asset(
+                'assets/login.jpg',
+              fit: BoxFit.contain,
+            ),
+          ),
           const Padding(padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
           child: Text('Welcome',
           style: TextStyle(
@@ -58,6 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           )
     ]
+      ),
       ),
     );
   }
