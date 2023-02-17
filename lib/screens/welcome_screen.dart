@@ -2,6 +2,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:project_hmc/screens/Login.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -27,9 +28,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 'MessageAir'
             ),
             Padding(padding: EdgeInsets.fromLTRB(0, 200, 0, 0)),
-            IconButton(onPressed: onPressed,
-                icon: Icon(Icons.arrow_forward_rounded),
-              iconSize: 50,
+            ElevatedButton(onPressed: (){
+
+            },
+                child: Text(
+                  'Login',
+                ),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10) ),
+                )
+                ),
             ),
            Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
             child: Text(style: TextStyle(
@@ -42,8 +51,5 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       ),
     ),
     );
-  }
-
-  void onPressed() {
   }
 }
