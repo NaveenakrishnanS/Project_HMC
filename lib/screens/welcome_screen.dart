@@ -2,7 +2,11 @@
 
 
 import 'package:flutter/material.dart';
+<<<<<<< Updated upstream
 import 'package:project_hmc/screens/Login.dart';
+=======
+import 'package:project_hmc/screens/Login_screen.dart';
+>>>>>>> Stashed changes
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -19,7 +23,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         child:Column(mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(padding: EdgeInsets.fromLTRB(0, 270, 0, 0)),
+            Padding(padding: EdgeInsets.fromLTRB(0, 20, 0, 0)),
             Text(
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -27,6 +31,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
                 'MessageAir'
             ),
+<<<<<<< Updated upstream
             Padding(padding: EdgeInsets.fromLTRB(0, 200, 0, 0)),
             ElevatedButton(onPressed: (){
 
@@ -39,14 +44,26 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       borderRadius: BorderRadius.circular(10) ),
                 )
                 ),
+=======
+            Padding(
+              padding: const EdgeInsets.fromLTRB(100, 100, 100, 0),
+              child: ElevatedButton(onPressed: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginScreen())
+                );
+              },
+                style: ButtonStyle(
+                    shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0)
+                        )
+                    )
+                ),
+                  child: Text('Login'),
+              ),
+>>>>>>> Stashed changes
             ),
-           Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-            child: Text(style: TextStyle(
-             fontWeight: FontWeight.bold,
-             fontSize: 20
-           ),
-                'Next')
-        )
         ],
       ),
     ),
