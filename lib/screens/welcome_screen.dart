@@ -1,3 +1,6 @@
+// ignore_for_file: prefer_const_constructors
+
+
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -10,6 +13,37 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      body: Center(
+        child:Column(mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(padding: EdgeInsets.fromLTRB(0, 270, 0, 0)),
+            Text(
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 38
+                ),
+                'MessageAir'
+            ),
+            Padding(padding: EdgeInsets.fromLTRB(0, 200, 0, 0)),
+            IconButton(onPressed: onPressed,
+                icon: Icon(Icons.arrow_forward_rounded),
+              iconSize: 50,
+            ),
+           Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+            child: Text(style: TextStyle(
+             fontWeight: FontWeight.bold,
+             fontSize: 20
+           ),
+                'Next')
+        )
+        ],
+      ),
+    ),
+    );
+  }
+
+  void onPressed() {
   }
 }
