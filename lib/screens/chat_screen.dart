@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:floating_action_bubble_custom/floating_action_bubble_custom.dart';
+import 'package:project_hmc/screens/Login_screen.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -8,7 +9,23 @@ class ChatScreen extends StatefulWidget {
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateMixin  {
+  late Animation<double> _animation;
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 260),
+    );
+    final curvedAnimation = CurvedAnimation(
+      curve: Curves.easeInOut,
+      parent: _animationController,
+    );
+    _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,20 +90,80 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
 
 
+
+
+
+
+
+
+
+
+
           floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
           floatingActionButton: Padding(
             padding: const EdgeInsets.only(bottom: 100),
-            child: FloatingActionButton(
-                onPressed: (){
-
-                },
-                backgroundColor: Colors.black,
-                child: const Icon(Icons.chat),
+            child: FloatingActionBubble(
+                animation: _animation,
+                onPressed: () => _animationController.isCompleted
+                ? _animationController.reverse()
+                : _animationController.forward(),
+                  iconColor: Colors.white,
+                  iconData: Icons.chat,
+                  backgroundColor: Colors.black,
+              items: <Widget>[
+                // Floating action menu item
+                BubbleMenu(
+                  title: "Settings",
+                  iconColor: Colors.white,
+                  bubbleColor: Colors.black,
+                  icon: Icons.settings,
+                  style: const TextStyle(fontSize: 16, color: Colors.white),
+                  onPressed: () {
+                    _animationController.reverse();
+                  },
+                ),
+                // Floating action menu item
+                BubbleMenu(
+                  title: "Profile",
+                  iconColor: Colors.white,
+                  bubbleColor: Colors.black,
+                  icon: Icons.people,
+                  style: const TextStyle(fontSize: 16, color: Colors.white),
+                  onPressed: () {
+                    _animationController.reverse();
+                  },
+                ),
+                //Floating action menu item
+                BubbleMenu(
+                  title: "Home",
+                  iconColor: Colors.white,
+                  bubbleColor: Colors.black,
+                  icon: Icons.home,
+                  style: const TextStyle(fontSize: 16, color: Colors.white),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const LoginScreen(),
+                      ),
+                    );
+                    _animationController.reverse();
+                  },
+                ),
+              ],
             ),
           ),
       );
     }
 }
+
+
+
+
+
+
+
+
 
 
 

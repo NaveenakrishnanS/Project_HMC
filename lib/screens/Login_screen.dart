@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           const Padding(padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
           child: Align(alignment: Alignment.center,
-          child: Text('Welcome',
+          child: Text('WELCOME',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 40
@@ -58,8 +58,18 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           ),
           ),
+          const Padding(padding: EdgeInsets.fromLTRB(60, 20, 60, 0),
+              child: Text('Enter your phone number to login which tells it\'s you',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                    color: Colors.black54
+              ),
+                textAlign: TextAlign.center,
+            ),
+          ),
           const Padding(
-            padding: EdgeInsets.fromLTRB(30, 70, 0, 10),
+            padding: EdgeInsets.fromLTRB(30, 40, 0, 10),
             child: Align(alignment: Alignment.centerLeft,
             child: Text('Phone Number',
             style: TextStyle(
