@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:project_hmc/screens/chat_screen.dart';
 
 
 class OTPScreen extends StatefulWidget {
@@ -63,7 +64,11 @@ class _OTPScreenState extends State<OTPScreen> {
                      SizedBox(
                         height: 50,
                         width: 145,
-                        child: ElevatedButton(onPressed: (){},
+                        child: ElevatedButton(onPressed: (){
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const ChatScreen()));
+                        },
                         style: ElevatedButton.styleFrom(
                         shape: const StadiumBorder(),),
                         child: const Text("VERIFY",style: TextStyle(fontSize: 20,),),
