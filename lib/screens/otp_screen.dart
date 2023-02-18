@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:project_hmc/screens/chat_screen.dart';
 
@@ -50,6 +51,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 ),
                 const SizedBox(height: 35),
                  OtpTextField(
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly,],
                         numberOfFields: 6,
                         borderColor: Colors.blue,
                         fieldWidth: 40,

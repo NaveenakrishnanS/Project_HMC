@@ -79,10 +79,16 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           ),
-          Padding(padding: const EdgeInsets.fromLTRB(30, 0, 60, 0),
-          child: TextField(
+          Padding(padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+          child: TextFormField(
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             keyboardType: TextInputType.phone,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Please enter your valid phone number';
+              }
+              return null;
+            },
             style: const TextStyle(
               fontSize: 20
             ),
@@ -131,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           ),
-          Padding(padding: const EdgeInsets.fromLTRB(0,80 , 0, 0),
+          Padding(padding: const EdgeInsets.fromLTRB(0,60 , 0, 0),
             child:SizedBox(
               height: 50,
               width: 145,
