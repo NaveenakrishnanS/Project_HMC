@@ -76,8 +76,8 @@ class _LoginScreenState extends State<LoginScreen> {
               border: const OutlineInputBorder(),
               //label: Text('Phone number'),
               prefixIcon:  Container(
-                padding:const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                padding:const EdgeInsets.fromLTRB(8, 0, 5, 0),
+                margin: const EdgeInsets.fromLTRB(8, 0, 5, 0),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -94,10 +94,19 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                           }
                         },
-                    child: Text('${country?.callingCode}' ' ',
-                    style: TextStyle(
-                      fontSize: 19,
-                    ),
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(4, 3, 4, 3),
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(5),
+
+                      ),
+                      child: Text('${country?.callingCode}',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                      ),
                     ),
                     ),
                   ],
@@ -116,12 +125,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 MaterialPageRoute(builder: (context) => const OTPScreen())
             );
           },
-                child:Text(
+            style: ElevatedButton.styleFrom(
+                shape: const StadiumBorder()),
+                child:const Text(
                 'Login',
                 style: TextStyle(fontSize: 20),
               ),
-            style: ElevatedButton.styleFrom(
-                shape: StadiumBorder()),
           ),
           ),
           ),

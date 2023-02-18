@@ -18,7 +18,7 @@ class _OTPScreenState extends State<OTPScreen> {
         physics:const BouncingScrollPhysics(),
         child:Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical:25, horizontal: 35),
+            padding: const EdgeInsets.symmetric(vertical:45, horizontal: 35),
             child:Column(
                 children: [
                   Container(
@@ -30,7 +30,7 @@ class _OTPScreenState extends State<OTPScreen> {
                         fit: BoxFit.contain,
                     ),
                   ),
-                  const SizedBox(height:20),
+                  const SizedBox(height:46),
                   const Text(
                      "VERIFICATION",
                     style: TextStyle(
@@ -38,7 +38,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                const SizedBox(height:10),
+                const SizedBox(height:23),
                 const Text("We will verify your phone number by sending an OTP code.",
                   style: TextStyle(
                     fontSize: 15,
@@ -47,7 +47,7 @@ class _OTPScreenState extends State<OTPScreen> {
                    ),
                  textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 35),
                  OtpTextField(
                         numberOfFields: 6,
                         borderColor: Colors.blue,
@@ -55,8 +55,11 @@ class _OTPScreenState extends State<OTPScreen> {
                         showFieldAsBox: true,
                         borderWidth: 2.0,
                         ),
-               TextButton(child: const Text("Resend Code"), onPressed: () {  },),
-               const SizedBox(height: 10),
+               Padding(
+                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                 child: TextButton(child: const Text("Resend Code"), onPressed: () {  },),
+               ),
+               const SizedBox(height: 25),
                      SizedBox(
                         height: 50,
                         width: 145,

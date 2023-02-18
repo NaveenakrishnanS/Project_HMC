@@ -30,39 +30,47 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 'MessageAir'
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(100, 100, 100, 0),
-              child: ElevatedButton(onPressed: (){
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LoginScreen())
-                );
-              },
-                style: ButtonStyle(
-                    shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0)
-                        )
-                    )
+              padding: const EdgeInsets.fromLTRB(100, 80, 100, 0),
+              child: SizedBox(
+                height: 40,
+                width: 100,
+                child: ElevatedButton(onPressed: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LoginScreen())
+                  );
+                },
+                  style: ElevatedButton.styleFrom(
+                      shape: StadiumBorder()
+                  ),
+                  child: Text('Login',
+                  style: TextStyle(
+                    fontSize: 20
+                  ),
+                  ),
                 ),
-                child: Text('Login'),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(100, 10, 100, 0),
-              child: ElevatedButton(onPressed: (){
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const RegisterScreen())
-                );
-              },
-                style: ButtonStyle(
-                    shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0)
-                        )
-                    )
+              padding: const EdgeInsets.fromLTRB(100, 30, 100, 0),
+              child: SizedBox(
+                height: 40,
+                width: 100,
+                child: ElevatedButton(onPressed: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const RegisterScreen())
+                  );
+                },
+                  style: ElevatedButton.styleFrom(
+                      shape: StadiumBorder()
+                  ),
+                    child: Text('Signup',
+                    style: TextStyle(
+                      fontSize: 20
+                    ),
+                    ),
                 ),
-                  child: Text('Signup'),
               ),
             ),
         ],
