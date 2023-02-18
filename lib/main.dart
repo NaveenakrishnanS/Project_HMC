@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_hmc/screens/otp_screen.dart';
 import 'package:project_hmc/screens/welcome_screen.dart';
-import 'package:project_hmc/screens/Login_screen.dart';
 
 void main(){
   runApp(const MyApp());

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:country_calling_code_picker/picker.dart';
+import 'package:flutter/services.dart';
 import 'package:project_hmc/screens/otp_screen.dart';
 
 
@@ -34,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body:SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(height: 50,),
@@ -48,15 +49,18 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           const Padding(padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+          child: Align(alignment: Alignment.center,
           child: Text('Welcome',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 40
           ),
           ),
-      ),
+          ),
+          ),
           const Padding(
-            padding: EdgeInsets.fromLTRB(10, 70, 200, 10),
+            padding: EdgeInsets.fromLTRB(30, 70, 0, 10),
+            child: Align(alignment: Alignment.centerLeft,
             child: Text('Phone Number',
             style: TextStyle(
               fontSize: 18,
@@ -64,8 +68,10 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             ),
           ),
+          ),
           Padding(padding: const EdgeInsets.fromLTRB(30, 0, 60, 0),
           child: TextField(
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             keyboardType: TextInputType.phone,
             style: const TextStyle(
               fontSize: 20
