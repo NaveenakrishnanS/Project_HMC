@@ -20,6 +20,7 @@ dependencies:
   country_calling_code_picker: ^2.0.1
   emoji_picker_flutter: ^1.5.2
   floating_action_bubble_custom: ^1.0.0+2
+  anim_search_bar: ^2.0.3
 
 dev_dependencies:
   flutter_test:

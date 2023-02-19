@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:floating_action_bubble_custom/floating_action_bubble_custom.dart';
 import 'package:project_hmc/screens/Login_screen.dart';
+import 'package:anim_search_bar/anim_search_bar.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateMixin  {
   late Animation<double> _animation;
   late AnimationController _animationController;
+  TextEditingController textController = TextEditingController();
 
   @override
   void initState() {
@@ -32,7 +34,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
 
     return  Scaffold(
         appBar:PreferredSize(
-            preferredSize: const Size.fromHeight(70),
+            preferredSize: const Size.fromHeight(65),
             child: AppBar(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                 leadingWidth: 60,
@@ -61,23 +63,34 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                   ),
                 ),
 
-              actions: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: IconButton(onPressed: (){
-                    showSearch(
-                        context: context,
-                        delegate: Search()
-                    );
-                  },
-                      icon: const Icon(Icons.search,
-                        size: 30,
-                      )
+              actions:  [
+                Padding(
+                  padding: const EdgeInsets.only(top: 14),
+                  child: AnimSearchBar(
+                    style: const TextStyle(
+                        color: Colors.white
+                    ),
+                    prefixIcon: Icon(Icons.search,
+                    size: 30,
+                    ),
+                    suffixIcon: Icon(Icons.close,
+                    size: 20,
+                    ),
+                    rtl: true,color: Colors.black,
+                    textFieldIconColor: Colors.white,
+                    textFieldColor: Colors.black,
+                    boxShadow: false,
+                    searchIconColor: Colors.white,
+                    width: 400,
+                    textController: textController,
+                    onSuffixTap: () {
+                      setState(() {
+                        textController.clear();
+                      });
+                    }, onSubmitted:(String) {},
                   ),
-                 )
-                )
+                ),
+
               ],
               )
             ),
