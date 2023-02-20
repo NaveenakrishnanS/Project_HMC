@@ -17,7 +17,7 @@ class _OTPScreenState extends State<OTPScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
-        physics:const BouncingScrollPhysics(),
+    physics:const BouncingScrollPhysics(),
         child:Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical:45, horizontal: 35),
