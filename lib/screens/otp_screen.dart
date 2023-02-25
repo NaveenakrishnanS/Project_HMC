@@ -14,9 +14,10 @@ class OTPScreen extends StatefulWidget {
 }
 
 class _OTPScreenState extends State<OTPScreen> {
-  late Timer _resendTimer;
+   late Timer _resendTimer;
   bool _canResendOTP = true;
   int _resendTimeout = 0;
+  late  bool _navigate= false;
 
   void _handleResendOTP() {
     setState(() {
@@ -46,6 +47,12 @@ class _OTPScreenState extends State<OTPScreen> {
         }
       });
     });
+  }
+
+  void navigate(){
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ChatScreen()));
   }
 
 
@@ -96,10 +103,23 @@ class _OTPScreenState extends State<OTPScreen> {
                  OtpTextField(
                         inputFormatters: [FilteringTextInputFormatter.digitsOnly,],
                         numberOfFields: 6,
+                        showCursor: false,
+                        clearText: true,
                         borderColor: Colors.blue,
                         fieldWidth: 40,
                         showFieldAsBox: true,
                         borderWidth: 2.0,
+                        /*onCodeChanged: (String verificationCode){
+                          setState(() {
+                            ((verificationCode.isEmpty))? _navigate=false : _navigate=true;
+                          });
+                        },*/
+                        onSubmit: (String code) {
+                          setState(() {
+                            code.length==6 ? _navigate=true :_navigate=false;
+
+                          });
+                        },
                         ),
                Padding(
                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -115,9 +135,7 @@ class _OTPScreenState extends State<OTPScreen> {
                         height: 50,
                         width: 145,
                         child: ElevatedButton(onPressed: (){
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const ChatScreen()));
+                             _navigate ? navigate() : null;
                         },
                         style: ElevatedButton.styleFrom(
                         shape: const StadiumBorder(),),
@@ -134,4 +152,5 @@ class _OTPScreenState extends State<OTPScreen> {
     );
   }
 }
+
 

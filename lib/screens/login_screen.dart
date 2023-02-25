@@ -13,6 +13,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   Country? _selectedCountry;
+  final _text = TextEditingController();
+  late bool _validate = false;
 
   @override
   void initState() {
@@ -80,20 +82,16 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           ),
           Padding(padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-          child: TextFormField(
+          child: TextField(
+            controller: _text,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             keyboardType: TextInputType.phone,
-            validator: (value) {
-              if (value!.isEmpty) {
-                return 'Please enter your valid phone number';
-              }
-              return null;
-            },
+            maxLength: 10,maxLengthEnforcement: MaxLengthEnforcement.enforced,
             style: const TextStyle(
               fontSize: 20
             ),
             decoration: InputDecoration(
-
+              errorText: _validate ? 'Enter the valid Phone Number' : null,
               //border: InputBorder.none,
               border: const OutlineInputBorder(),
               //label: Text('Phone number'),
@@ -141,11 +139,16 @@ class _LoginScreenState extends State<LoginScreen> {
             child:SizedBox(
               height: 50,
               width: 145,
-          child: ElevatedButton(onPressed: (){
-            Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const OTPScreen())
-            );
+              child: ElevatedButton(onPressed: (){
+                setState(() {
+                  _text.text.isEmpty ? _validate = true : _validate = false;
+                  _text.clear();
+                  },);
+                if(!_validate) {
+                  Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => const OTPScreen())
+              );
+            }
           },
             style: ElevatedButton.styleFrom(
                 shape: const StadiumBorder()),

@@ -15,9 +15,10 @@ dependencies:
 
 
   cupertino_icons: ^1.0.5
-  firebase_core: ^2.6.1
-  firebase_auth: ^4.2.8
-  flutter_screenutil: ^5.6.0
+  firebase_core: ^2.7.0
+  firebase_auth: ^4.2.9
+  cloud_firestore: ^4.4.3
+  flutter_screenutil: ^5.6.1
   flutter_otp_text_field: ^1.1.1
   country_calling_code_picker: ^2.0.1
   emoji_picker_flutter: ^1.5.2
