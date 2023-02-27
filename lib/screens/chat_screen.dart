@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:floating_action_bubble_custom/floating_action_bubble_custom.dart';
 import 'package:project_hmc/screens/login_screen.dart';
-import 'package:anim_search_bar/anim_search_bar.dart';
+import 'package:searchbar_animation/searchbar_animation.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -37,61 +37,79 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
             preferredSize: const Size.fromHeight(65),
             child: AppBar(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
-                leadingWidth: 60,
+                leadingWidth: 200,
                 elevation: 0,
                 backgroundColor: Colors.black,
-                leading: const Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                  padding: EdgeInsets.only(top: 15),
-                  child: Icon(Icons.chat_bubble_outline_rounded,
-                    size: 30,
-                  ),
-                ),
-                ),
-
-
-                title:const Align(
+                leading:  Align(
                   alignment: Alignment.centerLeft,
-                  child:Padding(
-                    padding: EdgeInsets.only(top: 15),
-                    child: Text('Chats',
-                    style: TextStyle(
-                        fontSize: 25
+                  child: Padding(
+                  padding: const EdgeInsets.only(top: 15, left: 20),
+                  child: Row(
+                    children: const [
+                      Icon(Icons.messenger_outline,
+                      size: 30,
                       ),
-                    ),
-                  ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 28),
+                        child: Text(
+                          'Chats',
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ),
                 ),
 
-              actions:  [
-                Padding(
-                  padding: const EdgeInsets.only(top: 14),
-                  child: AnimSearchBar(
-                    style: const TextStyle(
-                        color: Colors.white
-                    ),
-                    prefixIcon: Icon(Icons.search,
-                    size: 30,
-                    ),
-                    suffixIcon: Icon(Icons.close,
-                    size: 20,
-                    ),
-                    rtl: true,color: Colors.black,
-                    textFieldIconColor: Colors.white,
-                    textFieldColor: Colors.black,
-                    boxShadow: false,
-                    searchIconColor: Colors.white,
-                    width: 400,
-                    textController: textController,
-                    onSuffixTap: () {
-                      setState(() {
-                        textController.clear();
-                      });
-                    }, onSubmitted:(String) {},
-                  ),
-                ),
+            actions: [
+                  Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    padding: const EdgeInsets.only(top: 12.5),
+                      child: SearchBarAnimation(
+                        enteredTextStyle: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20
+                        ),
+                        textEditingController: TextEditingController(),
+                        buttonBorderColour: Colors.black,
+                        buttonColour: Colors.black,
+                        searchBoxColour: Colors.black,
+                        cursorColour: Colors.white,
+                        enableBoxBorder: false,
+                        enableBoxShadow: false,
+                        enableButtonBorder: false,
+                        enableButtonShadow: false,
+                        buttonElevation:0,
+                        durationInMilliSeconds: 160,
+                        isSearchBoxOnRightSide: true,
+                        isOriginalAnimation: true,
+                        enableKeyboardFocus: true,
 
-              ],
+                        onExpansionComplete: () {
+
+                        },
+                        trailingWidget: const Icon(
+                          Icons.search,
+                          size: 20,
+                          color: Colors.white,
+                        ),
+                        secondaryButtonWidget: const Icon(
+                          Icons.close,
+                          size: 20,
+                          color: Colors.white,
+                        ),
+                        buttonWidget: const Icon(
+                          Icons.search,
+                          size: 30,
+                          color: Colors.white,
+                        ),
+                      ),
+                  ),
+              ]
               )
             ),
 
@@ -168,82 +186,4 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
           ),
       );
     }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-class Search extends SearchDelegate{
-  List<String> allData = [
-    'india','russia','america','Japan'
-  ];
-  @override
-  List<Widget>? buildActions(BuildContext context) {
-    return[
-      IconButton(
-          onPressed: (){
-            query = '';
-          },
-          icon: const Icon(Icons.clear)
-      )
-    ];
-  }
-
-  @override
-  Widget? buildLeading(BuildContext context) {
-        return IconButton(
-            onPressed: (){
-              close(context, null);
-        },
-            icon: const Icon(Icons.arrow_back)
-        );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    List<String> matchQuery = [];
-    for(var item in allData){
-      if(item.toLowerCase().contains(query.toLowerCase())){
-        matchQuery.add(item);
-      }
-    }
-    return ListView.builder(
-        itemCount: matchQuery.length,
-        itemBuilder: (context, index) {
-          var result = matchQuery[index];
-          return ListTile(
-            title: Text(result),
-          );
-        }
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    List<String> matchQuery = [];
-    for(var item in allData){
-      if(item.toLowerCase().contains(query.toLowerCase())){
-        matchQuery.add(item);
-      }
-    }
-    return ListView.builder(
-        itemCount: matchQuery.length,
-        itemBuilder: (context, index) {
-          var result = matchQuery[index];
-          return ListTile(
-            title: Text(result),
-          );
-        }
-    );
-  }
-
 }
