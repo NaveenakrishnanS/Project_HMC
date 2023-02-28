@@ -86,7 +86,8 @@ class _LoginScreenState extends State<LoginScreen> {
             controller: _text,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             keyboardType: TextInputType.phone,
-            maxLength: 10,maxLengthEnforcement: MaxLengthEnforcement.enforced,
+            maxLength: 10,
+            maxLengthEnforcement: MaxLengthEnforcement.enforced,
             style: const TextStyle(
               fontSize: 20
             ),
