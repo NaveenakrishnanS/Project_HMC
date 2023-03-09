@@ -71,7 +71,7 @@ class FirebaseAuthentication {
 
       return userVerificationId ?? '';
     } catch (e) {
-      print("error=================");
+      debugPrint("error=================");
       rethrow;
     }
   }

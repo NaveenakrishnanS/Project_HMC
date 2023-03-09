@@ -66,18 +66,14 @@ class VendorListState extends State<VendorList> {
         title: const Text('Vendor List'),
       ),
       body: Container(
-        decoration: BoxDecoration(
-          color: Colors.white
-        ),
+        decoration: const BoxDecoration(color: Colors.white),
         child: ListView.builder(
           padding: EdgeInsets.zero,
-
           itemCount: vendorList.length,
           itemBuilder: (context, index) {
             return VendorCard(
-              name: vendorList[index].name,
-              address: vendorList[index].address
-            );
+                name: vendorList[index].name,
+                address: vendorList[index].address);
           },
         ),
       ),

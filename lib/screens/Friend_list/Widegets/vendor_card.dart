@@ -6,7 +6,8 @@ class VendorCard extends StatelessWidget {
   //final String phoneNumber;
   //final String gstNumber;
 
-  const VendorCard({super.key,
+  const VendorCard({
+    super.key,
     required this.name,
     required this.address,
     //required this.phoneNumber,
@@ -16,23 +17,24 @@ class VendorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(),
+      shape: const RoundedRectangleBorder(),
       elevation: 0,
       shadowColor: Colors.white,
-      margin: const EdgeInsets.symmetric(horizontal:20, vertical: 0),
-      child:  Container(
-      height: 116,
-      width: double.infinity,
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.white,
-          width: 2,
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+      child: Container(
+        height: 116,
+        width: double.infinity,
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.white,
+            width: 2,
+          ),
+          borderRadius: BorderRadius.circular(0),
         ),
-        borderRadius: BorderRadius.circular(0),
-      ),
         child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           leading: Container(
             padding: const EdgeInsets.only(right: 12),
             decoration: const BoxDecoration(
