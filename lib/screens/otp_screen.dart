@@ -16,44 +16,48 @@ class OTPScreen extends StatefulWidget {
 
 class _OTPScreenState extends State<OTPScreen> {
   late Timer _resendTimer;
-  bool _canResendOTP = true;
-  int _resendTimeout = 0;
+  final bool _canResendOTP = true;
+  final int _resendTimeout = 0;
   String? _otp;
   late final bool _navigate = false;
 
-  void _handleResendOTP() {
-    setState(() {
-      _resendTimer = Timer(const Duration(seconds: 30), () {
-        setState(() {
-          _canResendOTP = true;
-        });
-      });
-      _canResendOTP = false;
-      _startResendTimer();
-    });
-    // Call the function to resend OTP here
-  }
+  // void _handleResendOTP() {
+  //   setState(() {
+  //     _resendTimer = Timer(const Duration(seconds: 30), () {
+  //       setState(() {
+  //         _canResendOTP = true;
+  //       });
+  //     });
+  //     _canResendOTP = false;
+  //     _startResendTimer();
+  //   });
+  //   // Call the function to resend OTP here
+  // }
 
-  void _startResendTimer() {
-    // Set the resend timeout to 30 seconds
-    _resendTimeout = 30;
+  // void _startResendTimer() {
+  //   // Set the resend timeout to 30 seconds
+  //   _resendTimeout = 30;
 
-    // Start the timer and update the timeout value every second
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        _resendTimeout--;
+  //   // Start the timer and update the timeout value every second
+  //   Timer.periodic(const Duration(seconds: 1), (timer) {
+  //     setState(() {
+  //       _resendTimeout--;
 
-        // Cancel the timer when the timeout is reached
-        if (_resendTimeout <= 0) {
-          timer.cancel();
-        }
-      });
-    });
-  }
+  //       // Cancel the timer when the timeout is reached
+  //       if (_resendTimeout <= 0) {
+  //         timer.cancel();
+  //       }
+  //     });
+  //   });
+  // }
 
   void navigate() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const ChatScreen()));
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const ChatScreen(),
+        ),
+        (Route<dynamic> route) => false);
   }
 
   @override
@@ -126,7 +130,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: TextButton(
-                    onPressed: _canResendOTP ? _handleResendOTP : null,
+                    onPressed: null,
                     child: Text(_canResendOTP
                         ? "Resend Code"
                         : "Resend Code in $_resendTimeout seconds"),

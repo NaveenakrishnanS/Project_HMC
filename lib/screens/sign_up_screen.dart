@@ -13,7 +13,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   Country? _selectedCountry;
   final _text = TextEditingController();
-  late bool _validate = false;
+  late final bool _validate = false;
 
   @override
   void initState() {
@@ -144,18 +144,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   width: 145,
                   child: ElevatedButton(
                     onPressed: () {
-                      setState(
-                        () {
-                          _text.text.isEmpty
-                              ? _validate = true
-                              : _validate = false;
-                          _text.clear();
-                        },
-                      );
                       if (!_validate && _selectedCountry != null) {
                         FirebaseAuthentication.getOTPonPhoneNumber(
                             number:
-                                "${_selectedCountry!.countryCode} ${_text.text}",
+                                "${_selectedCountry!.callingCode} ${_text.text}",
                             context: context);
                       }
                     },

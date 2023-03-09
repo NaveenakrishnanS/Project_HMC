@@ -52,7 +52,6 @@ class FirebaseAuthentication {
     required BuildContext context,
   }) async {
     String? userVerificationId;
-    debugPrint(number);
     try {
       await _auth.verifyPhoneNumber(
         phoneNumber: number,
