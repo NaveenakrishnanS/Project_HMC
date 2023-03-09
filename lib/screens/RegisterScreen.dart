@@ -16,21 +16,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(padding: EdgeInsets.fromLTRB(0, 270, 0, 0)),
-            Text(
+            const Padding(padding: EdgeInsets.fromLTRB(0, 270, 0, 0)),
+            const Text(
               'MessageAir',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 38,
               ),
             ),
-            Padding(padding: EdgeInsets.fromLTRB(0, 200, 0, 0)),
+            const Padding(padding: EdgeInsets.fromLTRB(0, 200, 0, 0)),
             IconButton(
               onPressed: onPressed,
-              icon: Icon(Icons.arrow_forward_rounded),
+              icon: const Icon(Icons.arrow_forward_rounded),
               iconSize: 50,
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Text(
                 'Next',
