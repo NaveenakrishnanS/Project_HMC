@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:project_hmc/firebase/firebase_auth.dart';
 import 'package:country_calling_code_picker/picker.dart';
 import 'package:flutter/services.dart';
-import 'package:project_hmc/screens/otp_screen.dart';
+import 'package:project_hmc/firebase/firebase_auth.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -22,7 +21,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.initState();
   }
 
-
   void initCountry() async {
     final country = await getDefaultCountry(context);
     setState(() {
@@ -35,13 +33,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final country = _selectedCountry;
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body:SingleChildScrollView(
+      body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 50,),
+              const SizedBox(
+                height: 50,
+              ),
               Container(
                 width: 300,
                 height: 290,
@@ -51,30 +51,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   fit: BoxFit.contain,
                 ),
               ),
-              const Padding(padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-                child: Align(alignment: Alignment.center,
-                  child: Text('WELCOME',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 40
-                    ),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'WELCOME',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
                   ),
                 ),
               ),
-              const Padding(padding: EdgeInsets.fromLTRB(60, 20, 60, 0),
-                child: Text('Enter your phone number to get started with MessageAir',
+              const Padding(
+                padding: EdgeInsets.fromLTRB(60, 20, 60, 0),
+                child: Text(
+                  'Enter your phone number to get started with MessageAir',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
-                      color: Colors.black54
-                  ),
+                      color: Colors.black54),
                   textAlign: TextAlign.center,
                 ),
               ),
               const Padding(
                 padding: EdgeInsets.fromLTRB(30, 40, 0, 10),
-                child: Align(alignment: Alignment.centerLeft,
-                  child: Text('Phone Number',
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Phone Number',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -82,37 +85,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
               ),
-              Padding(padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                 child: TextFormField(
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   keyboardType: TextInputType.phone,
-                  maxLength: 10,maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                    controller: _text,
-                  style: const TextStyle(
-                      fontSize: 20
-                  ),
+                  maxLength: 10,
+                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                  controller: _text,
+                  style: const TextStyle(fontSize: 20),
                   decoration: InputDecoration(
                     errorText: _validate ? 'Enter the Phone Number' : null,
                     //border: InputBorder.none,
                     border: const OutlineInputBorder(),
                     //label: const Text('Phone number'),
-                    prefixIcon:  Container(
-                      padding:const EdgeInsets.fromLTRB(8, 0, 5, 0),
+                    prefixIcon: Container(
+                      padding: const EdgeInsets.fromLTRB(8, 0, 5, 0),
                       margin: const EdgeInsets.fromLTRB(8, 0, 5, 0),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           GestureDetector(
-                            onTap: ()
-                            async {
+                            onTap: () async {
                               final country = await showCountryPickerSheet(
                                 context,
                               );
                               if (country != null) {
                                 setState(() {
                                   _selectedCountry = country;
-                                }
-                                );
+                                });
                               }
                             },
                             child: Container(
@@ -120,9 +121,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               decoration: BoxDecoration(
                                 color: Colors.black,
                                 borderRadius: BorderRadius.circular(5),
-
                               ),
-                              child: Text('${country?.callingCode}',
+                              child: Text(
+                                '${country?.callingCode}',
                                 style: const TextStyle(
                                   fontSize: 18,
                                   color: Colors.white,
@@ -136,33 +137,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
               ),
-              Padding(padding: const EdgeInsets.fromLTRB(0,60 , 0, 0),
-                child:SizedBox(
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 60, 0, 0),
+                child: SizedBox(
                   height: 50,
                   width: 145,
-                  child: ElevatedButton(onPressed: (){
-                    setState(() {
-                      _text.text.isEmpty ? _validate = true : _validate = false;
-                      _text.clear();
-                    },);
-                    if(!_validate) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const OTPScreen())
+                  child: ElevatedButton(
+                    onPressed: () {
+                      setState(
+                        () {
+                          _text.text.isEmpty
+                              ? _validate = true
+                              : _validate = false;
+                          _text.clear();
+                        },
                       );
-                    }
-                  },
-                    style: ElevatedButton.styleFrom(
-                        shape: const StadiumBorder()),
-                    child:const Text(
+                      if (!_validate && _selectedCountry != null) {
+                        FirebaseAuthentication.getOTPonPhoneNumber(
+                            number:
+                                "${_selectedCountry!.countryCode} ${_text.text}",
+                            context: context);
+                      }
+                    },
+                    style:
+                        ElevatedButton.styleFrom(shape: const StadiumBorder()),
+                    child: const Text(
                       'Sign Up',
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
                 ),
               ),
-            ]
-        ),
+            ]),
       ),
     );
   }
