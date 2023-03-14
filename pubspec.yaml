@@ -37,4 +37,5 @@ flutter:
 
   assets:
        - assets/
+       - assets/chat_symbol.png
 

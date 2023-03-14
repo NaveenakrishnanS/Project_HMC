@@ -13,7 +13,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   Country? _selectedCountry;
   final _text = TextEditingController();
-  late bool _validate = false;
+  late final bool _validate = false;
 
   @override
   void initState() {
@@ -64,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const Padding(
                 padding: EdgeInsets.fromLTRB(60, 20, 60, 0),
                 child: Text(
-                  'Enter your phone number to login which tells it\'s you',
+                  'Enter your phone number to get started with MessageAir',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
@@ -87,19 +87,18 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                child: TextField(
-                  controller: _text,
+                child: TextFormField(
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   keyboardType: TextInputType.phone,
                   maxLength: 10,
                   maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                  controller: _text,
                   style: const TextStyle(fontSize: 20),
                   decoration: InputDecoration(
-                    errorText:
-                        _validate ? 'Enter the valid Phone Number' : null,
+                    errorText: _validate ? 'Enter the Phone Number' : null,
                     //border: InputBorder.none,
                     border: const OutlineInputBorder(),
-                    //label: Text('Phone number'),
+                    //label: const Text('Phone number'),
                     prefixIcon: Container(
                       padding: const EdgeInsets.fromLTRB(8, 0, 5, 0),
                       margin: const EdgeInsets.fromLTRB(8, 0, 5, 0),
@@ -145,25 +144,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: 145,
                   child: ElevatedButton(
                     onPressed: () {
-                      setState(
-                        () {
-                          _text.text.isEmpty
-                              ? _validate = true
-                              : _validate = false;
-                          _text.clear();
-                        },
-                      );
-                      if (!_validate) {
-                        if (_selectedCountry != null) {
-                          FirebaseAuthentication.getOTPonPhoneNumber(
-                              number:
-                                  "${_selectedCountry!.countryCode} ${_text.text}",
-                              context: context);
-                        }
+                      if (!_validate && _selectedCountry != null) {
+                        FirebaseAuthentication.getOTPonPhoneNumber(
+                            number:
+                            "${_selectedCountry!.callingCode} ${_text.text}",
+                            context: context);
                       }
                     },
                     style:
-                        ElevatedButton.styleFrom(shape: const StadiumBorder()),
+                    ElevatedButton.styleFrom(shape: const StadiumBorder()),
                     child: const Text(
                       'Login',
                       style: TextStyle(fontSize: 20),
@@ -176,3 +165,4 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+

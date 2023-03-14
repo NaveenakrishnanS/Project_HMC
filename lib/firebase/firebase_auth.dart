@@ -85,4 +85,8 @@ class FirebaseAuthentication {
       rethrow;
     }
   }
+
+
+
 }
+

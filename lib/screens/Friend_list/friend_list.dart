@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 //import 'package:hygiene_app/firebase/database/cloud_database.dart';
-import 'package:project_hmc/screens/Friend_list/Widegets/vendor_card.dart';
+import 'package:project_hmc/screens/Friend_list/Widgets/vendor_card.dart';
 
 class Vendor {
   final String name;

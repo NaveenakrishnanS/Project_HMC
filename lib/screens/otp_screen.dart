@@ -19,7 +19,6 @@ class _OTPScreenState extends State<OTPScreen> {
   final bool _canResendOTP = true;
   final int _resendTimeout = 0;
   String? _otp;
-  late final bool _navigate = false;
 
   // void _handleResendOTP() {
   //   setState(() {

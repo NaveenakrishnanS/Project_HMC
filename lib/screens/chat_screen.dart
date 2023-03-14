@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:floating_action_bubble_custom/floating_action_bubble_custom.dart';
-import 'package:project_hmc/screens/login_screen.dart';
+import 'package:project_hmc/screens/register_screen.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -161,6 +161,12 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                   icon: Icons.people,
                   style: const TextStyle(fontSize: 16, color: Colors.white),
                   onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const Register(phoneNumber: '+917200068446',),
+                      ),
+                    );
                     _animationController.reverse();
                   },
                 ),
@@ -172,12 +178,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                   icon: Icons.home,
                   style: const TextStyle(fontSize: 16, color: Colors.white),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => const LoginScreen(),
-                      ),
-                    );
+
                     _animationController.reverse();
                   },
                 ),
