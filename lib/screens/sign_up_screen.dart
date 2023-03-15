@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:country_calling_code_picker/picker.dart';
 import 'package:flutter/services.dart';
+import 'package:project_hmc/firebase/firebase_auth.dart';
 import 'package:project_hmc/screens/register_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -146,12 +147,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     onPressed: () {
                       if (!_validate && _selectedCountry != null) {
                         String phoneNumber = "${_selectedCountry!.callingCode} ${_text.text}";
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Register(phoneNumber: phoneNumber),
-                          ),
-                        );
+                        FirebaseAuthentication.getOTPonPhoneNumber(
+                            number: phoneNumber, context: context);
                       }
                     },
                     style:
@@ -168,3 +165,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 }
+/*
+Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Register(phoneNumber: phoneNumber),
+                          ),
+                        );
+ */

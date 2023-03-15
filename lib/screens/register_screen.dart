@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:project_hmc/firebase/cloud_database.dart';
 import 'package:project_hmc/firebase/firebase_auth.dart';
 import 'package:project_hmc/models/user_model.dart';
+import 'package:project_hmc/screens/chat_screen.dart';
 
 
 class Register extends StatefulWidget {
@@ -145,19 +146,38 @@ class _RegisterState extends State<Register> {
   }
 
   void _changes() async {
-    FirebaseAuthentication.getOTPonPhoneNumber(number: phoneNumber, context: context);
-    if (_nameController.text != "" &&
-        _emailController.text != "" &&
-        phoneNumber != "" &&
-        _aboutController.text != "") {
-      UserModel userdata = UserModel(
-          Name: _nameController.text,
-          UID: FirebaseAuthentication.getUserUid,
-          Phone: phoneNumber,
-          About: _aboutController.text,
-          Email: _emailController.text);
-      CloudDatabase().addUserDetails(userdata: userdata);
-      CloudDatabase().addUID(UID: FirebaseAuthentication.getUserUid);
-    }
+          print("hey........................................................");
+          print(_nameController.text);
+          print(_emailController.text);
+          print(_aboutController.text);
+          print(phoneNumber);
+          print("######################################*************************************************---------------/////////+++");
+
+          if (_nameController.text != "" &&
+              _emailController.text != "" &&
+              phoneNumber != "" &&
+              _aboutController.text != "") {
+            UserModel userdata = UserModel(
+                Name: _nameController.text,
+                UID: FirebaseAuthentication.getUserUid,
+                Phone: phoneNumber,
+                About: _aboutController.text,
+                Email: _emailController.text);
+            print(
+                "hey........................................................");
+            print(_nameController.text);
+            print(_emailController.text);
+            print(_aboutController.text);
+            print(phoneNumber);
+            print(
+                "######################################*************************************************---------------/////////+++");
+            CloudDatabase().addUserDetails(userdata: userdata);
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>  const ChatScreen(),
+                ),
+                    (Route<dynamic> route) => false);
+          }
   }
 }

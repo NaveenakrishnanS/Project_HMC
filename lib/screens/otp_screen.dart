@@ -3,18 +3,22 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:project_hmc/firebase/cloud_database.dart';
 import 'package:project_hmc/firebase/firebase_auth.dart';
 import 'package:project_hmc/screens/chat_screen.dart';
+import 'package:project_hmc/screens/register_screen.dart';
 
 class OTPScreen extends StatefulWidget {
+  final String phoneNumber;
   final String verificationId;
-  const OTPScreen({Key? key, required this.verificationId}) : super(key: key);
+  const OTPScreen({Key? key, required this.verificationId,required this.phoneNumber}) : super(key: key);
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();
 }
 
 class _OTPScreenState extends State<OTPScreen> {
+  late String phoneNumber;
   late Timer _resendTimer;
   final bool _canResendOTP = true;
   final int _resendTimeout = 0;
@@ -54,7 +58,7 @@ class _OTPScreenState extends State<OTPScreen> {
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => const ChatScreen(),
+          builder: (context) =>  Register(phoneNumber: phoneNumber),
         ),
         (Route<dynamic> route) => false);
   }
@@ -63,6 +67,12 @@ class _OTPScreenState extends State<OTPScreen> {
   void dispose() {
     _resendTimer.cancel();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    phoneNumber = widget.phoneNumber;
   }
 
   @override
@@ -129,7 +139,9 @@ class _OTPScreenState extends State<OTPScreen> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: TextButton(
-                    onPressed: null,
+                    onPressed: (){
+
+                    },
                     child: Text(_canResendOTP
                         ? "Resend Code"
                         : "Resend Code in $_resendTimeout seconds"),
@@ -147,6 +159,7 @@ class _OTPScreenState extends State<OTPScreen> {
                             smsCode: _otp!);
                       }
                       if (FirebaseAuthentication.isLoggedIn()) {
+                        CloudDatabase().addUID(UID: FirebaseAuthentication.getUserUid);
                         navigate();
                       }
                     },

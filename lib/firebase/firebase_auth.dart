@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_hmc/screens/otp_screen.dart';
@@ -34,6 +35,7 @@ class FirebaseAuthentication {
   static bool isLoggedIn() {
     final User? user = _auth.currentUser;
     if (user != null) {
+
       return true;
     }
     return false;
@@ -62,7 +64,7 @@ class FirebaseAuthentication {
           userVerificationId = verificationId;
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (BuildContext context) {
-            return OTPScreen(verificationId: verificationId);
+            return OTPScreen(verificationId: verificationId,phoneNumber: number);
           }));
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
@@ -85,8 +87,4 @@ class FirebaseAuthentication {
       rethrow;
     }
   }
-
-
-
 }
-
