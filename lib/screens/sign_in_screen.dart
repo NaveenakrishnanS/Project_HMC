@@ -3,14 +3,14 @@ import 'package:country_calling_code_picker/picker.dart';
 import 'package:flutter/services.dart';
 import 'package:project_hmc/firebase/firebase_auth.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignInScreenState extends State<SignInScreen> {
   Country? _selectedCountry;
   final _text = TextEditingController();
   late final bool _validate = false;
@@ -143,18 +143,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 50,
                   width: 145,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (!_validate && _selectedCountry != null) {
+                        String phoneNumber = "${_selectedCountry!.callingCode} ${_text.text}";
                         FirebaseAuthentication.getOTPonPhoneNumber(
-                            number:
-                            "${_selectedCountry!.callingCode} ${_text.text}",
-                            context: context);
+                            number: phoneNumber, context: context);
                       }
                     },
                     style:
-                    ElevatedButton.styleFrom(shape: const StadiumBorder()),
+                        ElevatedButton.styleFrom(shape: const StadiumBorder()),
                     child: const Text(
-                      'Login',
+                      'Sign Up',
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
@@ -165,4 +164,11 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
+/*
+Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Register(phoneNumber: phoneNumber),
+                          ),
+                        );
+ */

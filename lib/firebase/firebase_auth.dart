@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_hmc/screens/otp_screen.dart';
@@ -85,6 +84,16 @@ class FirebaseAuthentication {
       await _auth.signInWithCredential(phoneAuthCredential);
     } catch (e) {
       rethrow;
+    }
+  }
+
+  Future<bool> isUserAlreadyExists(String phoneNumber) async {
+    try {
+      final methods = await _auth.fetchSignInMethodsForEmail(phoneNumber);
+      return methods.isNotEmpty;
+    } catch (e) {
+      // Handle any exceptions here
+      return false;
     }
   }
 }

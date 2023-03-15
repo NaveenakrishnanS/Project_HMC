@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:floating_action_bubble_custom/floating_action_bubble_custom.dart';
-import 'package:project_hmc/screens/register_screen.dart';
+import 'package:project_hmc/firebase/firebase_auth.dart';
+import 'package:project_hmc/screens/profile_screen.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -150,6 +151,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                   icon: Icons.settings,
                   style: const TextStyle(fontSize: 16, color: Colors.white),
                   onPressed: () {
+                    FirebaseAuthentication.signOut();
                     _animationController.reverse();
                   },
                 ),
@@ -164,7 +166,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (BuildContext context) => const Register(phoneNumber: '+917200068446',),
+                        builder: (BuildContext context) => const Profile(),
                       ),
                     );
                     _animationController.reverse();

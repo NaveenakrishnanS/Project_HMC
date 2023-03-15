@@ -15,7 +15,6 @@ class CloudDatabase {
     try {
       final DocumentReference<Map<String, dynamic>> docRef =
       _firestore.doc(dataPath);
-      print(userdata.toMap());
       await docRef.set(userdata.toMap());
     } on FirebaseException {
       rethrow;

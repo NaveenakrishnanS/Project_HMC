@@ -19,10 +19,11 @@ class OTPScreen extends StatefulWidget {
 
 class _OTPScreenState extends State<OTPScreen> {
   late String phoneNumber;
-  late Timer _resendTimer;
+  //late Timer _resendTimer;
   final bool _canResendOTP = true;
   final int _resendTimeout = 0;
   String? _otp;
+
 
   // void _handleResendOTP() {
   //   setState(() {
@@ -54,20 +55,34 @@ class _OTPScreenState extends State<OTPScreen> {
   //   });
   // }
 
-  void navigate() {
-    Navigator.pushAndRemoveUntil(
+  void navigate_to_register() {
+        Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
           builder: (context) =>  Register(phoneNumber: phoneNumber),
         ),
         (Route<dynamic> route) => false);
   }
+  void navigate_to_home() {
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>  const ChatScreen(),
+        ),
+            (Route<dynamic> route) => false);
+  }
 
-  @override
+  Future<bool> Userchecker() async{
+    final firebaseAuth = FirebaseAuthentication();
+    bool isUserExists = await firebaseAuth.isUserAlreadyExists(phoneNumber);
+    return isUserExists;
+  }
+
+  /*@override
   void dispose() {
     _resendTimer.cancel();
     super.dispose();
-  }
+  }*/
 
   @override
   void initState() {
@@ -142,9 +157,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     onPressed: (){
 
                     },
-                    child: Text(_canResendOTP
-                        ? "Resend Code"
-                        : "Resend Code in $_resendTimeout seconds"),
+                    child: Text(_canResendOTP ? "Resend Code": "Resend Code in $_resendTimeout seconds"),
                   ),
                 ),
                 const SizedBox(height: 25),
@@ -153,14 +166,28 @@ class _OTPScreenState extends State<OTPScreen> {
                   width: 145,
                   child: ElevatedButton(
                     onPressed: () async {
+                      Userchecker();
                       if (_otp != null) {
+                        bool navigation;
+                        if(await Userchecker()) {
+                          if (FirebaseAuthentication.isLoggedIn()) {
+                            CloudDatabase().addUID(
+                                UID: FirebaseAuthentication.getUserUid);
+                          }
+                          navigation = true;
+                        }
+                          else{
+                            navigation = false;
+                        }
                         await FirebaseAuthentication.verifyPhoneNumber(
                             verificationId: widget.verificationId,
                             smsCode: _otp!);
-                      }
-                      if (FirebaseAuthentication.isLoggedIn()) {
-                        CloudDatabase().addUID(UID: FirebaseAuthentication.getUserUid);
-                        navigate();
+
+                        if(navigation){
+                            navigate_to_home();
+                        }else{
+                          navigate_to_register();
+                        }
                       }
                     },
                     style: ElevatedButton.styleFrom(

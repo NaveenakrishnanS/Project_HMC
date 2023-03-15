@@ -34,7 +34,7 @@ class _RegisterState extends State<Register> {
     final _phoneController = TextEditingController(text: widget.phoneNumber);
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Sign Up'),
+          title: const Text('Register'),
           backgroundColor: Colors.black,
         ),
         body: SingleChildScrollView(
@@ -131,7 +131,7 @@ class _RegisterState extends State<Register> {
                               shape: const StadiumBorder(),
                               backgroundColor: Colors.black),
                           child: const Text(
-                            'Sign Up',
+                            'Register',
                             style: TextStyle(fontSize: 20),
                           ),
                         ),
@@ -146,13 +146,6 @@ class _RegisterState extends State<Register> {
   }
 
   void _changes() async {
-          print("hey........................................................");
-          print(_nameController.text);
-          print(_emailController.text);
-          print(_aboutController.text);
-          print(phoneNumber);
-          print("######################################*************************************************---------------/////////+++");
-
           if (_nameController.text != "" &&
               _emailController.text != "" &&
               phoneNumber != "" &&
@@ -163,14 +156,6 @@ class _RegisterState extends State<Register> {
                 Phone: phoneNumber,
                 About: _aboutController.text,
                 Email: _emailController.text);
-            print(
-                "hey........................................................");
-            print(_nameController.text);
-            print(_emailController.text);
-            print(_aboutController.text);
-            print(phoneNumber);
-            print(
-                "######################################*************************************************---------------/////////+++");
             CloudDatabase().addUserDetails(userdata: userdata);
             Navigator.pushAndRemoveUntil(
                 context,

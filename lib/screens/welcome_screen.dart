@@ -2,8 +2,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:project_hmc/screens/login_screen.dart';
-import 'package:project_hmc/screens/sign_up_screen.dart';
+import 'package:project_hmc/screens/sign_in_screen.dart';
 
 
 class WelcomeScreen extends StatefulWidget {
@@ -30,28 +29,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 'MessageAir'
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(100, 80, 100, 0),
-              child: SizedBox(
-                height: 40,
-                width: 100,
-                child: ElevatedButton(onPressed: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const LoginScreen())
-                  );
-                },
-                  style: ElevatedButton.styleFrom(
-                      shape: StadiumBorder()
-                  ),
-                  child: Text('Login',
-                  style: TextStyle(
-                    fontSize: 20
-                  ),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
               padding: const EdgeInsets.fromLTRB(100, 30, 100, 0),
               child: SizedBox(
                 height: 40,
@@ -59,13 +36,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: ElevatedButton(onPressed: (){
                   Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const SignUpScreen())
+                      MaterialPageRoute(builder: (context) => const SignInScreen())
                   );
                 },
                   style: ElevatedButton.styleFrom(
                       shape: StadiumBorder()
                   ),
-                    child: Text('Signup',
+                    child: Text('Sign In',
                     style: TextStyle(
                       fontSize: 20
                     ),
