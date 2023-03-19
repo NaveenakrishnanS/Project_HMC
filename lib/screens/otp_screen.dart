@@ -7,6 +7,7 @@ import 'package:project_hmc/firebase/cloud_database.dart';
 import 'package:project_hmc/firebase/firebase_auth.dart';
 import 'package:project_hmc/screens/chat_screen.dart';
 import 'package:project_hmc/screens/register_screen.dart';
+import 'package:project_hmc/screens/widget_handler.dart';
 
 class OTPScreen extends StatefulWidget {
   final String phoneNumber;
@@ -23,6 +24,7 @@ class _OTPScreenState extends State<OTPScreen> {
   final bool _canResendOTP = true;
   final int _resendTimeout = 0;
   String? _otp;
+  final sb= WidgetHandler();
 
 
   // void _handleResendOTP() {
@@ -63,20 +65,7 @@ class _OTPScreenState extends State<OTPScreen> {
         ),
         (Route<dynamic> route) => false);
   }
-  void navigate_to_home() {
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>  const ChatScreen(),
-        ),
-            (Route<dynamic> route) => false);
-  }
 
-  Future<bool> Userchecker() async{
-    final firebaseAuth = FirebaseAuthentication();
-    bool isUserExists = await firebaseAuth.isUserAlreadyExists(phoneNumber);
-    return isUserExists;
-  }
 
   /*@override
   void dispose() {
@@ -166,28 +155,17 @@ class _OTPScreenState extends State<OTPScreen> {
                   width: 145,
                   child: ElevatedButton(
                     onPressed: () async {
-                      Userchecker();
                       if (_otp != null) {
-                        bool navigation;
-                        if(await Userchecker()) {
-                          if (FirebaseAuthentication.isLoggedIn()) {
-                            CloudDatabase().addUID(
-                                UID: FirebaseAuthentication.getUserUid);
-                          }
-                          navigation = true;
-                        }
-                          else{
-                            navigation = false;
-                        }
+                            if (FirebaseAuthentication.isLoggedIn()) {
+                              CloudDatabase().addUID(
+                                  UID: FirebaseAuthentication.getUserUid);
+                            }
+
                         await FirebaseAuthentication.verifyPhoneNumber(
                             verificationId: widget.verificationId,
                             smsCode: _otp!);
-
-                        if(navigation){
-                            navigate_to_home();
-                        }else{
-                          navigate_to_register();
-                        }
+                        sb.showSnackBar(context, "Login Successful!");
+                        navigate_to_register();
                       }
                     },
                     style: ElevatedButton.styleFrom(

@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 
-class VendorCard extends StatelessWidget {
+class FriendCard extends StatelessWidget {
   final String name;
-  final String address;
-  //final String phoneNumber;
-  //final String gstNumber;
 
-  const VendorCard({
+  const FriendCard({
     super.key,
-    required this.name,
-    required this.address,
-    //required this.phoneNumber,
-    //required this.gstNumber,
+    required this.name
   });
 
   @override
@@ -35,7 +29,7 @@ class VendorCard extends StatelessWidget {
         child: ListTile(
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          leading: Container(
+          leading: /*Container(
             padding: const EdgeInsets.only(right: 12),
             decoration: const BoxDecoration(
               border: Border(
@@ -46,26 +40,26 @@ class VendorCard extends StatelessWidget {
               ),
             ),
             child: Image.asset(
-              'assets/laundry.png',
+              'assets/user.jpg',
+            ),
+          ),
+          */
+          CircleAvatar(
+            radius: 40, // Adjust this to change the size of the CircleAvatar
+            backgroundColor: Colors.transparent,
+            child: Container(
+              padding: const EdgeInsets.only(left: 1),
+              child: Image.asset(
+                'assets/user.jpg',
+              ),
             ),
           ),
           title: Text(
             name,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 18,
+              fontSize: 20,
             ),
-          ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 5),
-              Text(
-                address,
-                style: const TextStyle(fontSize: 14),
-              ),
-              const SizedBox(height: 5),
-            ],
           ),
         ),
       ),

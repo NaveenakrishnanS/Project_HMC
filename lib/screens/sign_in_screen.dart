@@ -153,7 +153,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     style:
                         ElevatedButton.styleFrom(shape: const StadiumBorder()),
                     child: const Text(
-                      'Sign Up',
+                      'Sign In',
                       style: TextStyle(fontSize: 20),
                     ),
                   ),

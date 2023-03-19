@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:project_hmc/screens/chat_screen.dart';
+import 'package:project_hmc/screens/navigation_screen.dart';
 import 'package:project_hmc/screens/welcome_screen.dart';
 
 import '../../firebase/firebase_auth.dart';
@@ -15,7 +15,7 @@ class UserStreamScreen extends StatelessWidget {
         stream: FirebaseAuthentication.getUserStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return const ChatScreen();
+            return const NavigationScreen();
           }
           return const WelcomeScreen();
         },

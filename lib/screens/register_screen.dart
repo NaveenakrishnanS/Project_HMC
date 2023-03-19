@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:project_hmc/firebase/cloud_database.dart';
 import 'package:project_hmc/firebase/firebase_auth.dart';
 import 'package:project_hmc/models/user_model.dart';
-import 'package:project_hmc/screens/chat_screen.dart';
-
+import 'package:project_hmc/screens/navigation_screen.dart';
+import 'package:project_hmc/screens/widget_handler.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key, required this.phoneNumber}) : super(key: key);
@@ -20,6 +20,7 @@ class _RegisterState extends State<Register> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _aboutController = TextEditingController();
+  final sb = WidgetHandler();
 
   late String phoneNumber;
 
@@ -59,110 +60,130 @@ class _RegisterState extends State<Register> {
                   borderRadius: BorderRadius.circular(25),
                   color: const Color(0xffD8E4F7)),
               padding: const EdgeInsets.all(16),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Name',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    TextFormField(
-                      controller: _nameController,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter your name';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'About',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    TextFormField(
-                      controller: _aboutController,
-                      maxLines: null,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter your address';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Email',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    TextFormField(
-                      controller: _emailController,
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Phone',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    TextFormField(
-                      controller: _phoneController,
-                      readOnly: true,
-                      keyboardType: TextInputType.phone,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter your phone number';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 32),
-                    Center(
-                      child: SizedBox(
-                        height: 50,
-                        width: 145,
-                        child: ElevatedButton(
-                          onPressed: _changes,
-                          style: ElevatedButton.styleFrom(
-                              shape: const StadiumBorder(),
-                              backgroundColor: Colors.black),
-                          child: const Text(
-                            'Register',
-                            style: TextStyle(fontSize: 20),
+              child: FutureBuilder<UserModel>(
+                future: CloudDatabase().retrieveUserDetails(
+                    UID: FirebaseAuthentication.getUserUid),
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.hasData) {
+                    UserModel userModel = snapshot.data as UserModel;
+                    _nameController.text = userModel.Name;
+                    _aboutController.text = userModel.About;
+                    _emailController.text = userModel.Email;
+                    _phoneController.text = userModel.Phone;
+                    return Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Name',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
                           ),
-                        ),
+                          TextFormField(
+                            controller: _nameController,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter your name';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'About',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          TextFormField(
+                            controller: _aboutController,
+                            maxLines: null,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter your address';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'Email',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          TextFormField(
+                            controller: _emailController,
+                          ),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'Phone',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          TextFormField(
+                            controller: _phoneController,
+                            readOnly: true,
+                            keyboardType: TextInputType.phone,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter your phone number';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 32),
+                          Center(
+                            child: SizedBox(
+                              height: 50,
+                              width: 145,
+                              child: ElevatedButton(
+                                onPressed: _changes,
+                                style: ElevatedButton.styleFrom(
+                                    shape: const StadiumBorder(),
+                                    backgroundColor: Colors.black),
+                                child: const Text(
+                                  'Register',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
-                ),
+                    );
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
               ),
-            ),
+            )
           ],
         )));
   }
 
   void _changes() async {
-          if (_nameController.text != "" &&
-              _emailController.text != "" &&
-              phoneNumber != "" &&
-              _aboutController.text != "") {
-            UserModel userdata = UserModel(
-                Name: _nameController.text,
-                UID: FirebaseAuthentication.getUserUid,
-                Phone: phoneNumber,
-                About: _aboutController.text,
-                Email: _emailController.text);
-            CloudDatabase().addUserDetails(userdata: userdata);
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>  const ChatScreen(),
-                ),
-                    (Route<dynamic> route) => false);
-          }
+    if (_nameController.text != "" &&
+        _emailController.text != "" &&
+        phoneNumber != "" &&
+        _aboutController.text != "") {
+      UserModel userdata = UserModel(
+          Name: _nameController.text,
+          UID: FirebaseAuthentication.getUserUid,
+          Phone: phoneNumber,
+          About: _aboutController.text,
+          Email: _emailController.text);
+      CloudDatabase().addUserDetails(userdata: userdata);
+      sb.showSnackBar(context, "You are successfully registered!");
+
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const NavigationScreen(),
+          ),
+          (Route<dynamic> route) => false);
+    }
   }
 }

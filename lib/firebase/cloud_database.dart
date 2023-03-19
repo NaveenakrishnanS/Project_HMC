@@ -38,10 +38,10 @@ class CloudDatabase {
     final DocumentReference documentReference = _firestore.doc(dataPath);
     final DocumentSnapshot orderDocumentSnapshot = await documentReference.get();
 
-    UserModel vendorModel = UserModel.fromMap(
+    UserModel userModel = UserModel.fromMap(
         orderDocumentSnapshot.data() as Map<String, dynamic>);
 
-    return vendorModel;
+    return userModel;
   }
 
   Future<bool> hasAlreadyRegistered({required String UID}) async {

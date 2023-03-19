@@ -121,16 +121,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
             ],
           ),
 
-
-
-
-
-
-
-
-
-
-
+      
           floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
           floatingActionButton: Padding(
             padding: const EdgeInsets.only(bottom: 100),
