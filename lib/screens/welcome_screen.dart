@@ -2,7 +2,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:project_hmc/screens/Login_screen.dart';
+import 'package:project_hmc/screens/sign_in_screen.dart';
 
 
 class WelcomeScreen extends StatefulWidget {
@@ -29,39 +29,25 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 'MessageAir'
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(100, 100, 100, 0),
-              child: ElevatedButton(onPressed: (){
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LoginScreen())
-                );
-              },
-                style: ButtonStyle(
-                    shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0)
-                        )
-                    )
+              padding: const EdgeInsets.fromLTRB(100, 30, 100, 0),
+              child: SizedBox(
+                height: 40,
+                width: 100,
+                child: ElevatedButton(onPressed: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SignInScreen())
+                  );
+                },
+                  style: ElevatedButton.styleFrom(
+                      shape: StadiumBorder()
+                  ),
+                    child: Text('Sign In',
+                    style: TextStyle(
+                      fontSize: 20
+                    ),
+                    ),
                 ),
-                child: Text('Login'),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(100, 10, 100, 0),
-              child: ElevatedButton(onPressed: (){
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LoginScreen())
-                );
-              },
-                style: ButtonStyle(
-                    shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0)
-                        )
-                    )
-                ),
-                  child: Text('Signup'),
               ),
             ),
         ],

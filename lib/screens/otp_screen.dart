@@ -1,17 +1,84 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'package:project_hmc/Firebase/auth/firebase_authentication.dart';
+import 'package:project_hmc/firebase/cloud_database.dart';
+import 'package:project_hmc/firebase/firebase_auth.dart';
+import 'package:project_hmc/screens/chat_screen.dart';
+import 'package:project_hmc/screens/register_screen.dart';
+import 'package:project_hmc/screens/widget_handler.dart';
 
 class OTPScreen extends StatefulWidget {
+  final String phoneNumber;
   final String verificationId;
-  const OTPScreen({Key? key, required this.verificationId}) : super(key: key);
+  const OTPScreen({Key? key, required this.verificationId,required this.phoneNumber}) : super(key: key);
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();
 }
 
 class _OTPScreenState extends State<OTPScreen> {
-  String? otp;
+  late String phoneNumber;
+  //late Timer _resendTimer;
+  final bool _canResendOTP = true;
+  final int _resendTimeout = 0;
+  String? _otp;
+  final sb= WidgetHandler();
+
+
+  // void _handleResendOTP() {
+  //   setState(() {
+  //     _resendTimer = Timer(const Duration(seconds: 30), () {
+  //       setState(() {
+  //         _canResendOTP = true;
+  //       });
+  //     });
+  //     _canResendOTP = false;
+  //     _startResendTimer();
+  //   });
+  //   // Call the function to resend OTP here
+  // }
+
+  // void _startResendTimer() {
+  //   // Set the resend timeout to 30 seconds
+  //   _resendTimeout = 30;
+
+  //   // Start the timer and update the timeout value every second
+  //   Timer.periodic(const Duration(seconds: 1), (timer) {
+  //     setState(() {
+  //       _resendTimeout--;
+
+  //       // Cancel the timer when the timeout is reached
+  //       if (_resendTimeout <= 0) {
+  //         timer.cancel();
+  //       }
+  //     });
+  //   });
+  // }
+
+  void navigate_to_register() {
+        Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>  Register(phoneNumber: phoneNumber),
+        ),
+        (Route<dynamic> route) => false);
+  }
+
+
+  /*@override
+  void dispose() {
+    _resendTimer.cancel();
+    super.dispose();
+  }*/
+
+  @override
+  void initState() {
+    super.initState();
+    phoneNumber = widget.phoneNumber;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +87,7 @@ class _OTPScreenState extends State<OTPScreen> {
         physics: const BouncingScrollPhysics(),
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 35),
+            padding: const EdgeInsets.symmetric(vertical: 45, horizontal: 35),
             child: Column(
               children: [
                 Container(
@@ -32,7 +99,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     fit: BoxFit.contain,
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 46),
                 const Text(
                   "VERIFICATION",
                   style: TextStyle(
@@ -40,7 +107,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 23),
                 const Text(
                   "We will verify your phone number by sending an OTP code.",
                   style: TextStyle(
@@ -50,33 +117,55 @@ class _OTPScreenState extends State<OTPScreen> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 35),
                 OtpTextField(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
                   numberOfFields: 6,
+                  showCursor: false,
+                  clearText: true,
                   borderColor: Colors.blue,
-                  fieldWidth: 45,
+                  fieldWidth: 40,
                   showFieldAsBox: true,
                   borderWidth: 2.0,
-                  onSubmit: (value) {
+                  /*onCodeChanged: (String verificationCode){
+                          setState(() {
+                            ((verificationCode.isEmpty))? _navigate=false : _navigate=true;
+                          });
+                        },*/
+                  onSubmit: (String code) {
                     setState(() {
-                      otp = value;
+                      _otp = code;
                     });
                   },
                 ),
-                TextButton(
-                  child: const Text("Resend Code"),
-                  onPressed: () {},
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  child: TextButton(
+                    onPressed: (){
+
+                    },
+                    child: Text(_canResendOTP ? "Resend Code": "Resend Code in $_resendTimeout seconds"),
+                  ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 25),
                 SizedBox(
                   height: 50,
                   width: 145,
                   child: ElevatedButton(
-                    onPressed: () {
-                      if (otp != null) {
-                        FirebaseAuthentication.verifyPhoneNumber(
+                    onPressed: () async {
+                      if (_otp != null) {
+                            if (FirebaseAuthentication.isLoggedIn()) {
+                              CloudDatabase().addUID(
+                                  UID: FirebaseAuthentication.getUserUid);
+                            }
+
+                        await FirebaseAuthentication.verifyPhoneNumber(
                             verificationId: widget.verificationId,
-                            smsCode: otp!);
+                            smsCode: _otp!);
+                        sb.showSnackBar(context, "Login Successful!");
+                        navigate_to_register();
                       }
                     },
                     style: ElevatedButton.styleFrom(

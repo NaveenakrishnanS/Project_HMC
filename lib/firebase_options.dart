@@ -45,13 +45,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyColD_pAhyn0ExyDfWOIFboj1xEKrh62O4',
-    appId: '1:792212394215:web:ed0d9633329c7215f71242',
+    appId: '1:792212394215:web:96ce49ce30b02254f71242',
     messagingSenderId: '792212394215',
     projectId: 'project-hmc-10dd7',
     authDomain: 'project-hmc-10dd7.firebaseapp.com',
     databaseURL: 'https://project-hmc-10dd7-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'project-hmc-10dd7.appspot.com',
-    measurementId: 'G-DKVP61DQMG',
+    measurementId: 'G-QXEZVJCJXP',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
@@ -65,22 +65,24 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBUV9-rYneLLa81Z5G8_yjLX7JThPeEVLE',
-    appId: '1:792212394215:ios:ebe5c951e5ddb4e2f71242',
+    appId: '1:792212394215:ios:3150391e58bdf6e1f71242',
     messagingSenderId: '792212394215',
     projectId: 'project-hmc-10dd7',
     databaseURL: 'https://project-hmc-10dd7-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'project-hmc-10dd7.appspot.com',
+    androidClientId: '792212394215-l7bbkus6pu4g91qqpr47gfoihnt0grue.apps.googleusercontent.com',
     iosClientId: '792212394215-bfeod4v4ga6e3nlpq5gh8620379h70pd.apps.googleusercontent.com',
     iosBundleId: 'com.example.projectHmc',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyBUV9-rYneLLa81Z5G8_yjLX7JThPeEVLE',
-    appId: '1:792212394215:ios:ebe5c951e5ddb4e2f71242',
+    appId: '1:792212394215:ios:3150391e58bdf6e1f71242',
     messagingSenderId: '792212394215',
     projectId: 'project-hmc-10dd7',
     databaseURL: 'https://project-hmc-10dd7-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'project-hmc-10dd7.appspot.com',
+    androidClientId: '792212394215-l7bbkus6pu4g91qqpr47gfoihnt0grue.apps.googleusercontent.com',
     iosClientId: '792212394215-bfeod4v4ga6e3nlpq5gh8620379h70pd.apps.googleusercontent.com',
     iosBundleId: 'com.example.projectHmc',
   );
