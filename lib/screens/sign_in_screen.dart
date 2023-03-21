@@ -64,7 +64,7 @@ class _SignInScreenState extends State<SignInScreen> {
               const Padding(
                 padding: EdgeInsets.fromLTRB(60, 20, 60, 0),
                 child: Text(
-                  'Enter your phone number to get started with MessageAir',
+                  'Enter your phone number to get started with project_hmc',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15,

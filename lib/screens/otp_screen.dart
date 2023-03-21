@@ -1,11 +1,9 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:project_hmc/firebase/cloud_database.dart';
 import 'package:project_hmc/firebase/firebase_auth.dart';
-import 'package:project_hmc/screens/chat_screen.dart';
 import 'package:project_hmc/screens/register_screen.dart';
 import 'package:project_hmc/screens/widget_handler.dart';
 
@@ -57,7 +55,7 @@ class _OTPScreenState extends State<OTPScreen> {
   //   });
   // }
 
-  void navigate_to_register() {
+  void navigateToRegister() {
         Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
@@ -165,7 +163,7 @@ class _OTPScreenState extends State<OTPScreen> {
                             verificationId: widget.verificationId,
                             smsCode: _otp!);
                         sb.showSnackBar(context, "Login Successful!");
-                        navigate_to_register();
+                        navigateToRegister();
                       }
                     },
                     style: ElevatedButton.styleFrom(

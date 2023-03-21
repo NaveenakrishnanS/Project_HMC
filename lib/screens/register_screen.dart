@@ -65,12 +65,19 @@ class _RegisterState extends State<Register> {
                     UID: FirebaseAuthentication.getUserUid),
                 builder:
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                  if (snapshot.hasData) {
-                    UserModel userModel = snapshot.data as UserModel;
-                    _nameController.text = userModel.Name;
-                    _aboutController.text = userModel.About;
-                    _emailController.text = userModel.Email;
-                    _phoneController.text = userModel.Phone;
+                      if (snapshot.hasData) {
+                        UserModel userModel = snapshot.data as UserModel;
+                        _nameController.text = userModel.Name;
+                        _aboutController.text = userModel.About;
+                        _emailController.text = userModel.Email;
+                        _phoneController.text = userModel.Phone;
+                        sb.showSnackBar(context, "You are already a Registered User! You can edit your details! ");
+                      } else {
+                        _nameController.text = "";
+                        _aboutController.text = "";
+                        _emailController.text = "";
+                        _phoneController.text = phoneNumber;
+                      }
                     return Form(
                       key: _formKey,
                       child: Column(
@@ -152,11 +159,6 @@ class _RegisterState extends State<Register> {
                         ],
                       ),
                     );
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
                 },
               ),
             )

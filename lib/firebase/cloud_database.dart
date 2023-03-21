@@ -5,7 +5,6 @@ import 'package:project_hmc/models/user_model.dart';
 
 class CloudDatabase {
   late FirebaseFirestore _firestore;
-  // ignore: non_constant_identifier_names
   CloudDatabase() {
     _firestore = FirebaseFirestore.instance;
   }
