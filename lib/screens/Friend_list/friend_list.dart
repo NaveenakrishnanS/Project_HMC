@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'package:hygiene_app/firebase/database/cloud_database.dart';
 import 'package:project_hmc/screens/Friend_list/Widgets/friend_card.dart';
+import 'package:project_hmc/screens/chat_screen.dart';
 
 class Friend {
   final String name;
@@ -18,33 +19,33 @@ class FriendList extends StatefulWidget {
 }
 
 class FriendListState extends State<FriendList> {
-  final List<Friend> vendorList = [
+  final List<Friend> friendList = [
     Friend(
-      name: 'Vendor 1'
+      name: 'friend 1'
     ),
     Friend(
-      name: 'Vendor 2'
+      name: 'friend 2'
     ),
     Friend(
-      name: 'Vendor 3'
+      name: 'friend 3'
     ),
     Friend(
-      name: 'Vendor 4'
+      name: 'friend 4'
     ),
     Friend(
-      name: 'Vendor 5'
+      name: 'friend 5'
     ),
     Friend(
-      name: 'Vendor 6'
+      name: 'friend 6'
     ),
     Friend(
-      name: 'Vendor 7'
+      name: 'friend 7'
     ),
     Friend(
-      name: 'Vendor 8'
+      name: 'friend 8'
     ),
     Friend(
-      name: 'Vendor 9'
+      name: 'friend 9'
     ),
   ];
 
@@ -52,16 +53,16 @@ class FriendListState extends State<FriendList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Vendor List'),
+        title: const Text('friend List'),
       ),
       body: Container(
         decoration: const BoxDecoration(color: Colors.white),
         child: ListView.builder(
           padding: EdgeInsets.zero,
-          itemCount: vendorList.length,
+          itemCount: friendList.length,
           itemBuilder: (context, index) {
             return FriendCard(
-                name: vendorList[index].name);
+              name: friendList[index].name);
           },
         ),
       ),

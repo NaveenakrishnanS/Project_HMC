@@ -154,15 +154,12 @@ class _OTPScreenState extends State<OTPScreen> {
                   child: ElevatedButton(
                     onPressed: () async {
                       if (_otp != null) {
-                            if (FirebaseAuthentication.isLoggedIn()) {
-                              CloudDatabase().addUID(
-                                  UID: FirebaseAuthentication.getUserUid);
-                            }
-
+                        CloudDatabase().addUID(UID: FirebaseAuthentication.getUserUid);
+                        sb.showSnackBar(context, "Login Successful!");
                         await FirebaseAuthentication.verifyPhoneNumber(
                             verificationId: widget.verificationId,
                             smsCode: _otp!);
-                        sb.showSnackBar(context, "Login Successful!");
+
                         navigateToRegister();
                       }
                     },
