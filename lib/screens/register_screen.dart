@@ -167,6 +167,7 @@ class _RegisterState extends State<Register> {
   }
 
   void _changes() async {
+    CloudDatabase().addUID(UID: FirebaseAuthentication.getUserUid);
     if (_nameController.text != "" &&
         _emailController.text != "" &&
         phoneNumber != "" &&
