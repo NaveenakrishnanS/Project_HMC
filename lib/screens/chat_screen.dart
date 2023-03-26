@@ -3,6 +3,8 @@ import 'package:floating_action_bubble_custom/floating_action_bubble_custom.dart
 import 'package:project_hmc/firebase/firebase_auth.dart';
 import 'package:project_hmc/screens/profile_screen.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
+import 'package:project_hmc/screens/Friend_list/friend_list.dart';
+import 'package:project_hmc/screens/Friend_list/Widgets/Chat_friend_card.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -15,6 +17,42 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
   late Animation<double> _animation;
   late AnimationController _animationController;
   TextEditingController textController = TextEditingController();
+
+
+  final List<Friend> friendList = [
+    Friend(
+        name: 'friend 1'
+    ),
+    Friend(
+        name: 'friend 2'
+    ),
+    Friend(
+        name: 'friend 3'
+    ),
+    Friend(
+        name: 'friend 4'
+    ),
+    Friend(
+        name: 'friend 5'
+    ),
+    Friend(
+        name: 'friend 6'
+    ),
+    Friend(
+        name: 'friend 7'
+    ),
+    Friend(
+        name: 'friend 8'
+    ),
+    Friend(
+        name: 'friend 9'
+    ),
+  ];
+
+
+
+
+
 
   @override
   void initState() {
@@ -115,10 +153,19 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
             ),
 
 
-          body:Column(
-            children: const [
+          body: Container(
+            padding: EdgeInsets.only(top: 0),
+            decoration: const BoxDecoration(color: Colors.white),
+            child: ListView.builder(
 
-            ],
+              padding: EdgeInsets.zero,
+              itemCount: friendList.length,
+              itemBuilder: (context, index) {
+                return FriendCard(
+                    name: friendList[index].name);
+              },
+            ),
+
           ),
 
       

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 //import 'package:hygiene_app/firebase/database/cloud_database.dart';
 import 'package:project_hmc/screens/Friend_list/Widgets/friend_card.dart';
-import 'package:project_hmc/screens/chat_screen.dart';
 
 class Friend {
   final String name;
@@ -52,8 +51,15 @@ class FriendListState extends State<FriendList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('friend List'),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(65),
+        child: AppBar(
+          backgroundColor: Colors.black,
+          title: Padding(
+            padding: const EdgeInsets.only(top: 15,left: 10),
+            child: const Text('friend List'),
+          ),
+        ),
       ),
       body: Container(
         decoration: const BoxDecoration(color: Colors.white),

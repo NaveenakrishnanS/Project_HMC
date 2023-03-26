@@ -29,9 +29,15 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Profile'),
-          backgroundColor: Colors.black,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(65),
+          child: AppBar(
+            title: Padding(
+              padding: const EdgeInsets.only(top: 15,left: 10),
+              child: const Text('Profile'),
+            ),
+            backgroundColor: Colors.black,
+          ),
         ),
         body: SingleChildScrollView(
             child: Column(children: [
