@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_hmc/screens/Friend_list/friend_list.dart';
-import 'package:project_hmc/screens/chat_screen.dart';
+import 'package:project_hmc/screens/chat_screen/chat_screen.dart';
 import 'package:project_hmc/screens/profile_screen.dart';
 
 class NavigationScreen extends StatefulWidget {

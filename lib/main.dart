@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:project_hmc/firebase/firebase_auth.dart';
-import 'package:project_hmc/screens/user%20stream%20scree/user_stream_screen.dart';
+import 'package:project_hmc/screens/user%20stream%20screen/user_stream_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

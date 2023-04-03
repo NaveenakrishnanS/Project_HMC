@@ -32,9 +32,9 @@ class _ProfileState extends State<Profile> {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(65),
           child: AppBar(
-            title: Padding(
-              padding: const EdgeInsets.only(top: 15,left: 10),
-              child: const Text('Profile'),
+            title: const Padding(
+              padding: EdgeInsets.only(top: 15,left: 10),
+              child: Text('Profile'),
             ),
             backgroundColor: Colors.black,
           ),

@@ -55,9 +55,9 @@ class FriendListState extends State<FriendList> {
         preferredSize: const Size.fromHeight(65),
         child: AppBar(
           backgroundColor: Colors.black,
-          title: Padding(
-            padding: const EdgeInsets.only(top: 15,left: 10),
-            child: const Text('friend List'),
+          title: const Padding(
+            padding: EdgeInsets.only(top: 15,left: 10),
+            child: Text('friend List'),
           ),
         ),
       ),
