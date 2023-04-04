@@ -19,33 +19,36 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
   TextEditingController textController = TextEditingController();
 
 
-  final List<Friend> friendList = [
-    Friend(
-        name: 'friend 1'
+  final List<Chat> chatList = [
+    Chat(
+        name: 'Chat 1'
     ),
-    Friend(
-        name: 'friend 2'
+    Chat(
+        name: 'Chat 2'
     ),
-    Friend(
-        name: 'friend 3'
+    Chat(
+        name: 'Chat 3'
     ),
-    Friend(
-        name: 'friend 4'
+    Chat(
+        name: 'Chat 4'
     ),
-    Friend(
-        name: 'friend 5'
+    Chat(
+        name: 'Chat 5'
     ),
-    Friend(
-        name: 'friend 6'
+    Chat(
+        name: 'Chat 6'
     ),
-    Friend(
-        name: 'friend 7'
+    Chat(
+        name: 'Chat 7'
     ),
-    Friend(
-        name: 'friend 8'
+    Chat(
+        name: 'Chat 8'
     ),
-    Friend(
-        name: 'friend 9'
+    Chat(
+        name: 'Chat 9'
+    ),
+    Chat(
+        name: 'Chat 10'
     ),
   ];
 
@@ -154,12 +157,11 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
             padding: const EdgeInsets.only(top: 0),
             decoration: const BoxDecoration(color: Colors.white),
             child: ListView.builder(
-
               padding: EdgeInsets.zero,
-              itemCount: friendList.length,
+              itemCount: chatList.length,
               itemBuilder: (context, index) {
                 return ChatCard(
-                    name: friendList[index].name);
+                    name: chatList[index].name);
               },
             ),
 

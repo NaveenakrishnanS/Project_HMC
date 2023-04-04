@@ -4,10 +4,10 @@ import 'package:project_hmc/screens/Friend_list/Widgets/friend_card.dart';
 import 'package:project_hmc/firebase/cloud_database.dart';
 import 'package:project_hmc/models/user_model.dart';
 
-class Friend {
+class Chat {
   final String name;
 
-  Friend({
+  Chat({
     required this.name,
   });
 }
@@ -29,13 +29,35 @@ class FriendListState extends State<FriendList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
+      appBar:PreferredSize(
         preferredSize: const Size.fromHeight(65),
         child: AppBar(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+          leadingWidth: 200,
+          elevation: 0,
           backgroundColor: Colors.black,
-          title: const Padding(
-            padding: EdgeInsets.only(top: 15,left: 10),
-            child: Text('friend List'),
+          leading:  Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+                padding: const EdgeInsets.only(top: 15, left: 20),
+                child: Row(
+                  children: const [
+                    Icon(Icons.groups_2_sharp,
+                      size: 30,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 28),
+                      child: Text(
+                        'Buddies',
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+            ),
           ),
         ),
       ),

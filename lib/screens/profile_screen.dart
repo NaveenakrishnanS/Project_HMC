@@ -29,14 +29,36 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(65),
-          child: AppBar(
-            title: const Padding(
-              padding: EdgeInsets.only(top: 15,left: 10),
-              child: Text('Profile'),
+      appBar:PreferredSize(
+        preferredSize: const Size.fromHeight(65),
+        child: AppBar(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+          leadingWidth: 200,
+          elevation: 0,
+          backgroundColor: Colors.black,
+          leading:  Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+                padding: const EdgeInsets.only(top: 15, left: 20),
+                child: Row(
+                  children: const [
+                    Icon(Icons.person,
+                      size: 30,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 28),
+                      child: Text(
+                        'Profile',
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ),
+                  ],
+                )
             ),
-            backgroundColor: Colors.black,
+          ),
           ),
         ),
         body: SingleChildScrollView(
