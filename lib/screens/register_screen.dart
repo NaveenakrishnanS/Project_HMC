@@ -22,6 +22,7 @@ class _RegisterState extends State<Register> {
   final _aboutController = TextEditingController();
   final sb = WidgetHandler();
 
+  bool alreadyExists = false;
   late String phoneNumber;
 
   @override
@@ -71,7 +72,7 @@ class _RegisterState extends State<Register> {
                         _aboutController.text = userModel.About;
                         _emailController.text = userModel.Email;
                         _phoneController.text = userModel.Phone;
-                        sb.showSnackBar(context, "You are already a Registered User! You can edit your details! ");
+                        alreadyExists=true;
                       } else {
                         _nameController.text = "";
                         _aboutController.text = "";
@@ -154,6 +155,7 @@ class _RegisterState extends State<Register> {
                                   style: TextStyle(fontSize: 20),
                                 ),
                               ),
+
                             ),
                           )
                         ],
@@ -179,7 +181,9 @@ class _RegisterState extends State<Register> {
           About: _aboutController.text,
           Email: _emailController.text);
       CloudDatabase().addUserDetails(userdata: userdata);
-      sb.showSnackBar(context, "You are successfully registered!");
+      if(alreadyExists)
+      {sb.showSnackBar(context, "You are already a Registered User! Changes Saved!");}
+      else{sb.showSnackBar(context, "You are successfully registered!");}
 
       Navigator.pushAndRemoveUntil(
           context,

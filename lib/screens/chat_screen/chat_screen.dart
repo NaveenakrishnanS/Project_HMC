@@ -4,7 +4,7 @@ import 'package:project_hmc/firebase/firebase_auth.dart';
 import 'package:project_hmc/screens/profile_screen.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
 import 'package:project_hmc/screens/Friend_list/friend_list.dart';
-import 'package:project_hmc/screens/chat_screen/Chat_friend_card.dart';
+import 'package:project_hmc/screens/chat_screen/chat_card.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -48,9 +48,6 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
         name: 'friend 9'
     ),
   ];
-
-
-
 
 
 
@@ -161,7 +158,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
               padding: EdgeInsets.zero,
               itemCount: friendList.length,
               itemBuilder: (context, index) {
-                return FriendCard(
+                return ChatCard(
                     name: friendList[index].name);
               },
             ),

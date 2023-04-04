@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-//import 'package:hygiene_app/firebase/database/cloud_database.dart';
+import 'package:project_hmc/firebase/auth/firebase_authentication.dart';
 import 'package:project_hmc/screens/Friend_list/Widgets/friend_card.dart';
+import 'package:project_hmc/firebase/cloud_database.dart';
+import 'package:project_hmc/models/user_model.dart';
 
 class Friend {
   final String name;
@@ -18,35 +20,11 @@ class FriendList extends StatefulWidget {
 }
 
 class FriendListState extends State<FriendList> {
-  final List<Friend> friendList = [
-    Friend(
-      name: 'friend 1'
-    ),
-    Friend(
-      name: 'friend 2'
-    ),
-    Friend(
-      name: 'friend 3'
-    ),
-    Friend(
-      name: 'friend 4'
-    ),
-    Friend(
-      name: 'friend 5'
-    ),
-    Friend(
-      name: 'friend 6'
-    ),
-    Friend(
-      name: 'friend 7'
-    ),
-    Friend(
-      name: 'friend 8'
-    ),
-    Friend(
-      name: 'friend 9'
-    ),
-  ];
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +41,37 @@ class FriendListState extends State<FriendList> {
       ),
       body: Container(
         decoration: const BoxDecoration(color: Colors.white),
-        child: ListView.builder(
-          padding: EdgeInsets.zero,
-          itemCount: friendList.length,
-          itemBuilder: (context, index) {
-            return FriendCard(
-              name: friendList[index].name);
-          },
+        child:StreamBuilder<List<UserModel>>(
+              stream: CloudDatabase().retrieveUsers(),
+              builder: (BuildContext context, AsyncSnapshot<List<UserModel>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),strokeWidth: 5,),
+                );
+              }
+              if (!snapshot.hasData || snapshot.data == null) {
+                return const Center(child: Text('No data available'));
+              }
+              if (snapshot.hasError) {
+                return const Center(
+                  child: Text('Error in retrieving Users'),
+                );
+              }
+              List<FriendCard> friendCards = [];
+              if (snapshot.hasData) {
+                for (var users in snapshot.data!) {
+                  String name = users.Name;
+                    FriendCard friendCard = FriendCard(name: name);
+                    friendCards.add(friendCard);
+                }
+                return ListView(
+                  children: friendCards,
+                );
+              }
+              return ListView(
+                children: friendCards,
+              );
+              },
         ),
       ),
     );

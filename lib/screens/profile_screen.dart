@@ -151,7 +151,7 @@ class _ProfileState extends State<Profile> {
                     );
                   }else {
                     return const Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),strokeWidth: 5,),
                     );
                   }
                 },

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:project_hmc/screens/single_chat.dart';
 
-class FriendCard extends StatelessWidget {
+class ChatCard extends StatelessWidget {
   final String name;
 
-  const FriendCard({
+  const ChatCard({
     super.key,
     required this.name
   });

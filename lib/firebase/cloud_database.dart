@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:project_hmc/firebase/auth/firebase_authentication.dart';
 import 'package:project_hmc/models/user_model.dart';
 
 class CloudDatabase {
@@ -29,6 +30,24 @@ class CloudDatabase {
     } on FirebaseException {
       rethrow;
     }
+  }
+
+  Stream<List<UserModel>> retrieveUsers() {
+    const String usersPath = "Users/";
+
+    final collectionReference = _firestore.collection(usersPath);
+    final stream = collectionReference
+        .where(FieldPath.documentId, isNotEqualTo: FirebaseAuthentication.getUserUid).snapshots();
+
+    return stream.asyncMap((collectionsQuery) async {
+      final users = <UserModel>[];
+
+      for (var document in collectionsQuery.docs) {
+        UserModel? user = await retrieveUserDetails(UID: document.id);
+        users.add(user);
+      }
+      return users;
+    });
   }
 
   Future<UserModel> retrieveUserDetails({required String UID}) async {
