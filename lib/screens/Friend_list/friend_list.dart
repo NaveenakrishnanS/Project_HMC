@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project_hmc/firebase/auth/firebase_authentication.dart';
 import 'package:project_hmc/screens/Friend_list/Widgets/friend_card.dart';
 import 'package:project_hmc/firebase/cloud_database.dart';
 import 'package:project_hmc/models/user_model.dart';

@@ -32,20 +32,26 @@ class _NavigationScreenState extends State<NavigationScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      backgroundColor: const Color(0xffE5E5E5),
+      backgroundColor:  const Color(0xffE5E5E5),
       bottomNavigationBar: BottomNavigationBar(
+        selectedIconTheme: const IconThemeData(color: Colors.black, size: 35),
         type: BottomNavigationBarType.fixed,
-        items: const [
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black45,
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outline),
+            backgroundColor: _selectedIndex == 0 ? Colors.black : null,
+            icon: const Icon(Icons.chat),
             label: 'Chats',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.groups),
+            backgroundColor: _selectedIndex == 1 ? Colors.black : null,
+            icon: const Icon(Icons.groups),
             label: 'Friend List',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            backgroundColor: _selectedIndex == 2 ? Colors.black : null,
+            icon: const Icon(Icons.person),
             label: 'My Profile',
           ),
         ],

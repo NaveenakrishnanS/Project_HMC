@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_hmc/screens/otp_screen.dart';
 
+import '../screens/widget_handler.dart';
+
 class FirebaseAuthentication {
   static late FirebaseAuth _auth; //FirebaseAuth instance
 
@@ -53,7 +55,9 @@ class FirebaseAuthentication {
     required BuildContext context,
   }) async {
     String? userVerificationId;
+    final load= WidgetHandler();
     try {
+      load.loader(context,"Please Wait...");
       await _auth.verifyPhoneNumber(
         phoneNumber: number,
         verificationCompleted: (PhoneAuthCredential credential) async {},

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:floating_action_bubble_custom/floating_action_bubble_custom.dart';
+import 'package:flutter/services.dart';
 import 'package:project_hmc/firebase/firebase_auth.dart';
 import 'package:project_hmc/screens/profile_screen.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
@@ -71,6 +72,11 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
 
+    @override
+    void dispose() {
+      _animationController.dispose(); // dispose of the AnimationController
+      super.dispose();
+    }
     return  Scaffold(
         appBar:PreferredSize(
             preferredSize: const Size.fromHeight(65),
@@ -170,7 +176,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
       
           floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
           floatingActionButton: Padding(
-            padding: const EdgeInsets.only(bottom: 100),
+            padding: const EdgeInsets.only(bottom: 30),
             child: FloatingActionBubble(
                 animation: _animation,
                 onPressed: () => _animationController.isCompleted
@@ -182,14 +188,15 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
               items: <Widget>[
                 // Floating action menu item
                 BubbleMenu(
-                  title: "Settings",
+                  title: "Sign Out",
                   iconColor: Colors.white,
                   bubbleColor: Colors.black,
-                  icon: Icons.settings,
+                  icon: Icons.logout,
                   style: const TextStyle(fontSize: 16, color: Colors.white),
-                  onPressed: () {
-                    FirebaseAuthentication.signOut();
-                    _animationController.reverse();
+                  onPressed: () async {
+                    await FirebaseAuthentication.signOut();
+                    SystemNavigator.pop();//closes the app
+                    dispose();
                   },
                 ),
                 // Floating action menu item
