@@ -47,7 +47,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 height: 290,
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Image.asset(
-                  'assets/login.jpg',
+                  'assets/login.png',
                   fit: BoxFit.contain,
                 ),
               ),
