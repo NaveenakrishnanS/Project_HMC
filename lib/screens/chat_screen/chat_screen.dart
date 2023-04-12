@@ -6,6 +6,7 @@ import 'package:searchbar_animation/searchbar_animation.dart';
 import 'package:project_hmc/screens/Friend_list/friend_list.dart';
 import 'package:project_hmc/screens/chat_screen/chat_card.dart';
 
+
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
 
@@ -168,7 +169,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
       
           floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
           floatingActionButton: Padding(
-            padding: const EdgeInsets.only(bottom: 100),
+            padding: const EdgeInsets.only(bottom: 90,left:199 ),
             child: FloatingActionBubble(
                 animation: _animation,
                 onPressed: () => _animationController.isCompleted
@@ -179,45 +180,63 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                   backgroundColor: Colors.black,
               items: <Widget>[
                 // Floating action menu item
-                BubbleMenu(
-                  title: "Settings",
-                  iconColor: Colors.white,
-                  bubbleColor: Colors.black,
-                  icon: Icons.settings,
-                  style: const TextStyle(fontSize: 16, color: Colors.white),
-                  onPressed: () {
-                    FirebaseAuthentication.signOut();
-                    _animationController.reverse();
-                  },
+                SizedBox(
+                  width: double.maxFinite,
+                  child: BubbleMenu(
+                    title: "Signout",
+                    iconColor: Colors.white,
+                    bubbleColor: Colors.black,
+                    icon: Icons.settings,
+                    style: const TextStyle(fontSize: 16, color: Colors.white,),
+                    onPressed: () {
+                      FirebaseAuthentication.signOut();
+                      _animationController.reverse();
+                    },
+                  ),
                 ),
                 // Floating action menu item
-                BubbleMenu(
-                  title: "Profile",
-                  iconColor: Colors.white,
-                  bubbleColor: Colors.black,
-                  icon: Icons.people,
-                  style: const TextStyle(fontSize: 16, color: Colors.white),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => const Profile(),
-                      ),
-                    );
-                    _animationController.reverse();
-                  },
+                SizedBox(
+                  width: double.maxFinite,
+                  child: BubbleMenu(
+                    title: "Profile",
+                    iconColor: Colors.white,
+                    bubbleColor: Colors.black,
+                    icon: Icons.person,
+                    style: const TextStyle(fontSize: 16, color: Colors.white
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => const Profile(),
+                        ),
+                      );
+                      _animationController.reverse();
+                    },
+                  ),
                 ),
                 //Floating action menu item
-                BubbleMenu(
-                  title: "Home",
-                  iconColor: Colors.white,
-                  bubbleColor: Colors.black,
-                  icon: Icons.home,
-                  style: const TextStyle(fontSize: 16, color: Colors.white),
-                  onPressed: () {
-
-                    _animationController.reverse();
-                  },
+                SizedBox(
+                  width: double.maxFinite,
+                  child: BubbleMenu(
+                    title:"New Chat",
+                    iconColor: Colors.white,
+                    bubbleColor: Colors.black,
+                    icon: Icons.messenger,
+                    style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => const FriendList(),
+                        ),
+                      );
+                      _animationController.reverse();
+                    },
+                  ),
                 ),
               ],
             ),
