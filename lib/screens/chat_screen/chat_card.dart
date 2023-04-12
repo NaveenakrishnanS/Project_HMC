@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project_hmc/screens/single_chat.dart';
 
 class ChatCard extends StatelessWidget {
   final String name;
@@ -28,14 +27,7 @@ class ChatCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(0),
         ),
         child: ListTile(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => const SingleChat(),
-              ),
-            );
-          },
+
           contentPadding:
           const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
           leading: /*Container(

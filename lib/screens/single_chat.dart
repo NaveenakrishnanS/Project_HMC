@@ -1,6 +1,6 @@
-import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
-import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/material.dart';
+import 'package:project_hmc/screens/message_card/receive_card.dart';
+import 'package:project_hmc/screens/message_card/send_card.dart';
 
 class SingleChat extends StatefulWidget {
   const SingleChat({Key? key}) : super(key: key);
@@ -11,86 +11,80 @@ class SingleChat extends StatefulWidget {
 
 class _SingleChatState extends State<SingleChat> {
   final TextEditingController _controller = TextEditingController();
-  bool emojiShowing = false;
-  FocusNode focusNode = FocusNode();
-  @override
-  void initState()
-  {
-    super.initState();
-    focusNode.addListener(() {
-      if(focusNode.hasFocus){
-        setState(() {
-          emojiShowing = false;
-        });
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.black,
-          title: Row(
-            children: [
-              const CircleAvatar(),
-              const SizedBox(width: 10,),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
-                    "User",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ],
+    return Scaffold(
+        appBar:PreferredSize(
+          preferredSize: const Size.fromHeight(65),
+          child: AppBar(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+            leadingWidth: 200,
+            elevation: 0,
+            backgroundColor: Colors.black,
+            leading:  Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                  padding: const EdgeInsets.only(top: 15, left: 20),
+                  child: Row(
+                    children: const [
+                      CircleAvatar(),
+                      SizedBox(width:7,),
+                      Padding(
+                        padding: EdgeInsets.only(left: 8),
+                        child: Text(
+                          'User',
+                          style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
               ),
-            ],
+            ),
           ),
         ),
       body:SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-       child: WillPopScope(
-         child: Stack(
+        child: Stack(
           children: [
-            ListView(),
+            ListView(
+              shrinkWrap: true,
+              children: const [
+                InputMessage(),
+                InputMessage(),
+                InputMessage(),
+                InputMessage(),
+                InputMessage(),
+                ReplyMessage(),
+                InputMessage(),
+                ReplyMessage(),
+                InputMessage(),
+                ReplyMessage(),
+                InputMessage(),
+                InputMessage(),
+              ],
+            ),
             Align(
-            alignment: Alignment.bottomCenter ,
+            alignment: Alignment.bottomCenter,
             child: Row(
               children: [
                 Expanded(
-                  child: TextField(
-                    focusNode: focusNode,
+                  child:TextField(
                  controller: _controller,
                  style:  const TextStyle(
                   fontSize: 20.0, color: Colors.black87),
                   decoration: InputDecoration(
                   hintText: 'Type a message',
-                  prefixIcon:IconButton(splashRadius:23,
-                  icon:const Icon(Icons.emoji_emotions_rounded),
-                  onPressed:(){
-                    focusNode.unfocus();
-                    focusNode.canRequestFocus = false;
-                    setState(() {emojiShowing = !emojiShowing;});},
-                ),
-                suffixIcon:IconButton(splashRadius:5,
+                suffixIcon:IconButton(splashRadius:10,
                   icon: const Icon(Icons.attach_file_rounded),color: Colors.grey,
                   onPressed:(){},
                 ),
                 filled: true,
                 fillColor: Colors.white,
-                contentPadding: const EdgeInsets.only(left: 16.0, bottom: 8.0, top: 8.0, right: 16.0),
+                contentPadding: const EdgeInsets.only(left: 20.0, bottom: 8.0, top: 8.0, right: 16.0),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(50.0),
                 ),
@@ -98,78 +92,22 @@ class _SingleChatState extends State<SingleChat> {
           ),
                 ),
                 Material(
-                  color: Colors.white,
+                  color: Colors.transparent,
                   child: IconButton(
-                      splashRadius: 25,
+                      splashRadius: 15,
                       onPressed: () {},
                       icon: const Icon(
                         Icons.send,
                         color: Colors.black,
                       ),
-                  iconSize: 40,),
-                )
+                  iconSize: 28,),
+                ),
               ],
-            )),
-            Offstage(
-              offstage: !emojiShowing,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child:SingleChildScrollView(
-                 physics: const BouncingScrollPhysics(),
-                 child:SizedBox(
-                  height: 250,
-                  child: EmojiPicker(
-                    textEditingController: _controller,
+            ),
+            ),
 
-                    config: Config(
-                      columns: 7,
-                      emojiSizeMax: 32 * (foundation.defaultTargetPlatform == TargetPlatform.iOS ? 1.30 : 1.0),
-                      verticalSpacing: 0,
-                      horizontalSpacing: 0,
-                      gridPadding: EdgeInsets.zero,
-                      initCategory: Category.RECENT,
-                      bgColor: const Color(0xFFF2F2F2),
-                      indicatorColor: Colors.blue,
-                      iconColor: Colors.grey,
-                      iconColorSelected: Colors.blue,
-                      backspaceColor: Colors.blue,
-                      skinToneDialogBgColor: Colors.white,
-                      skinToneIndicatorColor: Colors.grey,
-                      enableSkinTones: true,
-                      showRecentsTab: true,
-                      recentsLimit: 28,
-                      replaceEmojiOnLimitExceed: false,
-                      noRecents: const Text(
-                        'No Recents',
-                        style: TextStyle(fontSize: 20, color: Colors.black26),
-                        textAlign: TextAlign.center,
-                      ),
-                      loadingIndicator: const SizedBox.shrink(),
-                      tabIndicatorAnimDuration: kTabScrollDuration,
-                      categoryIcons: const CategoryIcons(),
-                      buttonMode: ButtonMode.CUPERTINO,
-                      checkPlatformCompatibility: true,
-                    ),
-                  )),
-            ),
-            ),
-            ),
           ],
          ),
-         onWillPop:() {
-           if(emojiShowing) {
-             setState(() {
-               emojiShowing = false;
-             });
-           }
-           else
-           {
-             Navigator.pop(context);
-           }
-           return Future.value(false);
-         },
-       ),
-        ),
 
       ),
     );

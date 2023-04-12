@@ -17,4 +17,21 @@ class WidgetHandler{
     );
   }
 
+  void loader(context,String message)  {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+      return AlertDialog(
+        content: Row(
+          children:  [
+            const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),strokeWidth: 5,),
+            const SizedBox(width: 20),
+            Text(message),
+          ],
+        ),
+      );
+  }
+    );}
+
 }

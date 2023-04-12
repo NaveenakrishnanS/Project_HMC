@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:floating_action_bubble_custom/floating_action_bubble_custom.dart';
+import 'package:flutter/services.dart';
 import 'package:project_hmc/firebase/firebase_auth.dart';
 import 'package:project_hmc/screens/profile_screen.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
 import 'package:project_hmc/screens/Friend_list/friend_list.dart';
 import 'package:project_hmc/screens/chat_screen/chat_card.dart';
-
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -20,33 +20,36 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
   TextEditingController textController = TextEditingController();
 
 
-  final List<Friend> friendList = [
-    Friend(
-        name: 'friend 1'
+  final List<Chat> chatList = [
+    Chat(
+        name: 'Chat 1'
     ),
-    Friend(
-        name: 'friend 2'
+    Chat(
+        name: 'Chat 2'
     ),
-    Friend(
-        name: 'friend 3'
+    Chat(
+        name: 'Chat 3'
     ),
-    Friend(
-        name: 'friend 4'
+    Chat(
+        name: 'Chat 4'
     ),
-    Friend(
-        name: 'friend 5'
+    Chat(
+        name: 'Chat 5'
     ),
-    Friend(
-        name: 'friend 6'
+    Chat(
+        name: 'Chat 6'
     ),
-    Friend(
-        name: 'friend 7'
+    Chat(
+        name: 'Chat 7'
     ),
-    Friend(
-        name: 'friend 8'
+    Chat(
+        name: 'Chat 8'
     ),
-    Friend(
-        name: 'friend 9'
+    Chat(
+        name: 'Chat 9'
+    ),
+    Chat(
+        name: 'Chat 10'
     ),
   ];
 
@@ -69,6 +72,11 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
 
+    @override
+    void dispose() {
+      _animationController.dispose(); // dispose of the AnimationController
+      super.dispose();
+    }
     return  Scaffold(
         appBar:PreferredSize(
             preferredSize: const Size.fromHeight(65),
@@ -155,12 +163,11 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
             padding: const EdgeInsets.only(top: 0),
             decoration: const BoxDecoration(color: Colors.white),
             child: ListView.builder(
-
               padding: EdgeInsets.zero,
-              itemCount: friendList.length,
+              itemCount: chatList.length,
               itemBuilder: (context, index) {
                 return ChatCard(
-                    name: friendList[index].name);
+                    name: chatList[index].name);
               },
             ),
 
@@ -169,7 +176,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
       
           floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
           floatingActionButton: Padding(
-            padding: const EdgeInsets.only(bottom: 90,left:199 ),
+            padding: const EdgeInsets.only(bottom: 30),
             child: FloatingActionBubble(
                 animation: _animation,
                 onPressed: () => _animationController.isCompleted
@@ -180,63 +187,46 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                   backgroundColor: Colors.black,
               items: <Widget>[
                 // Floating action menu item
-                SizedBox(
-                  width: double.maxFinite,
-                  child: BubbleMenu(
-                    title: "Signout",
-                    iconColor: Colors.white,
-                    bubbleColor: Colors.black,
-                    icon: Icons.settings,
-                    style: const TextStyle(fontSize: 16, color: Colors.white,),
-                    onPressed: () {
-                      FirebaseAuthentication.signOut();
-                      _animationController.reverse();
-                    },
-                  ),
+                BubbleMenu(
+                  title: "Sign Out",
+                  iconColor: Colors.white,
+                  bubbleColor: Colors.black,
+                  icon: Icons.logout,
+                  style: const TextStyle(fontSize: 16, color: Colors.white),
+                  onPressed: () async {
+                    await FirebaseAuthentication.signOut();
+                    SystemNavigator.pop();//closes the app
+                    dispose();
+                  },
                 ),
                 // Floating action menu item
-                SizedBox(
-                  width: double.maxFinite,
-                  child: BubbleMenu(
-                    title: "Profile",
-                    iconColor: Colors.white,
-                    bubbleColor: Colors.black,
-                    icon: Icons.person,
-                    style: const TextStyle(fontSize: 16, color: Colors.white
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => const Profile(),
-                        ),
-                      );
-                      _animationController.reverse();
-                    },
-                  ),
+                BubbleMenu(
+                  title: "Profile",
+                  iconColor: Colors.white,
+                  bubbleColor: Colors.black,
+                  icon: Icons.people,
+                  style: const TextStyle(fontSize: 16, color: Colors.white),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const Profile(),
+                      ),
+                    );
+                    _animationController.reverse();
+                  },
                 ),
                 //Floating action menu item
-                SizedBox(
-                  width: double.maxFinite,
-                  child: BubbleMenu(
-                    title:"New Chat",
-                    iconColor: Colors.white,
-                    bubbleColor: Colors.black,
-                    icon: Icons.messenger,
-                    style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => const FriendList(),
-                        ),
-                      );
-                      _animationController.reverse();
-                    },
-                  ),
+                BubbleMenu(
+                  title: "Home",
+                  iconColor: Colors.white,
+                  bubbleColor: Colors.black,
+                  icon: Icons.home,
+                  style: const TextStyle(fontSize: 16, color: Colors.white),
+                  onPressed: () {
+
+                    _animationController.reverse();
+                  },
                 ),
               ],
             ),

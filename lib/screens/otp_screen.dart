@@ -153,9 +153,25 @@ class _OTPScreenState extends State<OTPScreen> {
                   child: ElevatedButton(
                     onPressed: () async {
                       if (_otp != null) {
-                        sb.showSnackBar(context, "Login Successful!");
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              content: Row(
+                                children: const [
+                                  CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),strokeWidth: 5,),
+                                  SizedBox(width: 20),
+                                  Text('Please wait...'),
+                                ],
+                              ),
+                            );
+                          },
+                        );
                         await FirebaseAuthentication.verifyPhoneNumber(verificationId: widget.verificationId,smsCode: _otp!);
 
+                        sb.loader(context,"Please Wait...");
+                        sb.showSnackBar(context, "Login Successful!");
                         navigateToRegister();
                       }
                     },
