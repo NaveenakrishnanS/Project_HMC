@@ -5,9 +5,10 @@ import '../../single_chat.dart';
 class FriendCard extends StatelessWidget {
   final String name;
 
+
   const FriendCard({
     super.key,
-    required this.name
+    required this.name,
   });
 
   @override

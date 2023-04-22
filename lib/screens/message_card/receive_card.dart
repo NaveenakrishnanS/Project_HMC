@@ -22,7 +22,7 @@ class _ReplyMessageState extends State<ReplyMessage> {
           child: Stack(
             children: [
               const Padding(padding: EdgeInsets.only(left:10, top: 10,right: 30, bottom: 20),
-                child: Text("Hello World, Welcome to Air Message Mukesh Kumar Naveenakrishnan Ganeshamurthy",
+                child: Text("Hi",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,

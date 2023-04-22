@@ -27,6 +27,7 @@ dependencies:
   anim_search_bar: ^2.0.3
   searchbar_animation: ^0.0.4
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -39,4 +40,5 @@ flutter:
   assets:
        - assets/
        - assets/chat_symbol.png
+       - assets/whte.png
 

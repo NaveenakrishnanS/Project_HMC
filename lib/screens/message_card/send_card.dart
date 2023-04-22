@@ -22,12 +22,13 @@ class _InputMessageState extends State<InputMessage> {
           child: Stack(
             children: [
               const Padding(padding: EdgeInsets.only(left:10, top: 10,right: 30, bottom: 20),
-                child: Text("Hello World, Welcome to Air Message Mukesh Kumar Naveenakrishnan Ganeshamurthy",
+                child: Text("Hello",
                   style: TextStyle(
                   color: Colors.white,
                   fontSize: 16,
                 ),),
               ),
+
               Positioned(
                   bottom:2,
                   right: 3,

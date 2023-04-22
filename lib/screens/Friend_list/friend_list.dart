@@ -83,6 +83,7 @@ class FriendListState extends State<FriendList> {
                 for (var users in snapshot.data!) {
                   String name = users.Name;
                     FriendCard friendCard = FriendCard(name: name);
+
                     friendCards.add(friendCard);
                 }
                 return ListView(
