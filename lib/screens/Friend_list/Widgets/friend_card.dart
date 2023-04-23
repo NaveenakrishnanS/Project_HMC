@@ -5,7 +5,6 @@ import '../../single_chat.dart';
 class FriendCard extends StatelessWidget {
   final String name;
 
-
   const FriendCard({
     super.key,
     required this.name,
@@ -55,7 +54,7 @@ class FriendCard extends StatelessWidget {
             ),
           ),
           */
-          CircleAvatar(
+              CircleAvatar(
             radius: 40, // Adjust this to change the size of the CircleAvatar
             backgroundColor: Colors.transparent,
             child: Container(

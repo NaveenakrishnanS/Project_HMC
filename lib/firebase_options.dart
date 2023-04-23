@@ -49,7 +49,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '792212394215',
     projectId: 'project-hmc-10dd7',
     authDomain: 'project-hmc-10dd7.firebaseapp.com',
-    databaseURL: 'https://project-hmc-10dd7-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://project-hmc-10dd7-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'project-hmc-10dd7.appspot.com',
     measurementId: 'G-QXEZVJCJXP',
   );
@@ -59,7 +60,8 @@ class DefaultFirebaseOptions {
     appId: '1:792212394215:android:f5ac1432f99e7769f71242',
     messagingSenderId: '792212394215',
     projectId: 'project-hmc-10dd7',
-    databaseURL: 'https://project-hmc-10dd7-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://project-hmc-10dd7-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'project-hmc-10dd7.appspot.com',
   );
 
@@ -68,10 +70,13 @@ class DefaultFirebaseOptions {
     appId: '1:792212394215:ios:3150391e58bdf6e1f71242',
     messagingSenderId: '792212394215',
     projectId: 'project-hmc-10dd7',
-    databaseURL: 'https://project-hmc-10dd7-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://project-hmc-10dd7-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'project-hmc-10dd7.appspot.com',
-    androidClientId: '792212394215-l7bbkus6pu4g91qqpr47gfoihnt0grue.apps.googleusercontent.com',
-    iosClientId: '792212394215-bfeod4v4ga6e3nlpq5gh8620379h70pd.apps.googleusercontent.com',
+    androidClientId:
+        '792212394215-l7bbkus6pu4g91qqpr47gfoihnt0grue.apps.googleusercontent.com',
+    iosClientId:
+        '792212394215-bfeod4v4ga6e3nlpq5gh8620379h70pd.apps.googleusercontent.com',
     iosBundleId: 'com.example.projectHmc',
   );
 
@@ -80,10 +85,13 @@ class DefaultFirebaseOptions {
     appId: '1:792212394215:ios:3150391e58bdf6e1f71242',
     messagingSenderId: '792212394215',
     projectId: 'project-hmc-10dd7',
-    databaseURL: 'https://project-hmc-10dd7-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://project-hmc-10dd7-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'project-hmc-10dd7.appspot.com',
-    androidClientId: '792212394215-l7bbkus6pu4g91qqpr47gfoihnt0grue.apps.googleusercontent.com',
-    iosClientId: '792212394215-bfeod4v4ga6e3nlpq5gh8620379h70pd.apps.googleusercontent.com',
+    androidClientId:
+        '792212394215-l7bbkus6pu4g91qqpr47gfoihnt0grue.apps.googleusercontent.com',
+    iosClientId:
+        '792212394215-bfeod4v4ga6e3nlpq5gh8620379h70pd.apps.googleusercontent.com',
     iosBundleId: 'com.example.projectHmc',
   );
 }

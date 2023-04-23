@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
+
 import "package:pointycastle/export.dart";
 import 'package:project_hmc/firebase/cloud_database.dart';
 
@@ -8,7 +9,6 @@ import '../auth/firebase_auth.dart';
 import '../flutter_secure_storage/secure_storage.dart';
 
 class RSAKeyManager {
-
   SecureRandom exampleSecureRandom() {
     final secureRandom = FortunaRandom();
     final seedSource = Random.secure();
@@ -100,16 +100,19 @@ class RSAKeyManager {
     return rsaPrk;
   }
 
-  Future generateKeysAndSave(AsymmetricKeyPair<PublicKey, PrivateKey> rsaKeyPair) async{
+  Future generateKeysAndSave(
+      AsymmetricKeyPair<PublicKey, PrivateKey> rsaKeyPair) async {
     final rsaPublicKey = rsaKeyPair.publicKey as RSAPublicKey;
     final rsaPublicKeyString = rsaPukToString(rsaPublicKey);
     final fss = FSS();
-    await fss.saveData("RSAPublicKey", rsaPublicKeyString );
+    await fss.saveData("RSAPublicKey", rsaPublicKeyString);
     final rsaPrivateKey = rsaKeyPair.privateKey as RSAPrivateKey;
     final rsaPrivateKeyString = rsaPrkToString(rsaPrivateKey);
-    await fss.saveData("RSAPrivateKey", rsaPrivateKeyString );
-    await CloudDatabase().addPublicKey(PublicKey: rsaPublicKeyString,UID: FirebaseAuthentication.getUserUid);
-    await CloudDatabase().backupPrivateKey(PrivateKey: rsaPrivateKeyString,UID: FirebaseAuthentication.getUserUid);
+    await fss.saveData("RSAPrivateKey", rsaPrivateKeyString);
+    await CloudDatabase().addPublicKey(
+        PublicKey: rsaPublicKeyString, UID: FirebaseAuthentication.getUserUid);
+    await CloudDatabase().backupPrivateKey(
+        PrivateKey: rsaPrivateKeyString,
+        UID: FirebaseAuthentication.getUserUid);
   }
-
 }

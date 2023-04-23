@@ -1,8 +1,8 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
 import 'package:flutter/material.dart';
-import 'package:project_hmc/firebase/cloud_database.dart';
 import 'package:project_hmc/firebase/auth/firebase_auth.dart';
+import 'package:project_hmc/firebase/cloud_database.dart';
 import 'package:project_hmc/models/user_model.dart';
 import 'package:project_hmc/screens/navigation_screen.dart';
 import 'package:project_hmc/screens/widget_handler.dart';

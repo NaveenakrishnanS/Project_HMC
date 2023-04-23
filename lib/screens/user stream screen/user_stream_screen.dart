@@ -11,8 +11,8 @@ class UserStreamScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: StreamBuilder<User?>(
+        body: SafeArea(
+      child: StreamBuilder<User?>(
         stream: FirebaseAuthentication.getUserStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {

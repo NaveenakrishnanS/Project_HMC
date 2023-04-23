@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 class ChatCard extends StatelessWidget {
   final String name;
 
-  const ChatCard({
-    super.key,
-    required this.name
-  });
+  const ChatCard({super.key, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +24,8 @@ class ChatCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(0),
         ),
         child: ListTile(
-
           contentPadding:
-          const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+              const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
           leading: /*Container(
             padding: const EdgeInsets.only(right: 12),
             decoration: const BoxDecoration(
@@ -45,7 +41,7 @@ class ChatCard extends StatelessWidget {
             ),
           ),
           */
-          CircleAvatar(
+              CircleAvatar(
             radius: 40, // Adjust this to change the size of the CircleAvatar
             backgroundColor: Colors.transparent,
             child: Container(

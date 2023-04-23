@@ -1,6 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class FSS{
+class FSS {
   final _storage = const FlutterSecureStorage();
 
   Future<void> saveData(String key, String value) async {
@@ -11,9 +11,9 @@ class FSS{
     }
   }
 
-  Future<String?> getData(String key)  {
+  Future<String?> getData(String key) {
     try {
-      final value =  _storage.read(key: key);
+      final value = _storage.read(key: key);
       return value;
     } catch (e) {
       rethrow;
