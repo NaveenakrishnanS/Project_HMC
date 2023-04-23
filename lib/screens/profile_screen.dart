@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_hmc/firebase/cloud_database.dart';
-import 'package:project_hmc/firebase/firebase_auth.dart';
+import 'package:project_hmc/firebase/auth/firebase_auth.dart';
 import 'package:project_hmc/models/user_model.dart';
 import 'package:project_hmc/screens/navigation_screen.dart';
 import 'package:project_hmc/screens/widget_handler.dart';
@@ -61,7 +61,8 @@ class _ProfileState extends State<Profile> {
           ),
           ),
         ),
-        body: SingleChildScrollView(
+        body:
+        SingleChildScrollView(
             child: Column(children: [
               const Padding(
                 padding: EdgeInsets.only(bottom: 40, top: 30),

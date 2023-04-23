@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:project_hmc/screens/Friend_list/friend_list.dart';
 import 'package:project_hmc/screens/chat_screen/chat_screen.dart';
 import 'package:project_hmc/screens/profile_screen.dart';
+import 'package:project_hmc/firebase/auth/firebase_auth.dart';
 
-import '../firebase/auth/firebase_authentication.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({Key? key}) : super(key: key);
@@ -25,7 +25,7 @@ class _NavigationScreenState extends State<NavigationScreen>
   @override
   void initState() {
     super.initState();
-    FirebaseAuthentication.initFirebaseAuth(); // add this line
+    FirebaseAuthentication.initFirebaseAuth();
   }
 
   @override
@@ -66,7 +66,8 @@ class _NavigationScreenState extends State<NavigationScreen>
         },
       ),
 
-      body: PageView(
+      body:
+      PageView(
         controller: controller,
         children: _screens,
         onPageChanged: (index) {

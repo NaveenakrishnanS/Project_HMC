@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_hmc/screens/otp_screen.dart';
-
-import '../screens/widget_handler.dart';
+import '../../screens/widget_handler.dart';
 
 class FirebaseAuthentication {
   static late FirebaseAuth _auth; //FirebaseAuth instance

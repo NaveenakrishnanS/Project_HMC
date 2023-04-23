@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:floating_action_bubble_custom/floating_action_bubble_custom.dart';
 import 'package:flutter/services.dart';
-import 'package:project_hmc/firebase/firebase_auth.dart';
+import 'package:project_hmc/firebase/auth/firebase_auth.dart';
 import 'package:project_hmc/screens/profile_screen.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
 import 'package:project_hmc/screens/Friend_list/friend_list.dart';

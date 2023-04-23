@@ -1,8 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:project_hmc/firebase/auth/firebase_authentication.dart';
 import 'package:project_hmc/models/user_model.dart';
+import 'auth/firebase_auth.dart';
 
 class CloudDatabase {
   late FirebaseFirestore _firestore;
@@ -20,17 +20,6 @@ class CloudDatabase {
       rethrow;
     }
     }
-
-  Future<void> addUID({required String UID}) async {
-    final String dataPath = "Users/$UID/";
-
-    try {
-      final DocumentReference<Map<String, dynamic>> docRef = _firestore.doc(dataPath);
-      await docRef.set({"UID": UID});
-    } on FirebaseException {
-      rethrow;
-    }
-  }
 
   Stream<List<UserModel>> retrieveUsers() {
     const String usersPath = "Users/";
@@ -78,4 +67,24 @@ class CloudDatabase {
     }
   }
 
+  Future<void> addPublicKey({required String PublicKey, required String UID}) async {
+    final String dataPath = "Users/$UID/";
+    try {
+      final DocumentReference<Map<String, dynamic>> docRef = _firestore.doc(dataPath);
+      await docRef.set({"PublicKey": PublicKey});
+    } on FirebaseException {
+      rethrow;
+    }
+  }
+  
+  Future<void> backupPrivateKey({required String PrivateKey, required String UID}) async {
+    final String dataPath = "Users/$UID/Details/PrivateKey/";
+
+    try {
+      final DocumentReference<Map<String, dynamic>> docRef = _firestore.doc(dataPath);
+      await docRef.set({"PrivateKey": PrivateKey});
+    } on FirebaseException {
+      rethrow;
+    }
+  }
 }

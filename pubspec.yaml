@@ -26,6 +26,8 @@ dependencies:
   floating_action_bubble_custom: ^1.0.0+2
   anim_search_bar: ^2.0.3
   searchbar_animation: ^0.0.4
+  flutter_secure_storage: ^8.0.0
+  pointycastle: ^3.7.3
 
 
 dev_dependencies:

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:country_calling_code_picker/picker.dart';
 import 'package:flutter/services.dart';
-import 'package:project_hmc/firebase/firebase_auth.dart';
+import 'package:project_hmc/firebase/auth/firebase_auth.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -33,7 +33,7 @@ class _SignInScreenState extends State<SignInScreen> {
     final country = _selectedCountry;
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: SingleChildScrollView(
+      body: SafeArea(child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -161,7 +161,7 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
             ]),
       ),
-    );
+    ));
   }
 }
 /*
