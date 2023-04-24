@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../firebase/auth/firebase_auth.dart';
+import '../../../firebase/cloud_database.dart';
 import '../../single_chat.dart';
 
 class FriendCard extends StatelessWidget {
@@ -65,6 +67,7 @@ class FriendCard extends StatelessWidget {
             ),
           ),
           onTap: () {
+            CloudDatabase().createChatRoom(userId1: FirebaseAuthentication.getUserUid,userId2: uID);
             Navigator.push(
               context,
               MaterialPageRoute(

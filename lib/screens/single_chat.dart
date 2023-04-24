@@ -47,7 +47,7 @@ class _SingleChatState extends State<SingleChat> {
                     child: Row(
                       children: [
                         CircleAvatar(
-                          child: Image.asset('assets/user.jpg'),
+                          child: Image.asset('assets/user.png'),
                         ),
                         // const Icon(
                         //   Icons.person,
