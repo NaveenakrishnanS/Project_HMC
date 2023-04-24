@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import '../../single_chat.dart';
 
 class FriendCard extends StatelessWidget {
-  final String name;
+  final String name, uID;
 
   const FriendCard({
     super.key,
     required this.name,
+    required this.uID,
   });
 
   @override
@@ -29,14 +30,6 @@ class FriendCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(0),
         ),
         child: ListTile(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => const SingleChat(),
-              ),
-            );
-          },
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
           leading: /*Container(
@@ -71,6 +64,14 @@ class FriendCard extends StatelessWidget {
               fontSize: 20,
             ),
           ),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => SingleChat(name: name,uID: uID),
+              ),
+            );
+          },
         ),
       ),
     );

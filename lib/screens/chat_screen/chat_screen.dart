@@ -21,16 +21,16 @@ class _ChatScreenState extends State<ChatScreen>
   TextEditingController textController = TextEditingController();
 
   final List<Chat> chatList = [
-    Chat(name: 'Chat 1'),
-    Chat(name: 'Chat 2'),
-    Chat(name: 'Chat 3'),
-    Chat(name: 'Chat 4'),
-    Chat(name: 'Chat 5'),
-    Chat(name: 'Chat 6'),
-    Chat(name: 'Chat 7'),
-    Chat(name: 'Chat 8'),
-    Chat(name: 'Chat 9'),
-    Chat(name: 'Chat 10'),
+    Chat(name: 'Chat 1',uID: "nnn"),
+    Chat(name: 'Chat 2',uID: "nnn"),
+    Chat(name: 'Chat 3',uID: "nnn"),
+    Chat(name: 'Chat 4',uID: "nnn"),
+    Chat(name: 'Chat 5',uID: "nnn"),
+    Chat(name: 'Chat 6',uID: "nnn"),
+    Chat(name: 'Chat 7',uID: "nnn"),
+    Chat(name: 'Chat 8',uID: "nnn"),
+    Chat(name: 'Chat 9',uID: "nnn"),
+    Chat(name: 'Chat 10',uID: "nnn"),
   ];
 
   @override

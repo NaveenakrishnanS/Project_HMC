@@ -3,8 +3,8 @@ import 'package:project_hmc/screens/message_card/receive_card.dart';
 import 'package:project_hmc/screens/message_card/send_card.dart';
 
 class SingleChat extends StatefulWidget {
-  const SingleChat({Key? key}) : super(key: key);
-
+  const SingleChat({Key? key, required this.name,required this.uID}) : super(key: key);
+  final String name, uID;
   @override
   State<SingleChat> createState() => _SingleChatState();
 }
@@ -28,24 +28,34 @@ class _SingleChatState extends State<SingleChat> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(0)),
               automaticallyImplyLeading: true,
-              leadingWidth: 200,
+              leadingWidth: 350,
               elevation: 0,
               backgroundColor: Colors.black,
               leading: Align(
                 child: Padding(
-                    padding: const EdgeInsets.only(top: 15, left: 20),
+                    padding: const EdgeInsets.only(top: 15, left: 10),
                     child: Row(
-                      children: const [
-                        CircleAvatar(),
-                        SizedBox(
+                      children:  [
+                        CircleAvatar(
+                          child: Image.asset(
+                            'assets/user.jpg'
+                          ),
+                        ),
+                        // const Icon(
+                        //   Icons.person,
+                        //   color: Colors.amber,
+                        //   weight: Checkbox.width,
+                        //   size: 40,
+                        // ),
+                        const SizedBox(
                           width: 7,
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 8),
+                          padding: const EdgeInsets.only(left: 8),
                           child: Text(
-                            'Mike',
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
+                            widget.name,
+                            style: const TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],
@@ -73,6 +83,22 @@ class _SingleChatState extends State<SingleChat> {
                       ReplyMessage(text: 'How about you?'),
                       InputMessage(text: 'Great Life'),
                       ReplyMessage(text: 'Enjoying developer\'s Life'),
+                      InputMessage(text: 'Yeah'),
+                      InputMessage(text: 'How is it being Entrepreneur?'),
+                      ReplyMessage(text: 'yeah, Going Great'),
+                      InputMessage(text: 'Send me the pics'),
+                      ReplyMessage(text: 'Fine'),
+                      ReplyMessage(text: 'do you need all?'),
+                      InputMessage(text: 'Yeah, man'),
+                      ReplyMessage(text: 'ok Cool!'),
+                      InputMessage(text: 'Hmm'),
+                      ReplyMessage(text: 'Mmmm'),
+                      InputMessage(text: 'Check Your Mail'),
+                      ReplyMessage(text: 'Wait a second! Let me check it'),
+                      ReplyMessage(text: 'Ok! All looks great'),
+                      InputMessage(text: 'I too felt it same as you are'),
+                      ReplyMessage(text: 'Ok! Bye! Got to go!'),
+                      InputMessage(text: 'Bye! Bye!'),
                     ],
                   ),
                 ),
@@ -111,13 +137,14 @@ class _SingleChatState extends State<SingleChat> {
                         ),
                       ),
                       Material(
-                        color: Colors.transparent,
+                        color: Colors.black,borderRadius: BorderRadius.circular(30),
                         child: IconButton(
-                          splashRadius: 15,
+                          splashRadius: 20,
                           onPressed: () {},
+                          splashColor: Colors.black87,hoverColor: Colors.black87,
                           icon: const Icon(
                             Icons.send,
-                            color: Colors.black,
+                            color: Colors.white,
                           ),
                           iconSize: 28,
                         ),

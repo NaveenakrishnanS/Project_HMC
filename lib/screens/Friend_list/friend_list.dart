@@ -4,10 +4,11 @@ import 'package:project_hmc/models/user_model.dart';
 import 'package:project_hmc/screens/Friend_list/Widgets/friend_card.dart';
 
 class Chat {
-  final String name;
+  final String name,uID;
 
   Chat({
     required this.name,
+    required this.uID
   });
 }
 
@@ -19,10 +20,7 @@ class FriendList extends StatefulWidget {
 }
 
 class FriendListState extends State<FriendList> {
-  @override
-  void initState() {
-    super.initState();
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -83,8 +81,8 @@ class FriendListState extends State<FriendList> {
             if (snapshot.hasData) {
               for (var users in snapshot.data!) {
                 String name = users.Name;
-                FriendCard friendCard = FriendCard(name: name);
-
+                String uID = users.UID;
+                FriendCard friendCard = FriendCard(name: name, uID: uID);
                 friendCards.add(friendCard);
               }
               return ListView(
