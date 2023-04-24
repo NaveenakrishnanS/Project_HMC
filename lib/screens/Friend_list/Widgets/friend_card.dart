@@ -53,7 +53,7 @@ class FriendCard extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.only(left: 1),
               child: Image.asset(
-                'assets/user.jpg',
+                'assets/user.png',
               ),
             ),
           ),
