@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_hmc/models/user_model.dart';
 
+import '../models/chat_model.dart';
 import 'auth/firebase_auth.dart';
 
 class CloudDatabase {
@@ -97,4 +98,66 @@ class CloudDatabase {
       rethrow;
     }
   }
+
+  String createChatRoom({required String userId1, required String userId2}) {
+    List<String> sortedIds = [userId1, userId2]..sort();
+    String chatID ="${sortedIds[0]}_${sortedIds[1]}";
+    return chatID;
+  }
+
+  String createMessageID(){
+    // Get the current datetime
+    final now = DateTime.now();
+// Format the datetime as a string in the desired format
+    final formattedDateTime = "${now.day.toString().padLeft(2, '0')}"
+        "${now.month.toString().padLeft(2, '0')}"
+        "${now.year.toString()}"
+        "${now.hour.toString().padLeft(2, '0')}"
+        "${now.minute.toString().padLeft(2, '0')}"
+        "${now.second.toString().padLeft(2, '0')}";
+    return formattedDateTime;
+  }
+
+  Future<void> sendMessage({required String chatID, required ChatModel chatData})async {
+    final String messageID = createMessageID();
+    final String dataPath = "Chats/$chatID/Messages/$messageID";
+    try {
+      final DocumentReference<Map<String, dynamic>> newDocRef = _firestore.doc(dataPath);
+      await newDocRef.set(chatData.toMap());
+    } on FirebaseException {
+      rethrow;
+    }
+  }
+  // Stream<List<ChatModel>> retrieveMessages({required String chatID}) {
+  //   final String dataPath = "Chats/$chatID/Messages/";
+  //   final CollectionReference<Map<String, dynamic>> messagesRef = _firestore.collection(dataPath);
+  //   return messagesRef.orderBy('timestamp', descending: true)
+  //       .snapshots()
+  //       .map((snapshot) {
+  //     List<ChatModel> messages = [];
+  //     for (final doc in snapshot.docs) {
+  //       messages.add(ChatModel.fromMap(doc.data()));
+  //     }
+  //     return messages;
+  //   });
+  // }
+  Stream<List<ChatModel>> retrieveMessages({required String chatID}) {
+    final String dataPath = "Chats/$chatID/Messages/";
+    final CollectionReference<Map<String, dynamic>> messagesRef = _firestore.collection(dataPath);
+    return messagesRef.orderBy('timestamp', descending: true)
+        .snapshots()
+        .map((snapshot) {
+      List<ChatModel> messages = [];
+      for (final doc in snapshot.docs) {
+        messages.add(ChatModel.fromMap(doc.data()));
+      }
+      return messages;
+    })
+        .handleError((error) {
+      print("Error retrieving messages: $error");
+    });
+  }
+
+
+
 }
