@@ -131,7 +131,7 @@ class CloudDatabase {
   Stream<List<ChatModel>> retrieveMessages({required String chatID}) {
     final String dataPath = "Chats/$chatID/Messages/";
     final CollectionReference<Map<String, dynamic>> messagesRef = _firestore.collection(dataPath);
-    return messagesRef.orderBy('timestamp', descending: true)
+    return messagesRef.orderBy('timestamp', descending: false)
         .snapshots()
         .map((snapshot) {
       List<ChatModel> messages = [];

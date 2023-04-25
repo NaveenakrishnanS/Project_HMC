@@ -18,6 +18,7 @@ class SingleChat extends StatefulWidget {
 
 class _SingleChatState extends State<SingleChat> {
   final TextEditingController _controller = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   late String chatID ="";
 
   @override
@@ -100,10 +101,27 @@ class _SingleChatState extends State<SingleChat> {
                             child: Text('Error in retrieving Users'),
                           );
                         }
+                        if(snapshot.hasData){
+                          WidgetsBinding.instance!.addPostFrameCallback((_) {
+                            _scrollController.animateTo(
+                              _scrollController.position.maxScrollExtent,
+                              duration: const Duration(milliseconds: 20),
+                              curve: Curves.easeOut,
+                            );
+                          });
+                        }
                         List<ChatModel> messages = snapshot.data!;
                         return ListView.builder(
+                          controller: _scrollController,
                           itemCount: messages.length,
                           itemBuilder: (context, index) {
+                            WidgetsBinding.instance!.addPostFrameCallback((_) {
+                              _scrollController.animateTo(
+                                _scrollController.position.maxScrollExtent,
+                                duration: const Duration(milliseconds: 20),
+                                curve: Curves.easeOut,
+                              );
+                            });
                             ChatModel message = messages[index];
                             bool isSentByMe = (message.senderId == FirebaseAuthentication.getUserUid);
                             return isSentByMe
@@ -113,6 +131,7 @@ class _SingleChatState extends State<SingleChat> {
                         );
                       }
                   ),
+
                 ),
                 Positioned(
                   bottom: 0,
