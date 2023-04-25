@@ -1,11 +1,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:project_hmc/firebase/auth/firebase_auth.dart';
+import 'package:project_hmc/firebase/decryptor.dart';
 import 'package:project_hmc/firebase/encryptor.dart';
 import 'package:project_hmc/screens/message_card/receive_card.dart';
 import 'package:project_hmc/screens/message_card/send_card.dart';
 
 import '../firebase/cloud_database.dart';
+import '../firebase/flutter_secure_storage/secure_storage.dart';
 import '../firebase/key_managers/aes_key_manager.dart';
 import '../models/chat_model.dart';
 
@@ -88,7 +90,7 @@ class _SingleChatState extends State<SingleChat> {
                       stream: CloudDatabase().retrieveMessages(chatID: chatID),
                       builder: (context, snapshot){
                         if (!snapshot.hasData || snapshot.data == null) {
-                          print(snapshot.data);
+                          print(snapshot.error);
                           return const Center(child: Text('No data available'));
                         }
                         if (snapshot.hasError) {print(snapshot.error);
@@ -113,14 +115,14 @@ class _SingleChatState extends State<SingleChat> {
                           itemBuilder: (context, index) {
                             ChatModel message = messages[index];
                             bool isSentByMe = (message.senderId == FirebaseAuthentication.getUserUid);
+                            String m =  decryption(message).toString();
                             return isSentByMe
-                                ? InputMessage(text: message.message!,messageTime: message.timestamp.toString().split('T')[0].split(' ')[1].substring(0,5))
-                                : ReplyMessage(text: message.message!,messageTime: message.timestamp.toString().split('T')[0].split(' ')[1].substring(0,5));
+                                ? InputMessage(text: m,messageTime: message.timestamp.toString().split('T')[0].split(' ')[1].substring(0,5))
+                                : ReplyMessage(text: m,messageTime: message.timestamp.toString().split('T')[0].split(' ')[1].substring(0,5));
                           },
                         );
                       }
                   ),
-
                 ),
                 Positioned(
                   bottom: 0,
@@ -198,6 +200,16 @@ class _SingleChatState extends State<SingleChat> {
         ),
       ],
     );
+  }
+
+  Future<String> decryption(ChatModel message) async{
+    String encryptedText = message.message!;
+    String encryptedAesKey = message.aesKey!;
+    String nonce = message.nonce!;
+    String? rsaprivatekey = await FSS().getData("RSAPrivateKey") as String ;
+    String rsaprk = (rsaprivatekey ?? "").toString();
+    String decryptedText = Decryptor().hmcDecryptor(encryptedText: encryptedText, nonce: nonce, encryptedAesKey: encryptedAesKey, rsaPrivateKey: rsaprk).toString();
+    return decryptedText.toString();
   }
 
 }
