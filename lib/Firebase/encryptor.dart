@@ -72,7 +72,7 @@ class Encryptor {
     return cipherBase64;
   }
 
-  Future<String> hmcMessageEncryptor({required String message, required String aesKey, required String nonce, required String rsaPublicKey}) async {
+  String hmcMessageEncryptor({required String message, required String aesKey, required String nonce, required String rsaPublicKey})  {
     //Aes Multiple Encryption
     final iv = createUint8ListFromString(nonce);
     var aesCipher = "";
@@ -99,7 +99,7 @@ class Encryptor {
     return encryptedChunksString;
   }
 
-  Future<String> hmcAesKeyEncryptor({required String aesKey, required String rsaPublicKey}) async{
+  String hmcAesKeyEncryptor({required String aesKey, required String rsaPublicKey}) {
     RSAPublicKey rsaPublic = RSAKeyManager().stringToRsaPuk(rsaPublicKey);
     String encryptedAesKey = rsaEncrypt(rsaPublic, aesKey);
     return encryptedAesKey;

@@ -15,7 +15,7 @@ class AESKeyManager {
     return sec.nextBytes(32);
   }
 
-  Future<String> aesKey() async {
+  String aesKey()  {
     // generate random key
     var encryptionKey = generateRandomAesKey();
     var encryptionKeyBase64 = base64Encoding(encryptionKey);
@@ -25,6 +25,5 @@ class AESKeyManager {
   String base64Encoding(Uint8List input) {
     return base64.encode(input);
   }
-
 
 }

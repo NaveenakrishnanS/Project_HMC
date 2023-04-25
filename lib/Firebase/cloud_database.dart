@@ -154,6 +154,13 @@ class CloudDatabase {
     },SetOptions(merge: true));
   }
 
+  Future<String?> getUserPublicKey({required String Id}) async {
+    final String dataPath = "Users/$Id/";
+    final doc = await FirebaseFirestore.instance.collection("Users").doc(Id).get();
+    final publicKey = doc.get("PublicKey");
+    return publicKey;
+  }
+
 
 
 }
