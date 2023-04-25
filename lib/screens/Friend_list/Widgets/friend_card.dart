@@ -67,11 +67,14 @@ class FriendCard extends StatelessWidget {
             ),
           ),
           onTap: () {
-            CloudDatabase().createChatRoom(userId1: FirebaseAuthentication.getUserUid,userId2: uID);
+                final id1 =FirebaseAuthentication.getUserUid;
+                final id2 = uID;
+                final chatID = CloudDatabase().createChatRoom(userId1: id1,userId2: id2);
+                CloudDatabase().addIDsToChats(Id1: id1, Id2: id2, chatID: chatID);
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (BuildContext context) => SingleChat(name: name,uID: uID),
+                builder: (BuildContext context) => SingleChat(name: name,uID: id2),
               ),
             );
           },

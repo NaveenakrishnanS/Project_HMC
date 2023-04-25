@@ -128,23 +128,10 @@ class CloudDatabase {
       rethrow;
     }
   }
-  // Stream<List<ChatModel>> retrieveMessages({required String chatID}) {
-  //   final String dataPath = "Chats/$chatID/Messages/";
-  //   final CollectionReference<Map<String, dynamic>> messagesRef = _firestore.collection(dataPath);
-  //   return messagesRef.orderBy('timestamp', descending: true)
-  //       .snapshots()
-  //       .map((snapshot) {
-  //     List<ChatModel> messages = [];
-  //     for (final doc in snapshot.docs) {
-  //       messages.add(ChatModel.fromMap(doc.data()));
-  //     }
-  //     return messages;
-  //   });
-  // }
   Stream<List<ChatModel>> retrieveMessages({required String chatID}) {
     final String dataPath = "Chats/$chatID/Messages/";
     final CollectionReference<Map<String, dynamic>> messagesRef = _firestore.collection(dataPath);
-    return messagesRef.orderBy('timestamp', descending: false)
+    return messagesRef.orderBy('timestamp', descending: true)
         .snapshots()
         .map((snapshot) {
       List<ChatModel> messages = [];
@@ -152,10 +139,19 @@ class CloudDatabase {
         messages.add(ChatModel.fromMap(doc.data()));
       }
       return messages;
-    })
-        .handleError((error) {
-      print("Error retrieving messages: $error");
     });
+  }
+
+  Future<void> addIDsToChats({required String Id1,required String Id2, required String chatID}) async{
+    final String dataPath = "Chats/$chatID/";
+    List<String> sortedIds = [Id1, Id2]..sort();
+    Id1 = sortedIds[0];
+    Id2 = sortedIds[1];
+    final DocumentReference<Map<String, dynamic>> docRef =  _firestore.doc(dataPath);
+    await docRef.set({
+      "UserA": Id1,
+      "UserB": Id2
+    },SetOptions(merge: true));
   }
 
 

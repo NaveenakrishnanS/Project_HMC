@@ -84,14 +84,14 @@ class _SingleChatState extends State<SingleChat> {
                   child: StreamBuilder<List<ChatModel>>(
                       stream: CloudDatabase().retrieveMessages(chatID: chatID),
                       builder: (context, snapshot){
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-                              strokeWidth: 5,
-                            ),
-                          );
-                        }
+                        // if (snapshot.connectionState == ConnectionState.waiting) {
+                        //   return const Center(
+                        //     child: CircularProgressIndicator(
+                        //       valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                        //       strokeWidth: 5,
+                        //     ),
+                        //   );
+                        // }
                         if (!snapshot.hasData || snapshot.data == null) {
                           return const Center(child: Text('No data available'));
                         }
@@ -154,9 +154,6 @@ class _SingleChatState extends State<SingleChat> {
                           onPressed: () {
                             if(_controller.text !=""){
                               final dt = DateTime.now();
-                              final dts =dt.toString().split('T')[0].split(' ')[1].substring(0,5);
-                              InputMessage input =
-                              InputMessage(text: _controller.text,messageTime: dts);
                               ChatModel chatData = ChatModel(
                                   senderId: FirebaseAuthentication.getUserUid,
                                   receiverId: widget.uID,
@@ -173,7 +170,7 @@ class _SingleChatState extends State<SingleChat> {
                               FocusScope.of(context).unfocus();
                             }
                           },
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.black,
                         ),
                       ],
                     ),
