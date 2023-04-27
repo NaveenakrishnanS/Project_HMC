@@ -21,19 +21,16 @@ class RSAKeyManager {
   }
 
   Future<AsymmetricKeyPair<PublicKey, PrivateKey>> generateRsaKeyPair() async {
-    print("RSA Key Generation Starts...");
     final keyGen = KeyGenerator('RSA');
     SecureRandom mySecureRandom = exampleSecureRandom();
     final rsaParams =
-        RSAKeyGeneratorParameters(BigInt.parse('65537'), 2048, 64);
+        RSAKeyGeneratorParameters(BigInt.parse('65537'), 1024, 64);
     final paramsWithRnd = ParametersWithRandom(rsaParams, mySecureRandom);
     try {
       keyGen.init(paramsWithRnd);
       final pair = keyGen.generateKeyPair();
-      print("RSA Key Generation Ends...");
       return pair;
     } catch (e) {
-      print("RSA Key Generation Failed: $e");
       return Future.error("RSA Key Generation Failed");
     }
   }

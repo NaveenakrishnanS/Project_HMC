@@ -28,6 +28,7 @@ dependencies:
   searchbar_animation: ^0.0.4
   flutter_secure_storage: ^8.0.0
   pointycastle: ^3.7.3
+  rxdart: ^0.27.7
 
 
 dev_dependencies:

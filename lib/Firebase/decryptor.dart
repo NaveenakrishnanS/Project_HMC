@@ -1,25 +1,24 @@
 import 'dart:convert';
-import 'dart:math';
 import 'dart:typed_data';
 
 import "package:pointycastle/export.dart";
 import 'package:project_hmc/firebase/key_managers/rsa_key_manager.dart';
 
 class Decryptor {
-  String rsaDecrypt(RSAPrivateKey myPrivate, Uint8List c) {
+
+  String rsaDecrypt(RSAPrivateKey myPrivate, String c) {
     final p = AsymmetricBlockCipher('RSA/OAEP');
     p.init(false, PrivateKeyParameter<RSAPrivateKey>(myPrivate));
-    final m = p.process(c);
+    final ct = base64Decoding(c);
+    final m = p.process(ct);
     final de = (utf8.decode(m));
     return de;
   }
 
-  String aesAlgorithmDecrypt(
-      encryptionKey, Uint8List nonce, String ciphertextBase64) {
+  String aesAlgorithmDecrypt( String encryptionKey, Uint8List nonce, String ciphertextBase64) {
     var ciphertextDecryptionBase64 = ciphertextBase64;
-    encryptionKey = base64Decoding(encryptionKey);
-    var decryptedText = aesGcmDecryptionFromBase64(
-        encryptionKey, nonce, ciphertextDecryptionBase64);
+    Uint8List Key = base64Decoding(encryptionKey);
+    var decryptedText = aesGcmDecryptionFromBase64(Key, nonce, ciphertextDecryptionBase64);
     return decryptedText;
   }
 
@@ -36,7 +35,8 @@ class Decryptor {
     var aeadParameters =
         AEADParameters(KeyParameter(key), 128, nonce, Uint8List(0));
     cipher.init(false, aeadParameters);
-    return String.fromCharCodes(cipher.process(ciphertextWithTag));
+    String result = String.fromCharCodes(cipher.process(ciphertextWithTag));
+    return result;
   }
 
   Uint8List base64Decoding(String input) {
@@ -51,20 +51,20 @@ class Decryptor {
     return ret;
   }
 
-  Future<String> hmcDecryptor(
+  String hmcDecryptor(
       {required String encryptedText,
       required String nonce,
       required String encryptedAesKey,
-      required String rsaPrivateKey}) async {
+      required String rsaPrivateKey})  {
     List<String> decodedEC = encryptedText.split(':');
     decodedEC.removeLast();
-    List<Uint8List> decodedChunks = [];
-    for (var i in decodedEC) {
-      decodedChunks.add(base64Decoding(i));
-    }
+    // List<Uint8List> decodedChunks = [];
+    // for (var i in decodedEC) {
+    //   decodedChunks.add(base64Decoding(i));
+    // }
     List<String> decryptedChunks = [];
     RSAPrivateKey rsaPrivate = RSAKeyManager().stringToRsaPrk(rsaPrivateKey);
-    for (var i in decodedChunks) {
+    for (var i in decodedEC) {
       decryptedChunks.add(rsaDecrypt(rsaPrivate, i));
     }
     String decryptedText = "";
@@ -80,10 +80,10 @@ class Decryptor {
     return decryptedText;
   }
 
-  Future<String> hmcAesKeyDecryptor({required String encryptedAesKey, required String rsaPrivateKey}) async{
+  String hmcAesKeyDecryptor({required String encryptedAesKey, required String rsaPrivateKey}) {
     RSAPrivateKey rsaPrivate = RSAKeyManager().stringToRsaPrk(rsaPrivateKey);
-    Uint8List encryptedAesKeyList = createUint8ListFromString(encryptedAesKey);
-    String decryptedAesKey = rsaDecrypt(rsaPrivate, encryptedAesKeyList);
+    // Uint8List encryptedAesKeyList = createUint8ListFromString(encryptedAesKey);
+    String decryptedAesKey = rsaDecrypt(rsaPrivate, encryptedAesKey);
     return decryptedAesKey;
   }
 

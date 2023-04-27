@@ -2,7 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_hmc/models/user_model.dart';
-
+import 'package:rxdart/rxdart.dart';
 import '../models/chat_model.dart';
 import 'auth/firebase_auth.dart';
 
@@ -118,8 +118,7 @@ class CloudDatabase {
     return formattedDateTime;
   }
 
-  Future<void> sendMessage({required String chatID, required ChatModel chatData})async {
-    final String messageID = createMessageID();
+  Future<void> sendMessage({required String chatID, required ChatModel chatData, required String messageID})async {
     final String dataPath = "Chats/$chatID/Messages/$messageID";
     try {
       final DocumentReference<Map<String, dynamic>> newDocRef = _firestore.doc(dataPath);
@@ -128,7 +127,55 @@ class CloudDatabase {
       rethrow;
     }
   }
-  Stream<List<ChatModel>> retrieveMessages({required String chatID}) {
+  Future<void> backupSentMessage({required String UID, required ChatModel chatData,required String chatID, required String messageID})async {
+    final String dataPath = "Users/$UID/Chats/$chatID/Messages/$messageID";
+    try {
+      final DocumentReference<Map<String, dynamic>> newDocRef = _firestore.doc(dataPath);
+      await newDocRef.set(chatData.toMap());
+    } on FirebaseException {
+      rethrow;
+    }
+  }
+
+  Stream<List<ChatModel>> retrieveSentMessages({required String chatID, required String ID}){
+    final String dataPath = "Users/$ID/Chats/$chatID/Messages";
+    final CollectionReference<Map<String, dynamic>> messagesRef = _firestore.collection(dataPath);
+    return messagesRef.where('senderId', isEqualTo: ID)
+        .orderBy('timestamp', descending: false)
+        .snapshots()
+        .map((snapshot) {
+      List<ChatModel> messages = [];
+      for (final doc in snapshot.docs) {
+        messages.add(ChatModel.fromMap(doc.data()));
+      }
+      return messages;
+    });
+  }
+
+  Stream<List<ChatModel>> retrieveMessages({required String chatID, required String ID}){
+    final String dataPath = "Chats/$chatID/Messages/";
+    final CollectionReference<Map<String, dynamic>> messagesRef = _firestore.collection(dataPath);
+    return messagesRef.where('receiverId', isEqualTo: ID)
+        .orderBy('timestamp', descending: false)
+        .snapshots()
+        .map((snapshot) {
+      List<ChatModel> messages = [];
+      for (final doc in snapshot.docs) {
+        messages.add(ChatModel.fromMap(doc.data()));
+      }
+      return messages;
+    });
+  }
+
+  Stream<List<List<ChatModel>>> messages(String chatId, String senderId, String receiveId) {
+    Stream<List<ChatModel>> sentMessagesStream = retrieveSentMessages(chatID: chatId, ID: senderId);
+    Stream<List<ChatModel>> allMessagesStream = retrieveAllMessages(chatID: chatId);
+    return Rx.combineLatest2(sentMessagesStream, allMessagesStream, (sentMessages, allMessages) {
+      return [sentMessages, allMessages];
+    });
+  }
+
+  Stream<List<ChatModel>> retrieveAllMessages({required String chatID}) {
     final String dataPath = "Chats/$chatID/Messages/";
     final CollectionReference<Map<String, dynamic>> messagesRef = _firestore.collection(dataPath);
     return messagesRef.orderBy('timestamp', descending: false)
@@ -155,10 +202,21 @@ class CloudDatabase {
   }
 
   Future<String?> getUserPublicKey({required String Id}) async {
-    final String dataPath = "Users/$Id/";
     final doc = await FirebaseFirestore.instance.collection("Users").doc(Id).get();
     final publicKey = doc.get("PublicKey");
     return publicKey;
+  }
+
+  Future<String?> getUserPrivateKey({required String Id}) async {
+    final String dataPath = "Users/$Id/Details/PrivateKey/";
+
+    try {
+      final DocumentSnapshot<Map<String, dynamic>> docSnapshot =
+      await _firestore.doc(dataPath).get();
+      return docSnapshot.data()?['PrivateKey'];
+    } on FirebaseException {
+      rethrow;
+    }
   }
 
 
