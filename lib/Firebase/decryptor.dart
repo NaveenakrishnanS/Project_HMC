@@ -5,7 +5,6 @@ import "package:pointycastle/export.dart";
 import 'package:project_hmc/firebase/key_managers/rsa_key_manager.dart';
 
 class Decryptor {
-
   String rsaDecrypt(RSAPrivateKey myPrivate, String c) {
     final p = AsymmetricBlockCipher('RSA/OAEP');
     p.init(false, PrivateKeyParameter<RSAPrivateKey>(myPrivate));
@@ -15,10 +14,12 @@ class Decryptor {
     return de;
   }
 
-  String aesAlgorithmDecrypt( String encryptionKey, Uint8List nonce, String ciphertextBase64) {
+  String aesAlgorithmDecrypt(
+      String encryptionKey, Uint8List nonce, String ciphertextBase64) {
     var ciphertextDecryptionBase64 = ciphertextBase64;
     Uint8List Key = base64Decoding(encryptionKey);
-    var decryptedText = aesGcmDecryptionFromBase64(Key, nonce, ciphertextDecryptionBase64);
+    var decryptedText =
+        aesGcmDecryptionFromBase64(Key, nonce, ciphertextDecryptionBase64);
     return decryptedText;
   }
 
@@ -55,7 +56,7 @@ class Decryptor {
       {required String encryptedText,
       required String nonce,
       required String encryptedAesKey,
-      required String rsaPrivateKey})  {
+      required String rsaPrivateKey}) {
     List<String> decodedEC = encryptedText.split(':');
     decodedEC.removeLast();
     // List<Uint8List> decodedChunks = [];
@@ -71,7 +72,8 @@ class Decryptor {
     for (var i in decryptedChunks) {
       decryptedText += i;
     }
-    final decryptedAesKey = hmcAesKeyDecryptor(encryptedAesKey: encryptedAesKey,rsaPrivateKey: rsaPrivateKey);
+    final decryptedAesKey = hmcAesKeyDecryptor(
+        encryptedAesKey: encryptedAesKey, rsaPrivateKey: rsaPrivateKey);
     //Aes Multiple Decryption
     final iv = createUint8ListFromString(nonce);
     for (var i = 0; i < 5; i++) {
@@ -80,11 +82,11 @@ class Decryptor {
     return decryptedText;
   }
 
-  String hmcAesKeyDecryptor({required String encryptedAesKey, required String rsaPrivateKey}) {
+  String hmcAesKeyDecryptor(
+      {required String encryptedAesKey, required String rsaPrivateKey}) {
     RSAPrivateKey rsaPrivate = RSAKeyManager().stringToRsaPrk(rsaPrivateKey);
     // Uint8List encryptedAesKeyList = createUint8ListFromString(encryptedAesKey);
     String decryptedAesKey = rsaDecrypt(rsaPrivate, encryptedAesKey);
     return decryptedAesKey;
   }
-
 }

@@ -6,7 +6,6 @@ import "package:pointycastle/export.dart";
 import 'package:project_hmc/firebase/key_managers/rsa_key_manager.dart';
 
 class Encryptor {
-
   String aesAlgorithmEncrypt(encryptionKey, Uint8List nonce, String message) {
     // encryption
     encryptionKey = base64Decoding(encryptionKey);
@@ -25,7 +24,8 @@ class Encryptor {
 
   Uint8List generateRandomNonce() {
     final sGen = Random.secure();
-    final seed = Uint8List.fromList(List.generate(32, (n) => sGen.nextInt(255)));
+    final seed =
+        Uint8List.fromList(List.generate(32, (n) => sGen.nextInt(255)));
     SecureRandom sec = SecureRandom("Fortuna")..seed(KeyParameter(seed));
     return sec.nextBytes(12);
   }
@@ -72,7 +72,11 @@ class Encryptor {
     return cipherBase64;
   }
 
-  String hmcMessageEncryptor({required String message, required String aesKey, required String nonce, required String rsaPublicKey})  {
+  String hmcMessageEncryptor(
+      {required String message,
+      required String aesKey,
+      required String nonce,
+      required String rsaPublicKey}) {
     //Aes Multiple Encryption
     final iv = createUint8ListFromString(nonce);
     var aesCipher = "";
@@ -99,10 +103,10 @@ class Encryptor {
     return encryptedChunksString;
   }
 
-  String hmcAesKeyEncryptor({required String aesKey, required String rsaPublicKey}) {
+  String hmcAesKeyEncryptor(
+      {required String aesKey, required String rsaPublicKey}) {
     RSAPublicKey rsaPublic = RSAKeyManager().stringToRsaPuk(rsaPublicKey);
     String encryptedAesKey = rsaEncrypt(rsaPublic, aesKey);
     return encryptedAesKey;
   }
-
 }

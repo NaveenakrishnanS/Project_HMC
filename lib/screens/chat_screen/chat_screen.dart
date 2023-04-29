@@ -2,10 +2,12 @@ import 'package:floating_action_bubble_custom/floating_action_bubble_custom.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:project_hmc/firebase/auth/firebase_auth.dart';
-import 'package:project_hmc/screens/Friend_list/friend_list.dart';
 import 'package:project_hmc/screens/chat_screen/chat_card.dart';
 import 'package:project_hmc/screens/profile_screen.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
+
+import '../../firebase/cloud_database.dart';
+import '../../models/user_model.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -19,19 +21,7 @@ class _ChatScreenState extends State<ChatScreen>
   late Animation<double> _animation;
   late AnimationController _animationController;
   TextEditingController textController = TextEditingController();
-
-  final List<Chat> chatList = [
-    Chat(name: 'Chat 1',uID: "nnn"),
-    Chat(name: 'Chat 2',uID: "nnn"),
-    Chat(name: 'Chat 3',uID: "nnn"),
-    Chat(name: 'Chat 4',uID: "nnn"),
-    Chat(name: 'Chat 5',uID: "nnn"),
-    Chat(name: 'Chat 6',uID: "nnn"),
-    Chat(name: 'Chat 7',uID: "nnn"),
-    Chat(name: 'Chat 8',uID: "nnn"),
-    Chat(name: 'Chat 9',uID: "nnn"),
-    Chat(name: 'Chat 10',uID: "nnn"),
-  ];
+  String searchText = '';
 
   @override
   void initState() {
@@ -71,7 +61,7 @@ class _ChatScreenState extends State<ChatScreen>
                     child: Row(
                       children: const [
                         Icon(
-                          Icons.messenger_outline,
+                          Icons.messenger,
                           size: 30,
                         ),
                         Padding(
@@ -93,7 +83,8 @@ class _ChatScreenState extends State<ChatScreen>
                   child: SearchBarAnimation(
                     enteredTextStyle:
                         const TextStyle(color: Colors.white, fontSize: 20),
-                    textEditingController: TextEditingController(),
+                    textEditingController:
+                        TextEditingController(text: searchText),
                     buttonBorderColour: Colors.black,
                     buttonColour: Colors.black,
                     searchBoxColour: Colors.black,
@@ -107,14 +98,25 @@ class _ChatScreenState extends State<ChatScreen>
                     isSearchBoxOnRightSide: true,
                     isOriginalAnimation: true,
                     enableKeyboardFocus: true,
-                    onExpansionComplete: () {},
+                    onFieldSubmitted: (query) {
+                      setState(() {
+                        searchText = query;
+                      });
+                    },
+                    secondaryButtonWidget: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          searchText = '';
+                        });
+                      },
+                      child: const Icon(
+                        Icons.close,
+                        size: 20,
+                        color: Colors.white,
+                      ),
+                    ),
                     trailingWidget: const Icon(
                       Icons.search,
-                      size: 20,
-                      color: Colors.white,
-                    ),
-                    secondaryButtonWidget: const Icon(
-                      Icons.close,
                       size: 20,
                       color: Colors.white,
                     ),
@@ -127,13 +129,50 @@ class _ChatScreenState extends State<ChatScreen>
                 ),
               ])),
       body: Container(
-        padding: const EdgeInsets.only(top: 0),
         decoration: const BoxDecoration(color: Colors.white),
-        child: ListView.builder(
-          padding: EdgeInsets.zero,
-          itemCount: chatList.length,
-          itemBuilder: (context, index) {
-            return ChatCard(name: chatList[index].name);
+        child: StreamBuilder<List<UserModel>>(
+          stream: CloudDatabase().retrieveChatUsers(),
+          builder:
+              (BuildContext context, AsyncSnapshot<List<UserModel>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                  strokeWidth: 5,
+                ),
+              );
+            }
+            if (!snapshot.hasData || snapshot.data == null) {
+              return const Center(child: Text('No data available'));
+            }
+            if (snapshot.data!.isEmpty) {
+              return const Center(child: Text('Start Finding Your Buddies'));
+            }
+            if (snapshot.hasError) {
+              return const Center(
+                child: Text('Error in retrieving Users'),
+              );
+            }
+            List<ChatCard> chatCards = [];
+            if (snapshot.hasData) {
+              for (var users in snapshot.data!) {
+                String name = users.Name;
+                String uID = users.UID;
+                // ChatCard chatCard = ChatCard(name: name, uID: uID);
+                // chatCards.add(chatCard);
+                // Filter chatCards based on searchText
+                if (name.toLowerCase().contains(searchText.toLowerCase())) {
+                  ChatCard chatCard = ChatCard(name: name, uID: uID);
+                  chatCards.add(chatCard);
+                }
+              }
+              return ListView(
+                children: chatCards,
+              );
+            }
+            return ListView(
+              children: chatCards,
+            );
           },
         ),
       ),

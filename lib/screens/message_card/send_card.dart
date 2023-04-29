@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class InputMessage extends StatefulWidget {
-  const InputMessage({Key? key, required this.text, required this.messageTime}) : super(key: key);
-  final String text,messageTime;
+  const InputMessage({Key? key, required this.text, required this.messageTime})
+      : super(key: key);
+  final String text, messageTime;
 
   @override
   State<InputMessage> createState() => _InputMessageState();
@@ -40,7 +41,7 @@ class _InputMessageState extends State<InputMessage> {
                 bottom: 2,
                 right: 3,
                 child: Row(
-                  children:  [
+                  children: [
                     Text(
                       widget.messageTime,
                       style: const TextStyle(

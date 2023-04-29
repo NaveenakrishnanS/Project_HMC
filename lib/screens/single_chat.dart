@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:project_hmc/firebase/auth/firebase_auth.dart';
 import 'package:project_hmc/firebase/decryptor.dart';
 import 'package:project_hmc/firebase/encryptor.dart';
+import 'package:project_hmc/firebase/firebase_messaging.dart';
+import 'package:project_hmc/firebase/flutter_secure_storage/secure_storage.dart';
 import 'package:project_hmc/screens/message_card/receive_card.dart';
 import 'package:project_hmc/screens/message_card/send_card.dart';
 
@@ -87,14 +89,20 @@ class _SingleChatState extends State<SingleChat> {
             child: Stack(
               children: [
                 Container(
-                  padding: const EdgeInsets.only(top: 0),
+                  padding: const EdgeInsets.only(bottom: 70),
                   decoration: const BoxDecoration(color: Colors.white),
                   child: StreamBuilder<List<List<ChatModel>>>(
-                      stream: CloudDatabase().messages(CloudDatabase().createChatRoom(userId1: FirebaseAuthentication.getUserUid, userId2: widget.uID),
-                          FirebaseAuthentication.getUserUid, widget.uID),
+                      stream: CloudDatabase().messages(
+                          CloudDatabase().createChatRoom(
+                              userId1: FirebaseAuthentication.getUserUid,
+                              userId2: widget.uID),
+                          FirebaseAuthentication.getUserUid,
+                          widget.uID),
                       // CloudDatabase().retrieveAllMessages(chatID: chatID),
                       builder: (context, snapshot) {
-                        if (!snapshot.hasData || snapshot.data == null|| snapshot.data!.isEmpty) {
+                        if (!snapshot.hasData ||
+                            snapshot.data == null ||
+                            snapshot.data!.isEmpty) {
                           return const Center(child: Text('No data available'));
                         }
                         if (snapshot.hasError) {
@@ -104,28 +112,35 @@ class _SingleChatState extends State<SingleChat> {
                         }
                         List<ChatModel> messages = [];
                         List<ChatModel> sents = [];
-                          sents = snapshot.data![0];
-                          messages = snapshot.data![1];
-                          if(sents.isEmpty && messages.isEmpty){
-                            return const Center(
-                                child: Text('Start Sending Messages'));
-                          }
+                        sents = snapshot.data![0];
+                        messages = snapshot.data![1];
+                        if (sents.isEmpty && messages.isEmpty) {
+                          return const Center(
+                              child: Text('Start Sending Messages'));
+                        }
                         for (ChatModel message in sents) {
                           for (int i = 0; i < messages.length; i++) {
                             bool isSentByMe = (message.senderId ==
                                 FirebaseAuthentication.getUserUid);
-                            if ((messages[i].timestamp == message.timestamp) && isSentByMe){
-                              messages[i] = message;
-                              break;
+                            if ((messages[i].timestamp == message.timestamp) &&
+                                (messages[i].senderId == message.senderId) &&
+                                isSentByMe) {
+                              messages[i].message = message.message;
+                              // break;
+                            } else {
+                              messages[i] = messages[i];
                             }
                           }
                         }
+                        // Sort messages based on timestamp
+                        messages.sort(
+                            (a, b) => a.timestamp!.compareTo(b.timestamp!));
+
                         return ListView.builder(
                           controller: _scrollController,
                           itemCount: messages.length,
                           itemBuilder: (context, index) {
                             ChatModel message = messages[index];
-                            // ChatModel sent = sents[index];
                             bool isSentByMe = (message.senderId ==
                                 FirebaseAuthentication.getUserUid);
                             return isSentByMe
@@ -189,10 +204,14 @@ class _SingleChatState extends State<SingleChat> {
                               final dt = DateTime.now();
                               String mId = CloudDatabase().createMessageID();
                               String text = (_controller.text).toString();
-                              sendingMessage(text,mId, dt);
-                              backingUpSent(text,mId, dt);
+                              sendingMessage(text, mId, dt);
+                              backingUpSent(text, mId, dt);
                               _controller.clear();
-                              FocusScope.of(context).unfocus();
+                              _scrollController.animateTo(
+                                  _scrollController.position.maxScrollExtent,
+                                  duration: const Duration(milliseconds: 5),
+                                  curve: Curves.easeOut);
+                              // FocusScope.of(context).unfocus();
                             }
                           },
                           color: Colors.black,
@@ -233,10 +252,7 @@ class _SingleChatState extends State<SingleChat> {
     String encryptedAesKey =
         Encryptor().hmcAesKeyEncryptor(aesKey: aeskey, rsaPublicKey: rsapuk);
     String encryptedMsg = Encryptor().hmcMessageEncryptor(
-        message: content,
-        aesKey: aeskey,
-        nonce: nonce,
-        rsaPublicKey: rsapuk);
+        message: content, aesKey: aeskey, nonce: nonce, rsaPublicKey: rsapuk);
     ChatModel chatData = ChatModel(
         senderId: FirebaseAuthentication.getUserUid,
         receiverId: widget.uID,
@@ -249,6 +265,10 @@ class _SingleChatState extends State<SingleChat> {
         chatID: CloudDatabase().createChatRoom(
             userId1: FirebaseAuthentication.getUserUid, userId2: widget.uID),
         messageID: mID);
+    String? pushToken = await FSS().getData("PushToken");
+    String token = (pushToken ?? "").toString();
+    await Messaging().sendPushNotifications(
+        token, FirebaseAuthentication.getUserName, content);
   }
 
   void backingUpSent(String content, String mID, DateTime dt) {

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ReplyMessage extends StatefulWidget {
-  const ReplyMessage({Key? key, required this.text, required this.messageTime}) : super(key: key);
-  final String text,messageTime;
+  const ReplyMessage({Key? key, required this.text, required this.messageTime})
+      : super(key: key);
+  final String text, messageTime;
 
   @override
   State<ReplyMessage> createState() => _ReplyMessageState();
@@ -40,7 +41,7 @@ class _ReplyMessageState extends State<ReplyMessage> {
                 bottom: 2,
                 right: 3,
                 child: Row(
-                  children:  [
+                  children: [
                     Text(
                       widget.messageTime,
                       style: const TextStyle(

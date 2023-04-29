@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:project_hmc/firebase/auth/firebase_auth.dart';
 import 'package:project_hmc/firebase/cloud_database.dart';
 import 'package:project_hmc/models/user_model.dart';
-import 'package:project_hmc/screens/navigation_screen.dart';
 import 'package:project_hmc/screens/widget_handler.dart';
 
 class Profile extends StatefulWidget {
@@ -19,6 +18,7 @@ class _ProfileState extends State<Profile> {
   final _phoneController = TextEditingController();
   final _aboutController = TextEditingController();
   final sb = WidgetHandler();
+  late bool _isEditing = false;
 
   @override
   void initState() {
@@ -61,17 +61,17 @@ class _ProfileState extends State<Profile> {
       body: SingleChildScrollView(
           child: Column(children: [
         const Padding(
-          padding: EdgeInsets.only(bottom: 40, top: 30),
+          padding: EdgeInsets.only(bottom: 40, top: 20),
           child: CircleAvatar(
-            radius: 80,
-            backgroundColor: Colors.black,
+            radius: 70,
+            // backgroundColor: Colors.black,
             child: Image(
-                image: AssetImage("assets/chat_symbol.png"),
-                color: Colors.white),
+              image: AssetImage("assets/user.png"),
+            ),
           ),
         ),
         const SizedBox(
-          height: 10,
+          height: 5,
         ),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -101,6 +101,7 @@ class _ProfileState extends State<Profile> {
                       ),
                       TextFormField(
                         controller: _nameController,
+                        readOnly: !_isEditing,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter your name';
@@ -117,6 +118,7 @@ class _ProfileState extends State<Profile> {
                       TextFormField(
                         controller: _aboutController,
                         maxLines: null,
+                        readOnly: !_isEditing,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter your address';
@@ -131,7 +133,14 @@ class _ProfileState extends State<Profile> {
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       TextFormField(
+                        readOnly: !_isEditing,
                         controller: _emailController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your Email ID';
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 16),
                       const Text(
@@ -155,15 +164,15 @@ class _ProfileState extends State<Profile> {
                         child: SizedBox(
                           height: 50,
                           width: 145,
-                          child: ElevatedButton(
+                          child: ElevatedButton.icon(
                             onPressed: _changes,
                             style: ElevatedButton.styleFrom(
                                 shape: const StadiumBorder(),
                                 backgroundColor: Colors.black),
-                            child: const Text(
-                              'Save',
-                              style: TextStyle(fontSize: 20),
-                            ),
+                            icon: Icon(_isEditing
+                                ? Icons.save_as_outlined
+                                : Icons.edit_sharp),
+                            label: Text(_isEditing ? 'Save' : 'Edit'),
                           ),
                         ),
                       )
@@ -185,7 +194,14 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+  void _onButtonPressed() {
+    setState(() {
+      _isEditing = !_isEditing;
+    });
+  }
+
   void _changes() async {
+    _onButtonPressed();
     if (_formKey.currentState!.validate()) {
       CloudDatabase().addUserDetails(
           userdata: UserModel(
@@ -194,13 +210,11 @@ class _ProfileState extends State<Profile> {
               Phone: _phoneController.text,
               About: _aboutController.text,
               Email: _emailController.text));
-      sb.showSnackBar(context, "Changes are Saved!");
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const NavigationScreen(),
-          ),
-          (Route<dynamic> route) => false);
+      if (_isEditing) {
+        sb.showSnackBar(context, "Start Changing!");
+      } else {
+        sb.showSnackBar(context, "Changes are Saved!");
+      }
     }
   }
 }

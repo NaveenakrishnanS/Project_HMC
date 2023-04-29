@@ -28,13 +28,12 @@ class ChatModel {
     DateTime? timestamp,
   }) {
     return ChatModel(
-      senderId: senderId ?? this.senderId,
-      receiverId: receiverId ?? this.receiverId,
-      message: message ?? this.message,
-      aesKey: aesKey ?? this.aesKey,
-      nonce: nonce ?? this.nonce,
-      timestamp: timestamp ?? this.timestamp
-    );
+        senderId: senderId ?? this.senderId,
+        receiverId: receiverId ?? this.receiverId,
+        message: message ?? this.message,
+        aesKey: aesKey ?? this.aesKey,
+        nonce: nonce ?? this.nonce,
+        timestamp: timestamp ?? this.timestamp);
   }
 
   Map<String, dynamic> toMap() {
@@ -42,7 +41,7 @@ class ChatModel {
       'senderId': senderId,
       'receiverId': receiverId,
       'message': message,
-      'aesKey':aesKey,
+      'aesKey': aesKey,
       'nonce': nonce,
       'timestamp': timestamp,
     };
@@ -86,10 +85,10 @@ class ChatModel {
   @override
   int get hashCode {
     return senderId.hashCode ^
-    receiverId.hashCode ^
-    message.hashCode ^
-    aesKey.hashCode ^
-    nonce.hashCode ^
-    timestamp.hashCode;
+        receiverId.hashCode ^
+        message.hashCode ^
+        aesKey.hashCode ^
+        nonce.hashCode ^
+        timestamp.hashCode;
   }
 }

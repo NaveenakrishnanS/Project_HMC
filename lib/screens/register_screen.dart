@@ -6,6 +6,7 @@ import 'package:project_hmc/firebase/cloud_database.dart';
 import 'package:project_hmc/models/user_model.dart';
 import 'package:project_hmc/screens/navigation_screen.dart';
 import 'package:project_hmc/screens/widget_handler.dart';
+
 import '../firebase/key_managers/rsa_key_manager.dart';
 
 class Register extends StatefulWidget {
