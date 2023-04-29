@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project_hmc/screens/navigation_screen.dart';
 import 'package:project_hmc/screens/welcome_screen.dart';
 
-import '../../firebase/firebase_auth.dart';
+import '../../firebase/auth/firebase_auth.dart';
 
 class UserStreamScreen extends StatelessWidget {
   const UserStreamScreen({super.key});
@@ -11,7 +11,8 @@ class UserStreamScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<User?>(
+        body: SafeArea(
+      child: StreamBuilder<User?>(
         stream: FirebaseAuthentication.getUserStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -20,6 +21,6 @@ class UserStreamScreen extends StatelessWidget {
           return const WelcomeScreen();
         },
       ),
-    );
+    ));
   }
 }

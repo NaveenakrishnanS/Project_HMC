@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:project_hmc/firebase/auth/firebase_auth.dart';
 import 'package:project_hmc/screens/Friend_list/friend_list.dart';
-import 'package:project_hmc/screens/chat_screen.dart';
+import 'package:project_hmc/screens/chat_screen/chat_screen.dart';
 import 'package:project_hmc/screens/profile_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -21,23 +22,35 @@ class _NavigationScreenState extends State<NavigationScreen>
   ];
 
   @override
+  void initState() {
+    super.initState();
+    FirebaseAuthentication.initFirebaseAuth();
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
       backgroundColor: const Color(0xffE5E5E5),
       bottomNavigationBar: BottomNavigationBar(
+        selectedIconTheme: const IconThemeData(color: Colors.black, size: 35),
         type: BottomNavigationBarType.fixed,
-        items: const [
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black45,
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outline),
+            backgroundColor: _selectedIndex == 0 ? Colors.black : null,
+            icon: const Icon(Icons.chat),
             label: 'Chats',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.groups),
+            backgroundColor: _selectedIndex == 1 ? Colors.black : null,
+            icon: const Icon(Icons.groups),
             label: 'Friend List',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            backgroundColor: _selectedIndex == 2 ? Colors.black : null,
+            icon: const Icon(Icons.person),
             label: 'My Profile',
           ),
         ],
@@ -51,7 +64,6 @@ class _NavigationScreenState extends State<NavigationScreen>
           });
         },
       ),
-
       body: PageView(
         controller: controller,
         children: _screens,

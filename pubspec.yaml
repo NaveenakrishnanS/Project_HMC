@@ -15,16 +15,23 @@ dependencies:
 
 
   cupertino_icons: ^1.0.5
-  firebase_core: ^2.7.0
-  firebase_auth: ^4.2.9
-  cloud_firestore: ^4.4.3
-  flutter_screenutil: ^5.6.1
+  firebase_core: ^2.10.0
+  firebase_core_web: ^2.3.0
+  firebase_auth: ^4.4.2
+  cloud_firestore: ^4.5.3
+  flutter_screenutil: ^5.7.0
   flutter_otp_text_field: ^1.1.1
   country_calling_code_picker: ^2.0.1
-  emoji_picker_flutter: ^1.5.2
+  emoji_picker_flutter: ^1.5.4
   floating_action_bubble_custom: ^1.0.0+2
   anim_search_bar: ^2.0.3
   searchbar_animation: ^0.0.4
+  flutter_secure_storage: ^8.0.0
+  pointycastle: ^3.7.3
+  rxdart: ^0.27.7
+  firebase_messaging: ^14.4.1
+  http: ^0.13.5
+
 
 dev_dependencies:
   flutter_test:
@@ -38,4 +45,5 @@ flutter:
   assets:
        - assets/
        - assets/chat_symbol.png
+       - assets/whte.png
 

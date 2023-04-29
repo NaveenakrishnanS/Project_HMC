@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../../firebase/auth/firebase_auth.dart';
-import '../../../firebase/cloud_database.dart';
-import '../../single_chat.dart';
+import '../../firebase/auth/firebase_auth.dart';
+import '../../firebase/cloud_database.dart';
+import '../single_chat.dart';
 
-class FriendCard extends StatelessWidget {
+class ChatCard extends StatelessWidget {
   final String name, uID;
 
-  const FriendCard({
-    super.key,
-    required this.name,
-    required this.uID,
-  });
+  const ChatCard({super.key, required this.name, required this.uID});
 
   @override
   Widget build(BuildContext context) {

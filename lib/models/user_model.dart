@@ -76,9 +76,9 @@ class UserModel {
   @override
   int get hashCode {
     return Name.hashCode ^
-    UID.hashCode ^
-    Phone.hashCode ^
-    About.hashCode ^
-    Email.hashCode;
+        UID.hashCode ^
+        Phone.hashCode ^
+        About.hashCode ^
+        Email.hashCode;
   }
 }

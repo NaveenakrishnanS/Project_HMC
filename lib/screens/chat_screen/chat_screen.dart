@@ -1,27 +1,50 @@
+import 'package:floating_action_bubble_custom/floating_action_bubble_custom.dart';
 import 'package:flutter/material.dart';
-import 'package:project_hmc/firebase/cloud_database.dart';
-import 'package:project_hmc/models/user_model.dart';
-import 'package:project_hmc/screens/Friend_list/Widgets/friend_card.dart';
+import 'package:flutter/services.dart';
+import 'package:project_hmc/firebase/auth/firebase_auth.dart';
+import 'package:project_hmc/screens/chat_screen/chat_card.dart';
+import 'package:project_hmc/screens/profile_screen.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
 
-class Chat {
-  final String name, uID;
+import '../../firebase/cloud_database.dart';
+import '../../models/user_model.dart';
 
-  Chat({required this.name, required this.uID});
-}
-
-class FriendList extends StatefulWidget {
-  const FriendList({super.key});
+class ChatScreen extends StatefulWidget {
+  const ChatScreen({Key? key}) : super(key: key);
 
   @override
-  FriendListState createState() => FriendListState();
+  State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class FriendListState extends State<FriendList> {
+class _ChatScreenState extends State<ChatScreen>
+    with SingleTickerProviderStateMixin {
+  late Animation<double> _animation;
+  late AnimationController _animationController;
+  TextEditingController textController = TextEditingController();
   String searchText = '';
 
   @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 260),
+    );
+    final curvedAnimation = CurvedAnimation(
+      curve: Curves.easeInOut,
+      parent: _animationController,
+    );
+    _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    @override
+    void dispose() {
+      _animationController.dispose(); // dispose of the AnimationController
+      super.dispose();
+    }
+
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(65),
@@ -38,13 +61,13 @@ class FriendListState extends State<FriendList> {
                     child: Row(
                       children: const [
                         Icon(
-                          Icons.groups,
+                          Icons.messenger,
                           size: 30,
                         ),
                         Padding(
                           padding: EdgeInsets.only(left: 28),
                           child: Text(
-                            'Buddies',
+                            'Chats',
                             style: TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.bold),
                           ),
@@ -108,7 +131,7 @@ class FriendListState extends State<FriendList> {
       body: Container(
         decoration: const BoxDecoration(color: Colors.white),
         child: StreamBuilder<List<UserModel>>(
-          stream: CloudDatabase().retrieveUsers(),
+          stream: CloudDatabase().retrieveChatUsers(),
           builder:
               (BuildContext context, AsyncSnapshot<List<UserModel>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -122,29 +145,91 @@ class FriendListState extends State<FriendList> {
             if (!snapshot.hasData || snapshot.data == null) {
               return const Center(child: Text('No data available'));
             }
+            if (snapshot.data!.isEmpty) {
+              return const Center(child: Text('Start Finding Your Buddies'));
+            }
             if (snapshot.hasError) {
               return const Center(
                 child: Text('Error in retrieving Users'),
               );
             }
-            List<FriendCard> friendCards = [];
+            List<ChatCard> chatCards = [];
             if (snapshot.hasData) {
               for (var users in snapshot.data!) {
                 String name = users.Name;
                 String uID = users.UID;
+                // ChatCard chatCard = ChatCard(name: name, uID: uID);
+                // chatCards.add(chatCard);
+                // Filter chatCards based on searchText
                 if (name.toLowerCase().contains(searchText.toLowerCase())) {
-                  FriendCard friendCard = FriendCard(name: name, uID: uID);
-                  friendCards.add(friendCard);
+                  ChatCard chatCard = ChatCard(name: name, uID: uID);
+                  chatCards.add(chatCard);
                 }
               }
               return ListView(
-                children: friendCards,
+                children: chatCards,
               );
             }
             return ListView(
-              children: friendCards,
+              children: chatCards,
             );
           },
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: FloatingActionBubble(
+          animation: _animation,
+          onPressed: () => _animationController.isCompleted
+              ? _animationController.reverse()
+              : _animationController.forward(),
+          iconColor: Colors.white,
+          iconData: Icons.chat,
+          backgroundColor: Colors.black,
+          items: <Widget>[
+            // Floating action menu item
+            BubbleMenu(
+              title: "Sign Out",
+              iconColor: Colors.white,
+              bubbleColor: Colors.black,
+              icon: Icons.logout,
+              style: const TextStyle(fontSize: 16, color: Colors.white),
+              onPressed: () async {
+                await FirebaseAuthentication.signOut();
+                SystemNavigator.pop(); //closes the app
+                dispose();
+              },
+            ),
+            // Floating action menu item
+            BubbleMenu(
+              title: "Profile",
+              iconColor: Colors.white,
+              bubbleColor: Colors.black,
+              icon: Icons.people,
+              style: const TextStyle(fontSize: 16, color: Colors.white),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => const Profile(),
+                  ),
+                );
+                _animationController.reverse();
+              },
+            ),
+            //Floating action menu item
+            BubbleMenu(
+              title: "Home",
+              iconColor: Colors.white,
+              bubbleColor: Colors.black,
+              icon: Icons.home,
+              style: const TextStyle(fontSize: 16, color: Colors.white),
+              onPressed: () {
+                _animationController.reverse();
+              },
+            ),
+          ],
         ),
       ),
     );

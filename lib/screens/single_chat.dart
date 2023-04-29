@@ -1,9 +1,25 @@
-import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
-import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/material.dart';
+import 'package:project_hmc/firebase/auth/firebase_auth.dart';
+import 'package:project_hmc/firebase/decryptor.dart';
+import 'package:project_hmc/firebase/encryptor.dart';
+import 'package:project_hmc/firebase/firebase_messaging.dart';
+import 'package:project_hmc/firebase/flutter_secure_storage/secure_storage.dart';
+import 'package:project_hmc/screens/message_card/receive_card.dart';
+import 'package:project_hmc/screens/message_card/send_card.dart';
+
+import '../firebase/cloud_database.dart';
+import '../firebase/key_managers/aes_key_manager.dart';
+import '../models/chat_model.dart';
 
 class SingleChat extends StatefulWidget {
-  const SingleChat({Key? key}) : super(key: key);
+  const SingleChat(
+      {Key? key,
+      required this.name,
+      required this.uID,
+      required this.privatekey})
+      : super(key: key);
+  final String name, uID;
+  final String privatekey;
 
   @override
   State<SingleChat> createState() => _SingleChatState();
@@ -11,167 +27,263 @@ class SingleChat extends StatefulWidget {
 
 class _SingleChatState extends State<SingleChat> {
   final TextEditingController _controller = TextEditingController();
-  bool emojiShowing = false;
-  FocusNode focusNode = FocusNode();
-  @override
-  void initState()
-  {
-    super.initState();
-    focusNode.addListener(() {
-      if(focusNode.hasFocus){
-        setState(() {
-          emojiShowing = false;
-        });
-      }
-    });
-  }
+  final ScrollController _scrollController = ScrollController();
+  late String chatID = "";
 
   @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    chatID = CloudDatabase().createChatRoom(
+        userId1: FirebaseAuthentication.getUserUid, userId2: widget.uID);
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.black,
-          title: Row(
-            children: [
-              const CircleAvatar(),
-              const SizedBox(width: 10,),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
-                    "User",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ],
+    return Stack(
+      children: [
+        Scaffold(
+          backgroundColor: Colors.white,
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(65),
+            child: AppBar(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0)),
+              automaticallyImplyLeading: true,
+              leadingWidth: 350,
+              elevation: 0,
+              backgroundColor: Colors.black,
+              leading: Align(
+                child: Padding(
+                    padding: const EdgeInsets.only(top: 15, left: 10),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          child: Image.asset('assets/user.png'),
+                        ),
+                        // const Icon(
+                        //   Icons.person,
+                        //   color: Colors.amber,
+                        //   weight: Checkbox.width,
+                        //   size: 40,
+                        // ),
+                        const SizedBox(
+                          width: 7,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: Text(
+                            widget.name,
+                            style: const TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    )),
               ),
-            ],
+            ),
           ),
-        ),
-      body:SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-       child: WillPopScope(
-         child: Stack(
-          children: [
-            ListView(),
-            Align(
-            alignment: Alignment.bottomCenter ,
-            child: Row(
+          resizeToAvoidBottomInset: true,
+          body: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.height,
+            child: Stack(
               children: [
-                Expanded(
-                  child: TextField(
-                    focusNode: focusNode,
-                 controller: _controller,
-                 style:  const TextStyle(
-                  fontSize: 20.0, color: Colors.black87),
-                  decoration: InputDecoration(
-                  hintText: 'Type a message',
-                  prefixIcon:IconButton(splashRadius:23,
-                  icon:const Icon(Icons.emoji_emotions_rounded),
-                  onPressed:(){
-                    focusNode.unfocus();
-                    focusNode.canRequestFocus = false;
-                    setState(() {emojiShowing = !emojiShowing;});},
-                ),
-                suffixIcon:IconButton(splashRadius:5,
-                  icon: const Icon(Icons.attach_file_rounded),color: Colors.grey,
-                  onPressed:(){},
-                ),
-                filled: true,
-                fillColor: Colors.white,
-                contentPadding: const EdgeInsets.only(left: 16.0, bottom: 8.0, top: 8.0, right: 16.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50.0),
-                ),
-              ),
-          ),
-                ),
-                Material(
-                  color: Colors.white,
-                  child: IconButton(
-                      splashRadius: 25,
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.send,
-                        color: Colors.black,
-                      ),
-                  iconSize: 40,),
-                )
-              ],
-            )),
-            Offstage(
-              offstage: !emojiShowing,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child:SingleChildScrollView(
-                 physics: const BouncingScrollPhysics(),
-                 child:SizedBox(
-                  height: 250,
-                  child: EmojiPicker(
-                    textEditingController: _controller,
+                Container(
+                  padding: const EdgeInsets.only(bottom: 70),
+                  decoration: const BoxDecoration(color: Colors.white),
+                  child: StreamBuilder<List<List<ChatModel>>>(
+                      stream: CloudDatabase().messages(
+                          CloudDatabase().createChatRoom(
+                              userId1: FirebaseAuthentication.getUserUid,
+                              userId2: widget.uID),
+                          FirebaseAuthentication.getUserUid,
+                          widget.uID),
+                      // CloudDatabase().retrieveAllMessages(chatID: chatID),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData ||
+                            snapshot.data == null ||
+                            snapshot.data!.isEmpty) {
+                          return const Center(child: Text('No data available'));
+                        }
+                        if (snapshot.hasError) {
+                          return const Center(
+                            child: Text('Error in retrieving Messages'),
+                          );
+                        }
+                        List<ChatModel> messages = [];
+                        List<ChatModel> sents = [];
+                        sents = snapshot.data![0];
+                        messages = snapshot.data![1];
+                        if (sents.isEmpty && messages.isEmpty) {
+                          return const Center(
+                              child: Text('Start Sending Messages'));
+                        }
+                        for (ChatModel message in sents) {
+                          for (int i = 0; i < messages.length; i++) {
+                            bool isSentByMe = (message.senderId ==
+                                FirebaseAuthentication.getUserUid);
+                            if ((messages[i].timestamp == message.timestamp) &&
+                                (messages[i].senderId == message.senderId) &&
+                                isSentByMe) {
+                              messages[i].message = message.message;
+                              // break;
+                            } else {
+                              messages[i] = messages[i];
+                            }
+                          }
+                        }
+                        // Sort messages based on timestamp
+                        messages.sort(
+                            (a, b) => a.timestamp!.compareTo(b.timestamp!));
 
-                    config: Config(
-                      columns: 7,
-                      emojiSizeMax: 32 * (foundation.defaultTargetPlatform == TargetPlatform.iOS ? 1.30 : 1.0),
-                      verticalSpacing: 0,
-                      horizontalSpacing: 0,
-                      gridPadding: EdgeInsets.zero,
-                      initCategory: Category.RECENT,
-                      bgColor: const Color(0xFFF2F2F2),
-                      indicatorColor: Colors.blue,
-                      iconColor: Colors.grey,
-                      iconColorSelected: Colors.blue,
-                      backspaceColor: Colors.blue,
-                      skinToneDialogBgColor: Colors.white,
-                      skinToneIndicatorColor: Colors.grey,
-                      enableSkinTones: true,
-                      showRecentsTab: true,
-                      recentsLimit: 28,
-                      replaceEmojiOnLimitExceed: false,
-                      noRecents: const Text(
-                        'No Recents',
-                        style: TextStyle(fontSize: 20, color: Colors.black26),
-                        textAlign: TextAlign.center,
+                        return ListView.builder(
+                          controller: _scrollController,
+                          itemCount: messages.length,
+                          itemBuilder: (context, index) {
+                            ChatModel message = messages[index];
+                            bool isSentByMe = (message.senderId ==
+                                FirebaseAuthentication.getUserUid);
+                            return isSentByMe
+                                ? InputMessage(
+                                    text: message.message!,
+                                    messageTime: message.timestamp
+                                        .toString()
+                                        .split('T')[0]
+                                        .split(' ')[1]
+                                        .substring(0, 5))
+                                : ReplyMessage(
+                                    text: (decryption(message)).toString(),
+                                    messageTime: message.timestamp
+                                        .toString()
+                                        .split('T')[0]
+                                        .split(' ')[1]
+                                        .substring(0, 5));
+                          },
+                        );
+                      }),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        top: BorderSide(color: Colors.transparent, width: 1),
                       ),
-                      loadingIndicator: const SizedBox.shrink(),
-                      tabIndicatorAnimDuration: kTabScrollDuration,
-                      categoryIcons: const CategoryIcons(),
-                      buttonMode: ButtonMode.CUPERTINO,
-                      checkPlatformCompatibility: true,
+                      color: Colors.white,
                     ),
-                  )),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 10, bottom: 8),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey.shade300),
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: TextField(
+                                  controller: _controller,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Type your message...',
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.send),
+                          onPressed: () async {
+                            if (_controller.text != "") {
+                              final dt = DateTime.now();
+                              String mId = CloudDatabase().createMessageID();
+                              String text = (_controller.text).toString();
+                              sendingMessage(text, mId, dt);
+                              backingUpSent(text, mId, dt);
+                              _controller.clear();
+                              _scrollController.animateTo(
+                                  _scrollController.position.maxScrollExtent,
+                                  duration: const Duration(milliseconds: 5),
+                                  curve: Curves.easeOut);
+                              // FocusScope.of(context).unfocus();
+                            }
+                          },
+                          color: Colors.black,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-            ),
-            ),
-          ],
-         ),
-         onWillPop:() {
-           if(emojiShowing) {
-             setState(() {
-               emojiShowing = false;
-             });
-           }
-           else
-           {
-             Navigator.pop(context);
-           }
-           return Future.value(false);
-         },
-       ),
+          ),
         ),
-
-      ),
+      ],
     );
+  }
+
+  String decryption(ChatModel message) {
+    String encryptedText = message.message!;
+    String encryptedAesKey = message.aesKey!;
+    String nonce = message.nonce!;
+    String? rsaprivatekey = widget.privatekey;
+    String rsaprk = (rsaprivatekey).toString();
+    String decryptedText = Decryptor().hmcDecryptor(
+        encryptedText: encryptedText,
+        nonce: nonce,
+        encryptedAesKey: encryptedAesKey,
+        rsaPrivateKey: rsaprk);
+    return decryptedText.toString();
+  }
+
+  void sendingMessage(String content, String mID, DateTime dt) async {
+    String aeskey = AESKeyManager().aesKey();
+    String nonce =
+        Encryptor().base64Encoding(Encryptor().generateRandomNonce());
+    String? rsapublickey =
+        await (CloudDatabase().getUserPublicKey(Id: widget.uID));
+    String rsapuk = (rsapublickey ?? "").toString();
+    String encryptedAesKey =
+        Encryptor().hmcAesKeyEncryptor(aesKey: aeskey, rsaPublicKey: rsapuk);
+    String encryptedMsg = Encryptor().hmcMessageEncryptor(
+        message: content, aesKey: aeskey, nonce: nonce, rsaPublicKey: rsapuk);
+    ChatModel chatData = ChatModel(
+        senderId: FirebaseAuthentication.getUserUid,
+        receiverId: widget.uID,
+        message: encryptedMsg,
+        nonce: nonce,
+        aesKey: encryptedAesKey,
+        timestamp: dt);
+    CloudDatabase().sendMessage(
+        chatData: chatData,
+        chatID: CloudDatabase().createChatRoom(
+            userId1: FirebaseAuthentication.getUserUid, userId2: widget.uID),
+        messageID: mID);
+    String? pushToken = await FSS().getData("PushToken");
+    String token = (pushToken ?? "").toString();
+    await Messaging().sendPushNotifications(
+        token, FirebaseAuthentication.getUserName, content);
+  }
+
+  void backingUpSent(String content, String mID, DateTime dt) {
+    ChatModel chatData = ChatModel(
+        senderId: FirebaseAuthentication.getUserUid,
+        receiverId: widget.uID,
+        message: content,
+        nonce: '',
+        aesKey: '',
+        timestamp: dt);
+    CloudDatabase().backupSentMessage(
+        UID: FirebaseAuthentication.getUserUid,
+        chatID: CloudDatabase().createChatRoom(
+            userId1: FirebaseAuthentication.getUserUid, userId2: widget.uID),
+        chatData: chatData,
+        messageID: mID);
   }
 }
