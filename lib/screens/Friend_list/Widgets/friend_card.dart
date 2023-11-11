@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:project_hmc/firebase/flutter_secure_storage/secure_storage.dart';
 
 import '../../../firebase/auth/firebase_auth.dart';
 import '../../../firebase/cloud_database.dart';
-import '../../single_chat.dart';
+import '../../OneToOne_Chat/one_to_one_chat.dart';
 
 class FriendCard extends StatelessWidget {
   final String name, uID;
@@ -21,7 +22,7 @@ class FriendCard extends StatelessWidget {
       shadowColor: Colors.white,
       margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       child: Container(
-        height: 100,
+        height: 75,
         width: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
         decoration: BoxDecoration(
@@ -72,8 +73,7 @@ class FriendCard extends StatelessWidget {
             final chatID =
                 CloudDatabase().createChatRoom(userId1: id1, userId2: id2);
             CloudDatabase().addIDsToChats(Id1: id1, Id2: id2, chatID: chatID);
-            String? privateKey = await CloudDatabase()
-                .getUserPrivateKey(Id: FirebaseAuthentication.getUserUid);
+            String? privateKey = await FSS().getData("RSAPrivateKey");
             String pk = privateKey ?? "";
             // ignore: use_build_context_synchronously
             Navigator.push(

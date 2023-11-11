@@ -2,7 +2,7 @@ import 'package:floating_action_bubble_custom/floating_action_bubble_custom.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:project_hmc/firebase/auth/firebase_auth.dart';
-import 'package:project_hmc/screens/chat_screen/chat_card.dart';
+import 'package:project_hmc/screens/chat_screen/Widgets/chat_card.dart';
 import 'package:project_hmc/screens/profile_screen.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
 

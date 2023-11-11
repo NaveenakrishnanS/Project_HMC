@@ -3,7 +3,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import "package:pointycastle/export.dart";
-import 'package:project_hmc/firebase/key_managers/rsa_key_manager.dart';
+import 'package:project_hmc/firebase/HMC/key_managers/rsa_key_manager.dart';
 
 class Encryptor {
   String aesAlgorithmEncrypt(encryptionKey, Uint8List nonce, String message) {

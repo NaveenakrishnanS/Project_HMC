@@ -6,7 +6,6 @@ import 'package:rxdart/rxdart.dart';
 
 import '../models/chat_model.dart';
 import 'auth/firebase_auth.dart';
-import 'firebase_messaging.dart';
 
 class CloudDatabase {
   late FirebaseFirestore _firestore;
@@ -114,7 +113,6 @@ class CloudDatabase {
     } on FirebaseException {
       rethrow;
     }
-    await Messaging().getFirebaseMessagingToken();
   }
 
   Future<void> backupPrivateKey(
@@ -185,24 +183,6 @@ class CloudDatabase {
         _firestore.collection(dataPath);
     return messagesRef
         .where('senderId', isEqualTo: ID)
-        .orderBy('timestamp', descending: false)
-        .snapshots()
-        .map((snapshot) {
-      List<ChatModel> messages = [];
-      for (final doc in snapshot.docs) {
-        messages.add(ChatModel.fromMap(doc.data()));
-      }
-      return messages;
-    });
-  }
-
-  Stream<List<ChatModel>> retrieveMessages(
-      {required String chatID, required String ID}) {
-    final String dataPath = "Chats/$chatID/Messages/";
-    final CollectionReference<Map<String, dynamic>> messagesRef =
-        _firestore.collection(dataPath);
-    return messagesRef
-        .where('receiverId', isEqualTo: ID)
         .orderBy('timestamp', descending: false)
         .snapshots()
         .map((snapshot) {

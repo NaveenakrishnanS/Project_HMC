@@ -61,7 +61,7 @@ class _ProfileState extends State<Profile> {
       body: SingleChildScrollView(
           child: Column(children: [
         const Padding(
-          padding: EdgeInsets.only(bottom: 40, top: 20),
+          padding: EdgeInsets.only(bottom: 40, top: 30),
           child: CircleAvatar(
             radius: 70,
             // backgroundColor: Colors.black,

@@ -5,8 +5,8 @@ import 'dart:typed_data';
 import "package:pointycastle/export.dart";
 import 'package:project_hmc/firebase/cloud_database.dart';
 
-import '../auth/firebase_auth.dart';
-import '../flutter_secure_storage/secure_storage.dart';
+import '../../auth/firebase_auth.dart';
+import '../../flutter_secure_storage/secure_storage.dart';
 
 class RSAKeyManager {
   SecureRandom exampleSecureRandom() {

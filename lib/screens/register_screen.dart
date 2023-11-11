@@ -3,11 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:project_hmc/firebase/auth/firebase_auth.dart';
 import 'package:project_hmc/firebase/cloud_database.dart';
+import 'package:project_hmc/firebase/flutter_secure_storage/secure_storage.dart';
 import 'package:project_hmc/models/user_model.dart';
 import 'package:project_hmc/screens/navigation_screen.dart';
 import 'package:project_hmc/screens/widget_handler.dart';
 
-import '../firebase/key_managers/rsa_key_manager.dart';
+import '../firebase/HMC/key_managers/rsa_key_manager.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key, required this.phoneNumber}) : super(key: key);
@@ -182,11 +183,13 @@ class _RegisterState extends State<Register> {
           About: _aboutController.text,
           Email: _emailController.text);
       CloudDatabase().addUserDetails(userdata: userdata);
-      _keys();
+      
       if (alreadyExists) {
+        _saveKeys();
         sb.showSnackBar(
             context, "You are already a Registered User! Changes Saved!");
       } else {
+        _generatekeys();
         sb.showSnackBar(context, "You are successfully registered!");
       }
 
@@ -199,7 +202,14 @@ class _RegisterState extends State<Register> {
     }
   }
 
-  void _keys() async {
+  void _saveKeys() async{
+    String? privateKey = await CloudDatabase().getUserPrivateKey(Id: FirebaseAuthentication.getUserUid);
+    String? publicKey = await CloudDatabase().getUserPublicKey(Id: FirebaseAuthentication.getUserUid);
+    final fss = FSS();
+    await fss.saveData("RSAPublicKey", publicKey!);
+    await fss.saveData("RSAPrivateKey", privateKey!);
+  }
+  void _generatekeys() async {
     // Generate RSA key pair
     final rsaKeyPair = await RSAKeyManager().generateRsaKeyPair();
     // Save RSA public key and private key

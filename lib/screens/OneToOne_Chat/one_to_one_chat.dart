@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:project_hmc/firebase/auth/firebase_auth.dart';
-import 'package:project_hmc/firebase/decryptor.dart';
-import 'package:project_hmc/firebase/encryptor.dart';
+import 'package:project_hmc/firebase/HMC/decryptor.dart';
+import 'package:project_hmc/firebase/HMC/encryptor.dart';
 import 'package:project_hmc/firebase/firebase_messaging.dart';
 import 'package:project_hmc/firebase/flutter_secure_storage/secure_storage.dart';
-import 'package:project_hmc/screens/message_card/receive_card.dart';
-import 'package:project_hmc/screens/message_card/send_card.dart';
+import 'package:project_hmc/screens/OneToOne_Chat/Widgets/receive_card.dart';
+import 'package:project_hmc/screens/OneToOne_Chat/Widgets/send_card.dart';
 
-import '../firebase/cloud_database.dart';
-import '../firebase/key_managers/aes_key_manager.dart';
-import '../models/chat_model.dart';
+import '../../firebase/cloud_database.dart';
+import '../../firebase/HMC/key_managers/aes_key_manager.dart';
+import '../../models/chat_model.dart';
 
 class SingleChat extends StatefulWidget {
   const SingleChat(
@@ -267,8 +267,7 @@ class _SingleChatState extends State<SingleChat> {
         messageID: mID);
     String? pushToken = await FSS().getData("PushToken");
     String token = (pushToken ?? "").toString();
-    await Messaging().sendPushNotifications(
-        token, FirebaseAuthentication.getUserName, content);
+    await Messaging().sendPushNotifications(token, FirebaseAuthentication.getUserName,  "You have got an Message From your Buddy!");
   }
 
   void backingUpSent(String content, String mID, DateTime dt) {
